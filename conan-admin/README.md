@@ -3,16 +3,9 @@
 TBA
 
 #技术文档
-
-* [原型图](https://org.modao.cc/app/4e0d2060afbbbbfcc6ccbaebf7c1ace6#screen=s8A340F089B1557914187952)
-* [流程图]()
-* [架构图](http://wiki.xesv5.com/pages/viewpage.action?pageId=18573890)
-* [数据库](http://wiki.xesv5.com/pages/viewpage.action?pageId=18573883)
-* [接口文档]()
+https://dengkunnanmayun.gitee.io/conan-docs/#/use/README
 
 #本地开发
-
-*[代码规范](http://wiki.xesv5.com/pages/viewpage.action?pageId=17701300)*
 
 * 访问地址：http://localhost:8080/api/1.0
 * 接口文档及调试：http://localhost:8080/docs.html
