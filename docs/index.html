@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>柯南流量回放平台</title>
+    <link rel="icon" href="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/profile.png">
+    <style>
+     .container {
+  width: 100%;
+  min-width: 900px;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 50px;
+  position: relative;
+}
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.nav-bar {
+  height: 65px;
+  background: #fff;
+  display: flex;
+}
+.logo-wrapper {
+  position: relative;
+}
+#logo {
+  display: inline-block;
+  margin-top: 23px;
+}
+#logo img {
+  width: 22px;
+}
+#logo .title {
+  display: inline-block;
+  color: #28486f;
+  font-size: 16px;
+  font-weight: 500;
+  vertical-align: top;
+}
+.home-container {
+  width: 100%;
+  background: #fff;
+}
+.nav-menu {
+  margin-top: 13px;
+}
+.nav-menu > li {
+  display: inline-block;
+  margin: 10px 20px;
+}
+.nav-menu > li a {
+  color: #798092;
+  font-size: 13px;
+  font-weight: 500;
+}
+.nav-menu > li a:hover {
+  color: #0094f3;
+}
+.deploy-btn {
+  padding: 5px 15px;
+  outline: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #fff;
+  outline: none;
+  background: -webkit-linear-gradient(
+    left,
+    #0094f3 0%,
+    #007ae8 45%,
+    #0473d8 100%
+  );
+  /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, #0094f3 0%, #007ae8 45%, #0473d8 100%);
+  /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(
+    right,
+    #0094f3 0%,
+    #007ae8 45%,
+    #0473d8 100%
+  );
+  /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #0094f3 0%, #007ae8 45%, #0473d8 100%);
+  /* 标准的语法 */
+  cursor: pointer;
+}
+.deploy-btn:focus,
+.deploy-btn:active {
+  outline: 0;
+}
+.deploy-btn:hover,
+.deploy-btn:focus,
+.deploy-btn.focus {
+  color: #fff;
+}
+.login-btn {
+  float: right;
+  margin-top: 19px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 30px;
+  border-radius: 4px;
+}
+.banner-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  /* background: url('~public/img/image-banner.png') 0 center no-repeat; */
+}
+.banner-wrapper .banner-bg {
+  width: 100%;
+  margin-top: -10px;
+}
+.banner-wrapper .banner-title {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #fff;
+}
+.banner-wrapper .banner-title > h1 {
+  font-size: 38px;
+}
+.banner-wrapper .banner-title > .text {
+  width: 328px;
+  font-size: 18px;
+  font-weight: 200;
+}
+.home-panel {
+  background: #fff;
+  color: #171b29;
+  position: relative;
+  padding: 80px 0 130px 0;
+}
+.home-panel .panel-title {
+  padding: 80px 0;
+  font-size: 28px;
+  font-weight: bolder;
+  text-align: center;
+}
+.home-panel .panel-content {
+  padding: 50px;
+  padding-top: 0;
+}
+.home-panel .panel-content .panel-block {
+  text-align: center;
+      margin: 20px;
+}
+.home-panel .panel-content .panel-block > p {
+  margin-bottom: 40px;
+}
+.home-panel-data .panel-content .panel-block > p {
+  margin-bottom: 10px;
+}
+.panel-block .icon-attr {
+  width: 60px;
+}
+.panel-block > h2 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.panel-block > h3 {
+  font-size: 13px;
+  max-width: 280px;
+  margin: 0 auto;
+  color: #798092;
+}
+.panel-block .data {
+  font-size: 16px;
+  color: #0094f3;
+  margin-bottom: 0;
+}
+.panel-block .data .count {
+  font-size: 30px;
+}
+.panel-block .data-title {
+  font-size: 16px;
+  color: #798092;
+}
+.home-panel-data {
+  overflow: hidden;
+}
+.home-panel-data .panel-data-bg {
+  width: 50%;
+  left: 25%;
+  position: absolute;
+}
+.panel-outside-bg {
+  width: 100%;
+  position: absolute;
+}
+.home-panel .panel-contract {
+  width: 680px;
+  margin: 0 auto 50px auto;
+  padding: 20px 20px 20px 50px;
+  border: solid 1px #eee;
+  border-radius: 4px;
+  background: #fff;
+}
+.home-panel .panel-contract .panel-block > h2 {
+  margin: 0 0 3px 0;
+  text-align: left;
+}
+.home-panel .panel-contract .panel-block > h3 {
+  text-align: left;
+  margin: 0;
+}
+.contract-btn {
+  border-radius: 17px;
+  margin-top: 10px;
+  padding: 7px 40px;
+}
+.copyright {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  margin-left: -125px;
+  width: 250px;
+  color: #9a9b9d;
+  font-size: 12px;
+}
+.home-separate {
+  padding: 130px;
+  text-align: center;
+  color: #798092;
+  background: #f8f9fd;
+}
+.home-separate > h4 {
+  font-size: 24px;
+  margin-bottom: 40px;
+  /* color: #3B426B; */
+}
+.home-separate img {
+  width: 260px;
+}
+.btn:hover{
+  /* background: #fff!important;
+   */
+   border: 2px solid #fff !important;
+   cursor: pointer;
+}
+
+@media (min-width: 1500px) {
+  .banner-wrapper .banner-title > h1 {
+    font-size: 50px;
+  }
+  .banner-wrapper .banner-title > .text {
+    width: 448px;
+    font-size: 26px;
+  }
+}
+a{
+  text-decoration: none;
+
+}
+    </style>
+</head>
+<body style="padding:0px;margin:0px;list-style: none;">
+ 
+             <div class="container">
+    <el-row class="nav-bar">
+      <el-col :xs="14" :md="12" :sm="15" :lg="15" :offset="2" class="logo-wrapper" style="width: 80%;">
+        <el-row style="display: flex;margin-left: 15%;">
+          <el-col :xs="5" :sm="6" :md="6" :lg="4" style="display: flex;
+    justify-content: center;
+    align-items: center;">
+              <img class="icon-logo" src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/profile.png" alt style="width: 27px;
+    height: 27px;" />
+              <span class="title" style="margin-left:20px">柯南流量回放平台</span>
+          </el-col>
+          <el-col :xs="11" :sm="15" :md="14" :lg="11">
+            <ul class="nav-menu">
+              <li>
+                <a href="" class="link">首页</a>
+              </li>
+              <li>
+                <a href="https://dengkunnanmayun.gitee.io/conan-docs/#/use/README" target="_blank" class="link">文档</a>
+              </li>
+              <li>
+                <a href="https://github.com/tal-tech/conan" target="_blank" class="link">开源地址</a>
+              </li>
+              <li>
+                <a href="https://mp.weixin.qq.com/s/1Cvi5kkqfF9y1rBi97qLwg" target="_blank" class="link">相关文章</a>
+              </li>
+            </ul>
+          </el-col>
+        </el-row>
+      </el-col>
+      <el-col :md="8" :xs="6" :sm="5" :lg="5">
+        <!-- <router-link v-else :to="{ path:'/login'}" class="btn deploy-btn login-btn">登 录</router-link> -->
+      </el-col>
+    </el-row>
+    <div class="home-container">
+      <div class="banner-wrapper">
+        <img src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/image-banner.png" alt class="banner-bg" />
+        <div class="banner-title">
+          <h1>柯南流量回放平台</h1>
+          <p class="text">基于线上真实用户流量的录制回放能力为冒烟测试，集成回归测试，线上验证与线上巡检提供解决方案。</p>
+          <button class="btn" style="    border: 2px solid #ccc;    margin-top: 15px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background: transparent;
+    color: #fff;">  <a href="https://github.com/tal-tech/conan" target="_blank" class="link" style="color:#fff">开源地址</a></button>
+          <button class="btn" style="    border: 2px solid #ccc;    margin-top: 15px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background: transparent;
+    color: #fff;" onclick="By()">联系我们</button>
+
+        </div>
+      </div>
+    </div>
+    <div class="home-panel">
+      <h1 class="panel-title">平台特点</h1>
+      <el-row class="panel-content" style="    display: flex;  justify-content: center;">
+        <el-col :md="8" :xs="8" :sm="8" :lg="8" class="panel-block">
+          <p>
+              <img class="icon-logo" src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/question.png" alt  style="width: 100px" />
+          </p>
+          <h2>流量回放领域业界难题解决</h2>
+          <h3>多维度流量比对降噪与结果规则校验相结合，降低误报率；</h3>
+          <h3>针对写场景提供插件化开发方式，适配不同业务形态。</h3>
+        </el-col>
+        <el-col :md="8" :xs="8" :sm="8" :lg="8" class="panel-block">
+          <p>
+                         <img class="icon-logo" src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/platform.png" alt  style="width: 100px" />
+
+          </p>
+          <h2>平台化能力</h2>
+          <h3>基于分布式架构设计，执行节点与管理节点解耦，支撑平台的稳定性与高效性</h3>
+          <h3>与业界开源方案相比使用成本与稳定性与二开成本相对较低</h3>
+        </el-col>
+        <el-col :md="8" :xs="8" :sm="8" :lg="8" class="panel-block">
+          <p>
+                         <img class="icon-logo" src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/open.png" alt  style="width: 100px" />
+
+          </p>
+          <h2>开源共建</h2>
+          <h3>支持针对业务特性的二次开发，共同打造行业内优秀流量回放实践</h3>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="home-separate">
+      <h4>联系我们</h4>
+      <p>柯南平台目前已开源，期待与行业内更多优秀的人或团队合作共建，打造流量回放领域的优秀平台。如有相关建议，请联系我们。</p>
+      <p>同时，好未来集团-学而思网校正在持续招聘中，简历可发送至<span style="color:blue">lining6@tal.com</span> ，期待您的加入。</p>
+
+      <p >
+         <img class="icon-logo" src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/QR-code.png" alt  style="width: 200px" />
+      </p>
+         <span>请使用QQ扫码进群</span>
+
+    </div>
+        <div class="home-panel">
+     <h1 class="panel-title">合作伙伴</h1>
+     <el-row>
+        <el-col
+          :span="4"
+        >
+          <div class="image" style="display: flex;
+    justify-content: center;
+    align-items: center;    margin: 20px;">
+            <div class="imgBg" style="margin: 0 20px">
+                <img class="icon-logo" src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/azk.jpeg" alt  style="width: 300px" />
+            </div>
+             <div class="imgBg" style="margin: 0 20px">
+                <img class="icon-logo" src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/lb.png" alt  style="width: 300px" />
+            </div>
+             <div class="imgBg" style="margin: 0 20px">
+                <img class="icon-logo" src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/home-img/xes.png" alt  style="width: 300px" />
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+      </div>
+  
+    <span class="copyright">Copyright © 2021 柯南流量回放平台</span>
+  </div>
+      
+</body>
+</html>
+<script>
+  function By(){
+  　window.scrollTo(0,1600);
+  }
+</script>
