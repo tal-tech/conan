@@ -65,8 +65,8 @@
 **更多详细介绍**
 https://mp.weixin.qq.com/s/1Cvi5kkqfF9y1rBi97qLwg
 
-**使用文档**
-
+**平台官网**
+https://tal-tech.github.io/conan/
 </br>
 </br>
 
@@ -87,6 +87,6 @@ https://mp.weixin.qq.com/s/1Cvi5kkqfF9y1rBi97qLwg
 
 **柯南官方QQ群**
 
-<img src="http://ttc-tal.oss-cn-beijing.aliyuncs.com/1614485571/image.png" width="150" height="230" align="middle" />
+<img src="https://gitee.com/dengkunnanmayun/conan-docs/raw/master/conan/operator/QQ%20Group.jpg" width="150" height="230" align="middle" />
 
 <br>
