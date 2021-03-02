@@ -1,0 +1,11 @@
+.idea/
+generated/
+target/
+*.iml
+.git/
+.classpath
+.project
+.settings/
+/bin/
+.DS_Store
+.DS_Store?

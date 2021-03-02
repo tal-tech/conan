@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.TestUserMapper">
+
+    <resultMap type="TestUser" id="TestUserResult">
+        <result property="id"    column="id"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="type"    column="type"    />
+        <result property="userid"    column="userId"    />
+        <result property="status"    column="status"    />
+        <result property="sysDeptId"    column="sys_dept_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTestUserVo">
+        select id, username, password, type, userId, status, sys_dept_id, create_time, create_by, update_time, update_by from bss_test_user
+    </sql>
+
+    <select id="selectTestUserList" parameterType="TestUser" resultMap="TestUserResult">
+        <include refid="selectTestUserVo"/>
+        <where>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="userid != null  and userid != ''"> and userId = #{userid}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="sysDeptId != null "> and sys_dept_id = #{sysDeptId}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="createBy != null "> and create_by = #{createBy}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+            <if test="updateBy != null "> and update_by = #{updateBy}</if>
+        </where>
+    </select>
+
+    <select id="selectTestUserById" parameterType="Integer" resultMap="TestUserResult">
+        <include refid="selectTestUserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTestUser" parameterType="TestUser">
+        insert into bss_test_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="type != null">type,</if>
+            <if test="userid != null">userId,</if>
+            <if test="status != null">status,</if>
+            <if test="sysDeptId != null">sys_dept_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="type != null">#{type},</if>
+            <if test="userid != null">#{userid},</if>
+            <if test="status != null">#{status},</if>
+            <if test="sysDeptId != null">#{sysDeptId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTestUser" parameterType="TestUser">
+        update bss_test_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="userid != null">userId = #{userid},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sysDeptId != null">sys_dept_id = #{sysDeptId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTestUserById" parameterType="Integer">
+        delete from bss_test_user where id = #{id}
+    </delete>
+
+    <delete id="deleteTestUserByIds" parameterType="String">
+        delete from bss_test_user where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

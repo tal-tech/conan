@@ -1,0 +1,35 @@
+#数据库配置
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://10.20.96.26:3306/conangraydb?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai
+      password: 1WtFLD+NjkDAboHex6veopxdBm5RknEn59EE+N3RMYkjtN4yOIV8v4+3aLF1vqNeIKnapOe4U03JBTi+bIoAZA==
+      public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANsWW73DEl2CvtErLWWFI5dlfqsen+vNywQZF+Waz5wCWhSkXzbkGNk5Dkv2d9S0AcdpztB/Ymwu9J1nkIsZS1kCAwEAAQ==
+  redis:
+    database: 1 # Redis数据库索引（默认为0）
+    host: 10.20.97.30
+    password: test@123 #Redis服务器连接密码
+
+  kafka:
+    bootstrap-servers: 10.20.97.30:9092
+    consumer:
+      group-id: conan-agent-gray0
+  data:
+    elasticsearch:
+      cluster-name: xes_log_cluster_wg
+      cluster-nodes: 10.20.34.105:9301
+
+  jackson:
+    time-zone: Asia/Shanghai    #或UTC
+admin:
+  env: GRAY
+  #录制流量单接口条数阈值
+  record-api-count: 100
+  #录制流量对应的学生数
+  record-stu-count: 5
+  #创建课程教师cookie
+  admin-cookie: asid=025ad67b7b6e6176adaecec9af7a141f049xfsybf4
+  #审核课程教师cookie
+  review-cookie: asid=7cdbd2d9f481d237f1f6c23546291e72byfsxx09m4
+  #默认分配agent groupId
+  default-group-id: conan-agent-gray0

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.ApiRuleMapper">
+
+    <resultMap type="ApiRule" id="ApiRuleResult">
+        <result property="id"    column="id"    />
+        <result property="apiId"    column="api_id"    />
+        <result property="ruleJson"    column="rule_json"    />
+    </resultMap>
+
+    <sql id="selectApiRuleVo">
+        select id, api_id, rule_json from bss_api_rule
+    </sql>
+
+    <select id="selectApiRuleList" parameterType="ApiRule" resultMap="ApiRuleResult">
+        <include refid="selectApiRuleVo"/>
+        <where>
+            <if test="apiId != null "> and api_id = #{apiId}</if>
+            <if test="ruleJson != null  and ruleJson != ''"> and rule_json = #{ruleJson}</if>
+        </where>
+    </select>
+
+    <select id="selectApiRuleById" parameterType="Integer" resultMap="ApiRuleResult">
+        <include refid="selectApiRuleVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertApiRule" parameterType="ApiRule">
+        insert into bss_api_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="apiId != null">api_id,</if>
+            <if test="ruleJson != null and ruleJson != ''">rule_json,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="apiId != null">#{apiId},</if>
+            <if test="ruleJson != null and ruleJson != ''">#{ruleJson},</if>
+        </trim>
+    </insert>
+
+    <update id="updateApiRule" parameterType="ApiRule">
+        update bss_api_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apiId != null">api_id = #{apiId},</if>
+            <if test="ruleJson != null and ruleJson != ''">rule_json = #{ruleJson},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApiRuleById" parameterType="Integer">
+        delete from bss_api_rule where id = #{id}
+    </delete>
+
+    <delete id="deleteApiRuleByIds" parameterType="String">
+        delete from bss_api_rule where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

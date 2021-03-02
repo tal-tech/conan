@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.AgentNodeMapper">
+
+    <resultMap type="AgentNode" id="AgentNodeResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="isEnable"    column="is_enable"    />
+        <result property="isBusy"    column="is_busy"    />
+    </resultMap>
+
+    <sql id="selectAgentNodeVo">
+        select id, name, is_enable, is_busy from os_agent_node
+    </sql>
+
+    <select id="selectAgentNodeList" parameterType="AgentNode" resultMap="AgentNodeResult">
+        <include refid="selectAgentNodeVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="isEnable != null "> and is_enable = #{isEnable}</if>
+            <if test="isBusy != null "> and is_busy = #{isBusy}</if>
+        </where>
+    </select>
+
+    <select id="selectAgentNodeById" parameterType="Integer" resultMap="AgentNodeResult">
+        <include refid="selectAgentNodeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAgentNode" parameterType="AgentNode" useGeneratedKeys="true" keyProperty="id">
+        insert into os_agent_node
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="isEnable != null">is_enable,</if>
+            <if test="isBusy != null">is_busy,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="isEnable != null">#{isEnable},</if>
+            <if test="isBusy != null">#{isBusy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAgentNode" parameterType="AgentNode">
+        update os_agent_node
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="isEnable != null">is_enable = #{isEnable},</if>
+            <if test="isBusy != null">is_busy = #{isBusy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAgentNodeById" parameterType="Integer">
+        delete from os_agent_node where id = #{id}
+    </delete>
+
+    <delete id="deleteAgentNodeByIds" parameterType="String">
+        delete from os_agent_node where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

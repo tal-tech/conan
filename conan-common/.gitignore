@@ -1,0 +1,9 @@
+.idea/
+generated/
+target/
+*.iml
+.git/
+.classpath
+.project
+.settings/
+/bin/

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.DiffMapper">
+
+    <resultMap type="Diff" id="DiffResult">
+        <result property="diffId"    column="diff_id"    />
+        <result property="taskExecutionId"    column="task_execution_id"    />
+        <result property="recordId"    column="record_id"    />
+        <result property="replayId"    column="replay_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="successRate"    column="success_rate"    />
+        <result property="diffErrorMsg"    column="diff_error_msg"    />
+    </resultMap>
+
+    <sql id="selectDiffVo">
+        select diff_id, task_execution_id, record_id, replay_id, create_by, create_time, update_time, success_rate, diff_error_msg from bss_diff
+    </sql>
+
+    <select id="selectDiffList" parameterType="Diff" resultMap="DiffResult">
+        <include refid="selectDiffVo"/>
+        <where>
+            <if test="taskExecutionId != null "> and task_execution_id = #{taskExecutionId}</if>
+            <if test="recordId != null "> and record_id = #{recordId}</if>
+            <if test="replayId != null "> and replay_id = #{replayId}</if>
+            <if test="successRate != null  and successRate != ''"> and success_rate = #{successRate}</if>
+            <if test="diffErrorMsg != null  and diffErrorMsg != ''"> and diff_error_msg = #{diffErrorMsg}</if>
+        </where>
+    </select>
+
+    <select id="selectDiffById" parameterType="Integer" resultMap="DiffResult">
+        <include refid="selectDiffVo"/>
+        where diff_id = #{diffId}
+    </select>
+
+    <insert id="insertDiff" parameterType="Diff" useGeneratedKeys="true" keyProperty="diffId">
+        insert into bss_diff
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskExecutionId != null">task_execution_id,</if>
+            <if test="recordId != null">record_id,</if>
+            <if test="replayId != null">replay_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="successRate != null">success_rate,</if>
+            <if test="diffErrorMsg != null">diff_error_msg,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskExecutionId != null">#{taskExecutionId},</if>
+            <if test="recordId != null">#{recordId},</if>
+            <if test="replayId != null">#{replayId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="successRate != null">#{successRate},</if>
+            <if test="diffErrorMsg != null">#{diffErrorMsg},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDiff" parameterType="Diff">
+        update bss_diff
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskExecutionId != null">task_execution_id = #{taskExecutionId},</if>
+            <if test="recordId != null">record_id = #{recordId},</if>
+            <if test="replayId != null">replay_id = #{replayId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="successRate != null">success_rate = #{successRate},</if>
+            <if test="diffErrorMsg != null">diff_error_msg = #{diffErrorMsg},</if>
+        </trim>
+        where diff_id = #{diffId}
+    </update>
+
+    <delete id="deleteDiffById" parameterType="Integer">
+        delete from bss_diff where diff_id = #{id}
+    </delete>
+
+    <delete id="deleteDiffByIds" parameterType="String">
+        delete from bss_diff where diff_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

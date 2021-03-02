@@ -1,0 +1,19 @@
+#数据库配置
+spring:
+  datasource:
+    druid:
+        url: jdbc:mysql://localhost:3306/conandb?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+  kafka:
+    bootstrap-servers: localhost:9092
+  data:
+    elasticsearch:
+      cluster-nodes:
+        - bj-sjhl-log-es-online-34-13:9300
+        - bj-sjhl-log-es-online-34-14:9300
+        - bj-sjhl-log-es-online-34-15:9300
+        - bj-sjhl-log-es-online-34-16:9300
+        - bj-sjhl-log-es-online-34-17:9300
+        - bj-sjhl-log-es-online-34-18:9300
+        - bj-sjhl-log-es-online-34-19:9300
+        - bj-sjhl-log-es-online-34-20:9300
+        - bj-sjhl-log-es-online-34-21:9300

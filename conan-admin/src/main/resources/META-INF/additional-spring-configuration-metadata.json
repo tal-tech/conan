@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.druid.public-key",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.public-key."
+  }
+] }

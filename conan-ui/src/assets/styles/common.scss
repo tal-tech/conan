@@ -1,0 +1,44 @@
+// 上面卡片
+// 大于五个
+.bg {
+  background: #fff;
+  padding: 5px;
+}
+
+.box-card {
+  display: flex;
+  width: 100%;
+
+  .el-card {
+    text-align: center;
+    margin: 5px;
+    white-space: nowrap;
+    background: rgb(243, 244, 247);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    span {
+      display: block;
+    }
+
+    .felxName {
+      color: #999;
+    }
+
+    .flexResult {
+      margin-top: 10px;
+      font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+      color: #111;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+
+
+// 有浮动
+.floatRight {
+  float: right;
+}

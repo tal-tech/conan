@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.EsSourceMapper">
+
+    <resultMap type="EsSource" id="EsSourceResult">
+        <result property="esSourceId"    column="es_source_id"    />
+        <result property="esName"    column="es_name"    />
+        <result property="esBeanName"    column="es_bean_name"    />
+        <result property="esIp"    column="es_ip"    />
+        <result property="esPort"    column="es_port"    />
+    </resultMap>
+
+    <sql id="selectEsSourceVo">
+        select es_source_id, es_name, es_bean_name, es_ip, es_port from bss_es_source
+    </sql>
+
+    <select id="selectEsSourceList" parameterType="EsSource" resultMap="EsSourceResult">
+        <include refid="selectEsSourceVo"/>
+        <where>
+            <if test="esName != null  and esName != ''"> and es_name like concat('%', #{esName}, '%')</if>
+            <if test="esBeanName != null  and esBeanName != ''"> and es_bean_name like concat('%', #{esBeanName}, '%')</if>
+            <if test="esIp != null  and esIp != ''"> and es_ip = #{esIp}</if>
+            <if test="esPort != null "> and es_port = #{esPort}</if>
+        </where>
+    </select>
+
+    <select id="selectEsSourceById" parameterType="Integer" resultMap="EsSourceResult">
+        <include refid="selectEsSourceVo"/>
+        where es_source_id = #{esSourceId}
+    </select>
+
+    <insert id="insertEsSource" parameterType="EsSource">
+        insert into bss_es_source
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="esSourceId != null">es_source_id,</if>
+            <if test="esName != null">es_name,</if>
+            <if test="esBeanName != null">es_bean_name,</if>
+            <if test="esIp != null and esIp != ''">es_ip,</if>
+            <if test="esPort != null">es_port,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="esSourceId != null">#{esSourceId},</if>
+            <if test="esName != null">#{esName},</if>
+            <if test="esBeanName != null">#{esBeanName},</if>
+            <if test="esIp != null and esIp != ''">#{esIp},</if>
+            <if test="esPort != null">#{esPort},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEsSource" parameterType="EsSource">
+        update bss_es_source
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="esName != null">es_name = #{esName},</if>
+            <if test="esBeanName != null">es_bean_name = #{esBeanName},</if>
+            <if test="esIp != null and esIp != ''">es_ip = #{esIp},</if>
+            <if test="esPort != null">es_port = #{esPort},</if>
+        </trim>
+        where es_source_id = #{esSourceId}
+    </update>
+
+    <delete id="deleteEsSourceById" parameterType="Integer">
+        delete from bss_es_source where es_source_id = #{esSourceId}
+    </delete>
+
+    <delete id="deleteEsSourceByIds" parameterType="String">
+        delete from bss_es_source where es_source_id in
+        <foreach item="esSourceId" collection="array" open="(" separator="," close=")">
+            #{esSourceId}
+        </foreach>
+    </delete>
+
+</mapper>

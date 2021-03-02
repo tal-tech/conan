@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>conan</artifactId>
+        <groupId>com.tal.wangxiao</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <version>1.0.0</version>
+    <artifactId>conan-system-fwk</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>conan-sys-common</module>
+        <module>conan-sys-framework</module>
+        <module>conan-sys-generator</module>
+        <module>conan-sys-quartz</module>
+        <module>conan-sys-system</module>
+        <module>conan-sys-api</module>
+        <module>conan-sys-auth</module>
+        <module>conan-auth-demo</module>
+    </modules>
+
+    <description>
+        系统脚手架模块
+    </description>
+
+</project>

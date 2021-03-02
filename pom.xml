@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- 基本信息 -->
+    <description>Conan project for Spring Boot</description>
+    <modelVersion>4.0.0</modelVersion>
+    <name>conan-OR</name>
+    <packaging>pom</packaging>
+
+    <!-- 项目说明 -->
+    <groupId>com.tal.wangxiao</groupId>
+    <artifactId>conan</artifactId>
+    <version>1.0.0</version>
+
+
+    <!-- conan-parent子模块配置 -->
+    <modules>
+        <module>conan-common</module>
+        <module>conan-admin</module>
+        <module>conan-agent</module>
+        <module>conan-system-fwk</module>
+        <module>conan-utils</module>
+        <module>conan-config</module>
+    </modules>
+
+    <properties>
+        <conan.version>1.0.0</conan.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
+        <shiro.version>1.7.0</shiro.version>
+        <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
+        <druid.version>1.2.2</druid.version>
+        <bitwalker.version>1.21</bitwalker.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <swagger.version>2.9.2</swagger.version>
+        <jwt.version>0.9.1</jwt.version>
+        <pagehelper.boot.version>1.3.0</pagehelper.boot.version>
+        <fastjson.version>1.2.74</fastjson.version>
+        <oshi.version>5.3.6</oshi.version>
+        <jna.version>5.6.0</jna.version>
+        <commons.io.version>2.5</commons.io.version>
+        <commons.fileupload.version>1.3.3</commons.fileupload.version>
+        <poi.version>4.1.2</poi.version>
+        <velocity.version>1.7</velocity.version>
+        <quartz.version>2.3.2</quartz.version>
+        <es.version>6.5.4</es.version>
+    </properties>
+
+
+
+    <!-- dependencyManagement决定了子pom.xml是否可以直接引用父pom.xml的包 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- SpringBoot的依赖配置 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.2.6.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--阿里数据库连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!--验证码 -->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+
+            <!--Shiro核心框架 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <!-- Shiro使用Srping框架 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <!-- Shiro使用EhCache缓存框架 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-ehcache</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <!-- thymeleaf模板引擎和shiro框架的整合 -->
+            <dependency>
+                <groupId>com.github.theborakompanioni</groupId>
+                <artifactId>thymeleaf-extras-shiro</artifactId>
+                <version>${thymeleaf.extras.shiro.version}</version>
+            </dependency>
+
+            <!-- 解析客户端操作系统、浏览器等 -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
+            </dependency>
+
+            <!-- pagehelper 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
+            </dependency>
+
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna-platform</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+
+            <!-- swagger2-UI-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>1.5.24</version>
+            </dependency>
+
+            <!--io常用工具类 -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+
+            <!--文件上传工具类 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons.fileupload.version}</version>
+            </dependency>
+
+            <!-- excel工具 -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+            <!--velocity代码生成使用模板 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+
+            <!-- 阿里JSON解析器 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!--Token生成与解析-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.grpc</groupId>
+                <artifactId>proto-google-common-protos</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+
+            <!-- 定时任务 -->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+
+            <!-- 柯南公共工具 -->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-common</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 柯南admin系统模块 -->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-admin</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 柯南agent核心模块 -->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-agent</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 柯南system-framwork模块 -->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-sys-api</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 定时任务-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-sys-quartz</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 代码生成-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-sys-generator</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 核心模块-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-sys-framework</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 系统模块-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-sys-system</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-sys-common</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+
+            <!-- 通用Auth工具-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-sys-auth</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-config-core</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+
+            <!-- 通用mybatis数据源工具-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-config-datasource</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+
+            <!-- 通用redis工具-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-config-redis</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>com.tal.wangxiao</groupId>
+                <artifactId>conan-utils</artifactId>
+                <version>${conan.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${es.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <!-- 子模块继承全部 -->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <!-- 只在编译阶段生效 -->
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+           <!-- <scope>test</scope>-->
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <!-- 使用阿里云Maven服务器，下载包速度更快 -->
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- jsonequal 依赖 -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

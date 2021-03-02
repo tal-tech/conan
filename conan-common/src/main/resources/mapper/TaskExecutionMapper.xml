@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.TaskExecutionMapper">
+
+    <resultMap type="TaskExecutionInfo" id="TaskExecutionResult">
+        <result property="executionId"    column="execution_id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="deptName"    column="dept_name"    />
+
+    </resultMap>
+
+    <sql id="selectTaskExecutionVo">
+        select execution_id, task_id, status, create_time, create_by, update_time, update_by from bss_task_execution
+    </sql>
+
+    <select id="selectTaskExecutionList" parameterType="TaskExecutionInfo" resultMap="TaskExecutionResult">
+        select task.name as task_name,dept.dept_name as dept_name, te.* from bss_task_execution te LEFT JOIN bss_task task ON te.task_id = task.task_id LEFT JOIN sys_dept dept ON dept.dept_id = task.sys_dept_id   where 1=1
+        <if test="status != null "> and te.status = #{status}</if>
+        <if test="deptId != null "> and task.sys_dept_id = #{deptId}</if>
+        <if test="keyword != null and keyword != ''">and task.name like concat('%', #{keyword}, '%')</if>
+        order by execution_id desc
+    </select>
+
+    <select id="selectTaskExecutionById" parameterType="Long" resultMap="TaskExecutionResult">
+        <include refid="selectTaskExecutionVo"/>
+        where execution_id = #{executionId}
+    </select>
+
+    <insert id="insertTaskExecution" parameterType="TaskExecutionInfo" useGeneratedKeys="true" keyProperty="executionId">
+        insert into bss_task_execution
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskId != null">task_id,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskId != null">#{taskId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTaskExecution" parameterType="TaskExecutionInfo">
+        update bss_task_execution
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where execution_id = #{executionId}
+    </update>
+
+    <delete id="deleteTaskExecutionById" parameterType="Long">
+        delete from bss_task_execution where execution_id = #{executionId}
+    </delete>
+
+    <delete id="deleteTaskExecutionByIds" parameterType="String">
+        delete from bss_task_execution where execution_id in
+        <foreach item="executionId" collection="array" open="(" separator="," close=")">
+            #{executionId}
+        </foreach>
+    </delete>
+
+</mapper>

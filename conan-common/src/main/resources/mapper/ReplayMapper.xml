@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.ReplayMapper">
+
+    <resultMap type="Replay" id="ReplayResult">
+        <result property="id"    column="id"    />
+        <result property="taskExecutionId"    column="task_execution_id"    />
+        <result property="recordId"    column="record_id"    />
+        <result property="operateBy"    column="operate_by"    />
+        <result property="startAt"    column="start_at"    />
+        <result property="endAt"    column="end_at"    />
+        <result property="successRate"    column="success_rate"    />
+        <result property="isBaseline"    column="is_baseline"    />
+        <result property="replayEnv"    column="replay_env"    />
+        <result property="replayType"    column="replay_type"    />
+    </resultMap>
+
+    <sql id="selectReplayVo">
+        select id, task_execution_id, record_id, operate_by, start_at, end_at, success_rate, is_baseline, replay_env, replay_type from bss_replay
+    </sql>
+
+    <select id="selectReplayList" parameterType="Replay" resultMap="ReplayResult">
+        <include refid="selectReplayVo"/>
+        <where>
+            <if test="taskExecutionId != null "> and task_execution_id = #{taskExecutionId}</if>
+            <if test="recordId != null "> and record_id = #{recordId}</if>
+            <if test="operateBy != null "> and operate_by = #{operateBy}</if>
+            <if test="startAt != null "> and start_at = #{startAt}</if>
+            <if test="endAt != null "> and end_at = #{endAt}</if>
+            <if test="successRate != null  and successRate != ''"> and success_rate = #{successRate}</if>
+            <if test="isBaseline != null "> and is_baseline = #{isBaseline}</if>
+            <if test="replayEnv != null  and replayEnv != ''"> and replay_env = #{replayEnv}</if>
+            <if test="replayType != null "> and replay_type = #{replayType}</if>
+        </where>
+    </select>
+
+    <select id="selectReplayById" parameterType="Integer" resultMap="ReplayResult">
+        <include refid="selectReplayVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertReplay" parameterType="Replay" useGeneratedKeys="true" keyProperty="id">
+        insert into bss_replay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskExecutionId != null">task_execution_id,</if>
+            <if test="recordId != null">record_id,</if>
+            <if test="operateBy != null">operate_by,</if>
+            <if test="startAt != null">start_at,</if>
+            <if test="endAt != null">end_at,</if>
+            <if test="successRate != null">success_rate,</if>
+            <if test="isBaseline != null">is_baseline,</if>
+            <if test="replayEnv != null">replay_env,</if>
+            <if test="replayType != null">replay_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskExecutionId != null">#{taskExecutionId},</if>
+            <if test="recordId != null">#{recordId},</if>
+            <if test="operateBy != null">#{operateBy},</if>
+            <if test="startAt != null">#{startAt},</if>
+            <if test="endAt != null">#{endAt},</if>
+            <if test="successRate != null">#{successRate},</if>
+            <if test="isBaseline != null">#{isBaseline},</if>
+            <if test="replayEnv != null">#{replayEnv},</if>
+            <if test="replayType != null">#{replayType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateReplay" parameterType="Replay">
+        update bss_replay
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskExecutionId != null">task_execution_id = #{taskExecutionId},</if>
+            <if test="recordId != null">record_id = #{recordId},</if>
+            <if test="operateBy != null">operate_by = #{operateBy},</if>
+            <if test="startAt != null">start_at = #{startAt},</if>
+            <if test="endAt != null">end_at = #{endAt},</if>
+            <if test="successRate != null">success_rate = #{successRate},</if>
+            <if test="isBaseline != null">is_baseline = #{isBaseline},</if>
+            <if test="replayEnv != null">replay_env = #{replayEnv},</if>
+            <if test="replayType != null">replay_type = #{replayType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteReplayById" parameterType="Integer">
+        delete from bss_replay where replay_id = #{id}
+    </delete>
+
+    <delete id="deleteReplayByIds" parameterType="String">
+        delete from bss_replay where replay_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.TaskMapper">
+
+    <resultMap type="Task" id="TaskResult">
+        <result property="taskId"    column="task_id"    />
+        <result property="type"    column="type"    />
+        <result property="name"    column="name"    />
+        <result property="status"    column="status"    />
+        <result property="sysDeptId"    column="sys_dept_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="isDemo"    column="is_demo"    />
+        <result property="isForceLock"    column="is_force_lock"    />
+        <result property="extend"    column="extend"    />
+    </resultMap>
+
+    <sql id="selectTaskVo">
+        select task_id, type, name, status, sys_dept_id, create_time, create_by, update_time, update_by, is_demo, is_force_lock, extend from bss_task
+    </sql>
+
+    <select id="selectTaskList" parameterType="Task" resultMap="TaskResult">
+        select t.*, d.dept_name as dept_name, u.user_name as create_by_name from bss_task t
+        LEFT  JOIN sys_dept d on t.sys_dept_id = d.dept_id
+        LEFT  JOIN sys_user u on t.create_by = u.user_id
+        where 1=1
+        <if test="type != null "> and t.type = #{type}</if>
+        <if test="name != null  and name != ''"> and t.name like concat('%', #{name}, '%')</if>
+        <if test="status != null "> and t.status = #{status}</if>
+        <if test="sysDeptId != null "> and t.sys_dept_id = #{sysDeptId}</if>
+        <if test="createTime != null "> and t.create_time = #{createTime}</if>
+        <if test="createBy != null "> and t.create_by = #{createBy}</if>
+        <if test="updateTime != null "> and t.update_time = #{updateTime}</if>
+        <if test="updateBy != null "> and t.update_by = #{updateBy}</if>
+        <if test="isDemo != null "> and t.is_demo = #{isDemo}</if>
+        <if test="isForceLock != null "> and t.is_force_lock = #{isForceLock}</if>
+        ${params.dataScope}
+    </select>
+
+    <select id="selectTaskById" parameterType="Integer" resultMap="TaskResult">
+        <include refid="selectTaskVo"/>
+        where task_id = #{taskId}
+    </select>
+
+    <insert id="insertTask" parameterType="Task" useGeneratedKeys="true" keyProperty="taskId">
+        insert into bss_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="status != null">status,</if>
+            <if test="sysDeptId != null">sys_dept_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="isDemo != null">is_demo,</if>
+            <if test="isForceLock != null">is_force_lock,</if>
+            <if test="extend != null">extend,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="status != null">#{status},</if>
+            <if test="sysDeptId != null">#{sysDeptId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="isDemo != null">#{isDemo},</if>
+            <if test="isForceLock != null">#{isForceLock},</if>
+            <if test="extend != null">#{extend},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTask" parameterType="Task">
+        update bss_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sysDeptId != null">sys_dept_id = #{sysDeptId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="isDemo != null">is_demo = #{isDemo},</if>
+            <if test="isForceLock != null">is_force_lock = #{isForceLock},</if>
+            <if test="extend != null">extend = #{extend},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <delete id="deleteTaskById" parameterType="Integer">
+        delete from bss_task where id = #{id}
+    </delete>
+
+    <delete id="deleteTaskByIds" parameterType="String">
+        delete from bss_task where task_id in
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.TaskApiRelationMapper">
+
+    <resultMap type="TaskApiRelation" id="TaskApiRelationResult">
+        <result property="taskApiRelationId"    column="task_api_relation_id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="apiId"    column="api_id"    />
+        <result property="recordCount"    column="record_count"    />
+        <result property="diffType"    column="diff_type"    />
+        <result property="position"    column="position"    />
+    </resultMap>
+
+    <resultMap type="TaskApiRelationView" id="TaskApiRelationViewResult">
+        <result property="taskApiRelationId"    column="task_api_relation_id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="apiId"    column="api_id"    />
+        <result property="recordCount"    column="record_count"    />
+        <result property="diffType"    column="diff_type"    />
+        <result property="position"    column="position"    />
+        <result property="domainName"    column="domain_name"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="apiName"    column="api_name"    />
+        <result property="createByName"    column="create_by_name"    />
+    </resultMap>
+
+    <sql id="selectTaskApiRelationVo">
+        select task_api_relation_id, task_id, api_id, record_count, diff_type, position from bss_task_api_relation
+    </sql>
+
+
+
+    <select id="selectTaskApiRelationViewListByDeptId" parameterType="Integer" resultMap="TaskApiRelationViewResult">
+       SELECT re.task_api_relation_id, re.position ,api.recordable_count as record_count, re.diff_type as diff_type, api.api_id as api_id,api.name as api_name,domain.name as domain_name, d.dept_name as dept_name, u.user_name as create_by_name from bss_api api
+        LEFT JOIN bss_task_api_relation re on  api.api_id = re.api_id
+        LEFT JOIN bss_domain  domain ON domain.id = api.domain_id
+        LEFT  JOIN sys_dept d on api.sys_dept_id = d.dept_id
+        LEFT  JOIN sys_user u on api.create_by = u.user_id
+        where d.dept_id = #{deptId}
+    </select>
+
+    <select id="selectTaskApiRelationViewListByDomainId" parameterType="Integer" resultMap="TaskApiRelationViewResult">
+       SELECT re.task_api_relation_id, re.position , api.recordable_count as record_count, re.diff_type as diff_type, api.api_id as api_id,api.name as api_name,domain.name as domain_name, d.dept_name as dept_name, u.user_name as create_by_name from bss_api api
+        LEFT JOIN bss_task_api_relation re on  api.api_id = re.api_id
+        LEFT JOIN bss_domain  domain ON domain.id = api.domain_id
+        LEFT  JOIN sys_dept d on api.sys_dept_id = d.dept_id
+        LEFT  JOIN sys_user u on api.create_by = u.user_id
+        where domain.id = #{domainId}
+    </select>
+
+    <select id="selectTaskApiRelationViewListByApiNameAndDomainName" parameterType="TaskApiRelationView" resultMap="TaskApiRelationViewResult">
+       SELECT re.task_api_relation_id, re.position ,api.recordable_count as record_count, re.diff_type as diff_type, api.api_id as api_id,api.name as api_name,domain.name as domain_name, d.dept_name as dept_name, u.user_name as create_by_name from bss_api api
+        LEFT JOIN bss_task_api_relation re on  api.api_id = re.api_id
+        LEFT JOIN bss_domain  domain ON domain.id = api.domain_id
+        LEFT  JOIN sys_dept d on api.sys_dept_id = d.dept_id
+        LEFT  JOIN sys_user u on api.create_by = u.user_id
+        where api.name  like concat('%', #{apiName}, '%') and domain.name like concat('%', #{domainName}, '%')
+    </select>
+
+
+    <select id="selectTaskApiRelationViewListByTaskId" parameterType="Integer" resultMap="TaskApiRelationViewResult">
+        SELECT re.task_api_relation_id, re.position ,re.record_count as record_count, re.diff_type as diff_type, api.api_id as api_id,api.name as api_name,domain.name as domain_name, d.dept_name as dept_name, u.user_name as create_by_name from bss_api api
+
+        LEFT JOIN bss_task_api_relation re on  api.api_id = re.api_id
+        LEFT JOIN bss_domain  domain ON domain.id = api.domain_id
+        LEFT  JOIN sys_dept d on api.sys_dept_id = d.dept_id
+        LEFT  JOIN sys_user u on api.create_by = u.user_id
+        where re.task_id = #{taskId}
+    </select>
+
+    <select id="selectTaskApiRelationList" parameterType="TaskApiRelation" resultMap="TaskApiRelationResult">
+        <include refid="selectTaskApiRelationVo"/>
+        <where>
+            <if test="taskId != null "> and task_id = #{taskId}</if>
+            <if test="apiId != null "> and api_id = #{apiId}</if>
+            <if test="recordCount != null "> and record_count = #{recordCount}</if>
+            <if test="diffType != null "> and diff_type = #{diffType}</if>
+            <if test="position != null "> and position = #{position}</if>
+        </where>
+    </select>
+
+    <select id="selectTaskApiRelationById" parameterType="Integer" resultMap="TaskApiRelationResult">
+        <include refid="selectTaskApiRelationVo"/>
+        where task_api_relation_id = #{taskApiRelationId}
+    </select>
+
+    <insert id="insertTaskApiRelation" parameterType="TaskApiRelation" useGeneratedKeys="true" keyProperty="taskApiRelationId">
+        insert into bss_task_api_relation (task_id,api_id,record_count,diff_type,position )
+        values
+        <foreach collection="taskApiRelations"  index="index" item="item" separator=",">
+            (#{item.taskId},#{item.apiId},#{item.recordCount}, #{item.diffType},#{item.position})
+        </foreach>
+    </insert>
+
+    <update id="updateTaskApiRelation" parameterType="TaskApiRelation">
+        update bss_task_api_relation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="apiId != null">api_id = #{apiId},</if>
+            <if test="recordCount != null">record_count = #{recordCount},</if>
+            <if test="diffType != null">diff_type = #{diffType},</if>
+            <if test="position != null">position = #{position},</if>
+        </trim>
+        where task_api_relation_id = #{taskApiRelationId}
+    </update>
+
+    <delete id="deleteTaskApiRelationById" parameterType="Integer">
+        delete from bss_task_api_relation where task_api_relation_id = #{taskApiRelationId}
+    </delete>
+
+    <delete id="deleteTaskApiRelationByIds" parameterType="String">
+        delete from bss_task_api_relation where task_api_relation_id in
+        <foreach item="taskApiRelationId" collection="array" open="(" separator="," close=")">
+            #{taskApiRelationId}
+        </foreach>
+    </delete>
+
+</mapper>

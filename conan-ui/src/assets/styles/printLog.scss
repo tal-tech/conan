@@ -1,0 +1,129 @@
+.el-progress {
+  background: #fff;
+}
+
+.commonPre {
+  overflow-y: auto;
+  font-family: "Calibri";
+  line-height: 20px;
+  margin-top: 5px;
+  letter-spacing: 1px;
+  background: #2a3a4a;
+  color: #cfc9ca;
+}
+
+.preOther {
+  background-color: rgb(42, 58, 74) !important;
+  color: rgb(255, 255, 255);
+}
+
+.preStyle {
+  font-family: Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+  font-size: 90%;
+  background-color: rgba(120, 130, 140, 0);
+  height: 500px;
+  padding: 10px;
+  margin: 0;
+
+  // 标签颜色
+  .datablue {
+    color: #9cdcfe;
+  }
+
+  .datagreen {
+    color: #3dc9b0 !important;
+  }
+
+  .datatuse {
+    color: #ce9178;
+  }
+
+  .dataoldBule {
+    color: #409eff;
+  }
+
+  .datared {
+    color: #ff4060;
+  }
+}
+
+// 滚动条
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 6px rgba(228, 228, 205, 0.7);
+}
+
+/deep/ .el-dialog__header,
+/deep/ .el-dialog__body {
+  padding: 0;
+}
+
+// 逐条打印日志时
+.isMyStyle {
+  font-family: "Calibri";
+  box-sizing: border-box;
+  outline: none;
+  line-height: 20px;
+  letter-spacing: 1px;
+  width: 100%;
+  background: #2a3a4a;
+  color: #cfc9ca;
+}
+
+// 两个图表区域
+.card {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  .el-card {
+    flex: 1;
+  }
+
+  .el-card:nth-child(1) {
+    margin-right: 10px;
+  }
+}
+
+#recordShowContent {
+  overflow-y: auto;
+  font-size: 90%;
+  line-height: 20px;
+  letter-spacing: 1px;
+  height: 500px;
+  background: #2a3a4a;
+  color: #cfc9ca;
+}
+
+.resultInfo {
+  height: 34px;
+  line-height: 34px;
+  background: #2a3a4a;
+  color: #ffffff;
+  display: block;
+  border-bottom: 1px solid #ccc;
+}
+
+.detailLog {
+  width: 100%;
+  box-sizing: border-box;
+  border: 10px solid #2a3a4a
+}
+
+.textAreaLess {
+  font-family: Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 16px;
+  height: 54px;
+  line-height: 30px;
+  background: #2a3a4a;
+  color: #ffffff;
+  display: block;
+  outline: none;
+  resize: none;
+}

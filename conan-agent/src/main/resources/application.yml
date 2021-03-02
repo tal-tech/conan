@@ -1,0 +1,210 @@
+# 项目相关配置
+conan:
+  # 名称
+  name: Conan
+  # 版本
+  version: 1.0.0
+  # 版权年份
+  copyrightYear: 2021
+  # 实例演示开关
+  demoEnabled: true
+  # 文件路径 示例（ Windows配置D:/conan/uploadPath，Linux配置 /home/conan/uploadPath）
+  profile: D:/conan/uploadPath
+  # 获取ip地址开关
+  addressEnabled: false
+  # 验证码类型 math 数组计算 char 字符验证
+  captchaType: math
+# Spring Datasource Settings
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  datasource:
+    name: druidDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      connection-properties: config.decrypt=true;config.decrypt.key=${spring.datasource.druid.public-key}
+      filters: stat,slf4j,config
+      db-type: mysql
+      pool-prepared-statements: true
+      max-open-prepared-statements: 50
+      max-pool-prepared-statement-per-connection-size: 20
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        session-stat-enable: true # session统计功能
+        session-stat-max-count: 1000 # 最大session数
+        principal-session-name: admin # 使得druid能够知道当前的session的用户是谁
+        principal-cookie-name: admin # 使得druid能够知道当前的cookie的用户是谁
+        profile-enable: true # 能够监控单个url调用的sql列表
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: conan
+        login-password: conan
+      aop-patterns: com.tal.wangxiao.conan.agent.service.*
+      # 主库数据源
+      master:
+        url: jdbc:mysql://10.90.72.126:8080/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: conan
+        password: '%zCM94bo'
+      # 从库数据源
+      slave:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url:
+        username:
+        password:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+
+  cache:
+    type: caffeine
+    cache-names:
+    caffeine:
+      spec: maximumSize=1,expireAfterAccess=60s
+
+  #  jpa:
+  #    show-sql: true
+  #    hibernate:
+  #      ddl-auto: update # 自动根据实体类定义更新数据库表结构
+
+  kafka:
+    consumer:
+      enable-auto-commit: true
+      auto-offset-reset: latest
+      max-poll-records: 1 # 每次只消费一条消息
+      #group-id: conan-scheduler
+      auto-commit-interval: 1000
+      heartbeat-interval: 3000
+      session:
+        timeout:
+          ms: 20000
+    producer:
+      acks: all
+      retries: 0
+      batch-size: 4096
+      buffer-memory: 40960
+      linger:
+        ms: 1
+
+  data:
+    rest:
+      base-path: /api/1.0 # 设置Spring Data Rest 接口的根路径
+
+    elasticsearch:
+      repositories:
+        enabled: true
+
+  flyway:
+    enabled: false
+
+  redis:
+    port: 6379 # Redis服务器连接端口
+    timeout: 50000 # 连接超时时间（毫秒）
+    password: test@123
+    jedis:
+      pool:
+        max-active: 100 # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 50 # 连接池中的最大空闲连接
+        min-idle: 0 # 连接池中的最小空闲连接
+
+kafka:
+  topic:
+    conan-task-dist: conan-task-dist
+    conan-agent-message: conan-agent-message
+
+server:
+  port: 8082 # 监听端口，本地开发如果被占用可以修改
+# Swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: true
+  # 请求前缀
+  pathMapping: /
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /system/notice/*
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 30
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.tal.wangxiao.conan.**.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+security:
+  basic:
+    enabled: false
+
+#系统配置
+system:
+  redis:
+    cacheTime: 14 # 录制redis数据的过期时间为14天
+  replay:
+    thread-count: 10 # 每个流量回放执行的开启线程数
+    timeout: 7200 # 流量回放执行的超时时间
+
+

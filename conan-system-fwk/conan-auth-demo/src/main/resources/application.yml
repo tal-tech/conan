@@ -1,0 +1,11 @@
+
+
+
+server:
+  port: 9090 # 监听端口，本地开发如果被占用可以修改
+
+spring:
+  security:
+    user:
+      name: admin
+      password: 123456

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.ApiMapper">
+
+    <resultMap type="ApiInfo" id="ApiResult">
+        <result property="apiId"    column="api_id"    />
+        <result property="sysDeptId"    column="sys_dept_id"    />
+        <result property="domainId"    column="domain_id"    />
+        <result property="name"    column="name"    />
+        <result property="method"    column="method"    />
+        <result property="isOnline"    column="is_online"    />
+        <result property="isRead"    column="is_read"    />
+        <result property="isEnable"    column="is_enable"    />
+        <result property="recordableCount"    column="recordable_count"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectApiVo">
+        select api_id, sys_dept_id, domain_id, name,  method, is_online, is_read, is_enable, recordable_count, create_time, create_by, update_time, update_by, response_is_json from bss_api
+    </sql>
+
+    <select id="selectApiList" parameterType="ApiInfo" resultMap="ApiResult">
+
+        select api.*, domain.name as domain_name, d.dept_name as dept_name, u.user_name as create_by_name
+        from bss_api api LEFT JOIN bss_domain  domain ON domain.id = api.domain_id
+        LEFT  JOIN sys_dept d on api.sys_dept_id = d.dept_id
+        LEFT  JOIN sys_user u on api.create_by = u.user_id
+        where 1=1
+
+        <if test="sysDeptId != null "> and api.sys_dept_id = #{sysDeptId}</if>
+        <if test="domainId != null "> and api.domain_id = #{domainId}</if>
+        <if test="name != null  and name != ''"> and api.name like concat('%', #{name}, '%')</if>
+
+        <if test="method != null "> and api.method = #{method}</if>
+        <if test="isOnline != null "> and api.is_online = #{isOnline}</if>
+        <if test="isRead != null "> and api.is_read = #{isRead}</if>
+        <if test="isEnable != null "> and api.is_enable = #{isEnable}</if>
+        <if test="recordableCount != null "> and api.recordable_count = #{recordableCount}</if>
+        <if test="responseIsJson != null "> and api.response_is_json = #{responseIsJson}</if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+
+    <select id="selectApiById" parameterType="Integer" resultMap="ApiResult">
+      	select api.*, domain.name as domain_name, dept.dept_name as dept_name
+        from bss_api api LEFT JOIN bss_domain  domain ON domain.id = api.domain_id LEFT  JOIN sys_dept dept on api.sys_dept_id = dept.dept_id
+        where api.api_id = #{id}
+    </select>
+
+    <insert id="insertApi" parameterType="ApiInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into bss_api
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysDeptId != null">sys_dept_id,</if>
+            <if test="domainId != null">domain_id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="method != null">method,</if>
+            <if test="isOnline != null">is_online,</if>
+            <if test="isRead != null">is_read,</if>
+            <if test="isEnable != null">is_enable,</if>
+            <if test="recordableCount != null">recordable_count,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="responseIsJson != null">response_is_json,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysDeptId != null">#{sysDeptId},</if>
+            <if test="domainId != null">#{domainId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+
+            <if test="method != null">#{method},</if>
+            <if test="isOnline != null">#{isOnline},</if>
+            <if test="isRead != null">#{isRead},</if>
+            <if test="isEnable != null">#{isEnable},</if>
+            <if test="recordableCount != null">#{recordableCount},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="responseIsJson != null">#{responseIsJson},</if>
+        </trim>
+    </insert>
+
+    <update id="updateApi" parameterType="ApiInfo">
+        update bss_api
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sysDeptId != null">sys_dept_id = #{sysDeptId},</if>
+            <if test="domainId != null">domain_id = #{domainId},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="method != null">method = #{method},</if>
+            <if test="isOnline != null">is_online = #{isOnline},</if>
+            <if test="isRead != null">is_read = #{isRead},</if>
+            <if test="isEnable != null">is_enable = #{isEnable},</if>
+            <if test="recordableCount != null">recordable_count = #{recordableCount},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="responseIsJson != null">response_is_json = #{responseIsJson},</if>
+        </trim>
+        where api_id = #{id}
+    </update>
+
+    <delete id="deleteApiById" parameterType="Integer">
+        delete from bss_api where id = #{id}
+    </delete>
+
+    <delete id="deleteApiByIds" parameterType="String">
+        delete from bss_api where api_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,42 @@
+CREATE TABLE `conandb`.`无标题`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `department_id` int(11) NOT NULL,
+  `product_line_id` int(11) NOT NULL,
+  `domain_id` int(11) NOT NULL COMMENT '所属域名id',
+  `name` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '接口名',
+  `method` int(11) NOT NULL COMMENT 'http方法\nGET(\"GET\", 0),\n    POST(\"POST\", 1),\n    PUT(\"PUT\", 2),\n    DELETE(\"DELETE\", 3),\n    HEAD(\"HEAD\", 4),\n    CONNECT(\"CONNECT\", 5),\n    OPTIONS(\"OPTIONS\", 6),\n    TRACE(\"TRACE\", 7);',
+  `is_online` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否已上线(0-已下线，1-已上线)',
+  `is_read` tinyint(1) NULL DEFAULT NULL COMMENT '是否读接口(0-否，1-是)',
+  `is_enable` tinyint(1) NULL DEFAULT NULL COMMENT '是否启用(0-禁用，1-启用)',
+  `recordable_count` int(11) NULL DEFAULT 0 COMMENT '可录制请求条数',
+  `create_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_by` int(11) NULL DEFAULT NULL COMMENT '创建人',
+  `update_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `update_by` int(11) NOT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `domain_id`(`domain_id`) USING BTREE,
+  INDEX `fk_api`(`create_by`) USING BTREE,
+  INDEX `fk_api_1`(`update_by`) USING BTREE,
+  CONSTRAINT `fk_api` FOREIGN KEY (`create_by`) REFERENCES `conandb`.`user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_api_1` FOREIGN KEY (`update_by`) REFERENCES `conandb`.`user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 158023 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '接口信息表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE es_flow  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `es_flow_planid_relation_id` int(11) NOT NULL,
+  `api_id` int(11) NULL DEFAULT NULL,
+  `cookie` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
+  `request_body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
+  `request` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
+  `position` int(11) NULL DEFAULT NULL,
+  `task_id` int(11) NULL DEFAULT NULL,
+  `request_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+CREATE TABLE es_flow_planid_relation  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plan_id` int(11) NOT NULL,
+  `create_at` datetime(0) NULL ,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;

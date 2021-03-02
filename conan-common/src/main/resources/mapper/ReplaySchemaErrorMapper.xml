@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.ReplaySchemaErrorMapper">
+
+    <resultMap type="ReplaySchemaError" id="ReplaySchemaErrorResult">
+        <result property="schemaErrorId"    column="schema_error_id"    />
+        <result property="replayId"    column="replay_id"    />
+        <result property="apiId"    column="api_id"    />
+        <result property="requst"    column="requst"    />
+        <result property="header"    column="header"    />
+        <result property="response"    column="response"    />
+        <result property="errorDesc"    column="error_desc"    />
+        <result property="apiName"    column="api_name"    />
+
+    </resultMap>
+
+    <sql id="selectReplaySchemaErrorVo">
+        select schema_error_id, replay_id, api_id, requst, header, response, error_desc from bss_replay_schema_error
+    </sql>
+
+    <select id="selectReplaySchemaErrorList" parameterType="ReplaySchemaError" resultMap="ReplaySchemaErrorResult">
+        select rs.*, api.name as api_name from bss_replay_schema_error rs
+        LEFT JOIN bss_api api on api.api_id = rs.api_id
+        <where>
+            <if test="replayId != null "> and replay_id = #{replayId}</if>
+            <if test="apiId != null "> and api_id = #{apiId}</if>
+            <if test="requst != null  and requst != ''"> and requst = #{requst}</if>
+            <if test="header != null  and header != ''"> and header = #{header}</if>
+            <if test="response != null  and response != ''"> and response = #{response}</if>
+            <if test="errorDesc != null  and errorDesc != ''"> and error_desc = #{errorDesc}</if>
+        </where>
+    </select>
+
+    <select id="selectReplaySchemaErrorById" parameterType="Integer" resultMap="ReplaySchemaErrorResult">
+        select rs.*, api.name as api_name from bss_replay_schema_error rs
+ LEFT JOIN bss_api api on api.api_id = rs.api_id
+        where schema_error_id = #{schemaErrorId}
+    </select>
+
+    <insert id="insertReplaySchemaError" parameterType="ReplaySchemaError" useGeneratedKeys="true" keyProperty="schemaErrorId">
+        insert into bss_replay_schema_error
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="replayId != null">replay_id,</if>
+            <if test="apiId != null">api_id,</if>
+            <if test="requst != null">requst,</if>
+            <if test="header != null">header,</if>
+            <if test="response != null">response,</if>
+            <if test="errorDesc != null">error_desc,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="replayId != null">#{replayId},</if>
+            <if test="apiId != null">#{apiId},</if>
+            <if test="requst != null">#{requst},</if>
+            <if test="header != null">#{header},</if>
+            <if test="response != null">#{response},</if>
+            <if test="errorDesc != null">#{errorDesc},</if>
+        </trim>
+    </insert>
+
+    <update id="updateReplaySchemaError" parameterType="ReplaySchemaError">
+        update bss_replay_schema_error
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="replayId != null">replay_id = #{replayId},</if>
+            <if test="apiId != null">api_id = #{apiId},</if>
+            <if test="requst != null">requst = #{requst},</if>
+            <if test="header != null">header = #{header},</if>
+            <if test="response != null">response = #{response},</if>
+            <if test="errorDesc != null">error_desc = #{errorDesc},</if>
+        </trim>
+        where schema_error_id = #{schemaErrorId}
+    </update>
+
+    <delete id="deleteReplaySchemaErrorById" parameterType="Integer">
+        delete from bss_replay_schema_error where schema_error_id = #{schemaErrorId}
+    </delete>
+
+    <delete id="deleteReplaySchemaErrorByIds" parameterType="String">
+        delete from bss_replay_schema_error where schema_error_id in
+        <foreach item="schemaErrorId" collection="array" open="(" separator="," close=")">
+            #{schemaErrorId}
+        </foreach>
+    </delete>
+
+</mapper>

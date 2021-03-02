@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.DeptJsonRuleMapper">
+
+    <resultMap type="DeptJsonRule" id="DeptJsonRuleResult">
+        <result property="id"    column="id"    />
+        <result property="ruleJson"    column="rule_json"    />
+        <result property="sysDeptId"    column="sys_dept_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectDeptJsonRuleVo">
+        select id, rule_json, sys_dept_id, create_time, create_by, update_time, update_by from bss_dept_json_rule
+    </sql>
+
+    <select id="selectDeptJsonRuleList" parameterType="DeptJsonRule" resultMap="DeptJsonRuleResult">
+        SELECT dr.* from bss_dept_json_rule dr
+        LEFT  JOIN sys_dept d on dr.sys_dept_id = d.dept_id
+        LEFT  JOIN sys_user u on dr.create_by = u.user_id
+        where 1=1
+
+            <if test="ruleJson != null  and ruleJson != ''"> and rule_json = #{ruleJson}</if>
+            <if test="sysDeptId != null "> and sys_dept_id = #{sysDeptId}</if>
+        ${params.dataScope}
+    </select>
+
+    <select id="selectDeptJsonRuleById" parameterType="Integer" resultMap="DeptJsonRuleResult">
+        <include refid="selectDeptJsonRuleVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDeptJsonRule" parameterType="DeptJsonRule" useGeneratedKeys="true" keyProperty="id">
+        insert into bss_dept_json_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleJson != null and ruleJson != ''">rule_json,</if>
+            <if test="sysDeptId != null">sys_dept_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleJson != null and ruleJson != ''">#{ruleJson},</if>
+            <if test="sysDeptId != null">#{sysDeptId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDeptJsonRule" parameterType="DeptJsonRule">
+        update bss_dept_json_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleJson != null and ruleJson != ''">rule_json = #{ruleJson},</if>
+            <if test="sysDeptId != null">sys_dept_id = #{sysDeptId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptJsonRuleById" parameterType="Integer">
+        delete from bss_dept_json_rule where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptJsonRuleByIds" parameterType="String">
+        delete from bss_dept_json_rule where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

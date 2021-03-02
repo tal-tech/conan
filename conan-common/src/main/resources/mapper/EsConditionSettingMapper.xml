@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.EsConditionSettingMapper">
+
+    <resultMap type="EsConditionSetting" id="EsConditionSettingResult">
+        <result property="esSettingId"    column="es_setting_id"    />
+        <result property="indexName"    column="index_name"    />
+        <result property="domainId"    column="domain_id"    />
+        <result property="api"    column="api"    />
+        <result property="apiRegex"    column="api_regex"    />
+        <result property="domain"    column="domain"    />
+        <result property="domainRegex"    column="domain_regex"    />
+        <result property="method"    column="method"    />
+        <result property="methodRegex"    column="method_regex"    />
+        <result property="requestBody"    column="request_body"    />
+        <result property="requestBodyRegex"    column="request_body_regex"    />
+        <result property="header"    column="header"    />
+        <result property="headerRegex"    column="header_regex"    />
+    </resultMap>
+
+    <sql id="selectEsConditionSettingVo">
+        select es_setting_id, index_name, domain_id, api, api_regex, domain, domain_regex, method, method_regex, request_body, request_body_regex, header, header_regex from bss_es_condition_setting
+    </sql>
+
+    <select id="selectEsConditionSettingList" parameterType="EsConditionSetting" resultMap="EsConditionSettingResult">
+        <include refid="selectEsConditionSettingVo"/>
+        <where>
+            <if test="indexName != null  and indexName != ''"> and index_name like concat('%', #{indexName}, '%')</if>
+            <if test="domainId != null "> and domain_id = #{domainId}</if>
+            <if test="api != null  and api != ''"> and api = #{api}</if>
+            <if test="apiRegex != null  and apiRegex != ''"> and api_regex = #{apiRegex}</if>
+            <if test="domain != null  and domain != ''"> and domain = #{domain}</if>
+            <if test="domainRegex != null  and domainRegex != ''"> and domain_regex = #{domainRegex}</if>
+            <if test="method != null  and method != ''"> and method = #{method}</if>
+            <if test="methodRegex != null  and methodRegex != ''"> and method_regex = #{methodRegex}</if>
+            <if test="requestBody != null  and requestBody != ''"> and request_body = #{requestBody}</if>
+            <if test="requestBodyRegex != null  and requestBodyRegex != ''"> and request_body_regex = #{requestBodyRegex}</if>
+            <if test="header != null  and header != ''"> and header = #{header}</if>
+            <if test="headerRegex != null  and headerRegex != ''"> and header_regex = #{headerRegex}</if>
+        </where>
+    </select>
+
+    <select id="selectEsConditionSettingById" parameterType="Long" resultMap="EsConditionSettingResult">
+        <include refid="selectEsConditionSettingVo"/>
+        where es_setting_id = #{esSettingId}
+    </select>
+
+    <insert id="insertEsConditionSetting" parameterType="EsConditionSetting" useGeneratedKeys="true" keyProperty="esSettingId">
+        insert into bss_es_condition_setting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="indexName != null and indexName != ''">index_name,</if>
+            <if test="domainId != null">domain_id,</if>
+            <if test="api != null">api,</if>
+            <if test="apiRegex != null">api_regex,</if>
+            <if test="domain != null and domain != ''">domain,</if>
+            <if test="domainRegex != null and domainRegex != ''">domain_regex,</if>
+            <if test="method != null and method != ''">method,</if>
+            <if test="methodRegex != null and methodRegex != ''">method_regex,</if>
+            <if test="requestBody != null and requestBody != ''">request_body,</if>
+            <if test="requestBodyRegex != null and requestBodyRegex != ''">request_body_regex,</if>
+            <if test="header != null">header,</if>
+            <if test="headerRegex != null">header_regex,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="indexName != null and indexName != ''">#{indexName},</if>
+            <if test="domainId != null">#{domainId},</if>
+            <if test="api != null">#{api},</if>
+            <if test="apiRegex != null">#{apiRegex},</if>
+            <if test="domain != null and domain != ''">#{domain},</if>
+            <if test="domainRegex != null and domainRegex != ''">#{domainRegex},</if>
+            <if test="method != null and method != ''">#{method},</if>
+            <if test="methodRegex != null and methodRegex != ''">#{methodRegex},</if>
+            <if test="requestBody != null and requestBody != ''">#{requestBody},</if>
+            <if test="requestBodyRegex != null and requestBodyRegex != ''">#{requestBodyRegex},</if>
+            <if test="header != null">#{header},</if>
+            <if test="headerRegex != null">#{headerRegex},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEsConditionSetting" parameterType="EsConditionSetting">
+        update bss_es_condition_setting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="indexName != null and indexName != ''">index_name = #{indexName},</if>
+            <if test="domainId != null">domain_id = #{domainId},</if>
+            <if test="api != null">api = #{api},</if>
+            <if test="apiRegex != null">api_regex = #{apiRegex},</if>
+            <if test="domain != null and domain != ''">domain = #{domain},</if>
+            <if test="domainRegex != null and domainRegex != ''">domain_regex = #{domainRegex},</if>
+            <if test="method != null and method != ''">method = #{method},</if>
+            <if test="methodRegex != null and methodRegex != ''">method_regex = #{methodRegex},</if>
+            <if test="requestBody != null and requestBody != ''">request_body = #{requestBody},</if>
+            <if test="requestBodyRegex != null and requestBodyRegex != ''">request_body_regex = #{requestBodyRegex},</if>
+            <if test="header != null">header = #{header},</if>
+            <if test="headerRegex != null">header_regex = #{headerRegex},</if>
+        </trim>
+        where es_setting_id = #{esSettingId}
+    </update>
+
+    <delete id="deleteEsConditionSettingById" parameterType="Long">
+        delete from bss_es_condition_setting where es_setting_id = #{esSettingId}
+    </delete>
+
+    <delete id="deleteEsConditionSettingByIds" parameterType="String">
+        delete from bss_es_condition_setting where es_setting_id in
+        <foreach item="esSettingId" collection="array" open="(" separator="," close=")">
+            #{esSettingId}
+        </foreach>
+    </delete>
+
+</mapper>

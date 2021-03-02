@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>conan</artifactId>
+        <groupId>com.tal.wangxiao</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>conan-agent</artifactId>
+
+    <name>conan-agent</name>
+    <description>柯南agent核心执行模块</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <json.scheme.version>2.2.14</json.scheme.version>
+        <json-compare-tool>0.0.1</json-compare-tool>
+
+    </properties>
+
+    <dependencies>
+
+        <!-- SpringBoot集成thymeleaf模板 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- spring-boot-devtools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional> <!-- 表示依赖不会传递 -->
+        </dependency>
+
+        <!-- Json比对工具 -->
+        <dependency>
+            <groupId>com.tal.wangxiao</groupId>
+            <artifactId>json-compare-tool</artifactId>
+            <scope>system</scope>
+            <version>${json-compare-tool}</version>
+            <systemPath>${project.basedir}/src/main/lib/json-compare-tool-0.0.1.jar</systemPath>
+        </dependency>
+
+        <!--json-schema-->
+        <dependency>
+            <groupId>com.github.java-json-tools</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${json.scheme.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tal.wangxiao</groupId>
+            <artifactId>conan-common</artifactId>
+        </dependency>
+
+
+        <!-- 核心模块-->
+        <dependency>
+            <groupId>com.tal.wangxiao</groupId>
+            <artifactId>conan-config-datasource</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+        <finalName>${project.artifactId}</finalName>
+    </build>
+
+    <!-- 配置环境的profile -->
+    <profiles>
+        <!-- local默认激活，使用idea Spring Boot 配置启动工程，需要dev的配置 -->
+        <profile>
+            <id>local</id>
+            <properties>
+                <environment>local</environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <environment>test</environment>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>gray</id>
+            <properties>
+                <environment>gray</environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <environment>prod</environment>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>

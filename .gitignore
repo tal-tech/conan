@@ -1,0 +1,9 @@
+# Default ignored files
+.idea/
+generated/
+target/
+*.iml
+.git/
+.project
+.classpath
+.settings/

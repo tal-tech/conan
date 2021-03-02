@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>conan-config</artifactId>
+
+
+    <parent>
+        <artifactId>conan</artifactId>
+        <groupId>com.tal.wangxiao</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>conan-config-datasource</module>
+        <module>conan-config-redis</module>
+        <module>conan-config-swagger</module>
+        <module>conan-config-core</module>
+
+    </modules>
+
+</project>

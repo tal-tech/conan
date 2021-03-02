@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tal.wangxiao.conan.common.mapper.DiffDetailMapper">
+
+    <resultMap type="DiffDetail" id="DiffDetailResult">
+        <result property="diffDetailId"    column="diff_detail_id"    />
+        <result property="actualCount"    column="actual_count"    />
+        <result property="apiId"    column="api_id"    />
+        <result property="diffId"    column="diff_id"    />
+        <result property="expectCount"    column="expect_count"    />
+    </resultMap>
+
+    <sql id="selectDiffDetailVo">
+        select diff_detail_id, actual_count, api_id, diff_id, expect_count from bss_diff_detail
+    </sql>
+
+
+    <select id="selectDiffDetailList" parameterType="DiffDetail" resultMap="DiffDetailResult">
+        <include refid="selectDiffDetailVo"/>
+        <where>
+            <if test="actualCount != null "> and actual_count = #{actualCount}</if>
+            <if test="apiId != null "> and api_id = #{apiId}</if>
+            <if test="diffId != null "> and diff_id = #{diffId}</if>
+            <if test="expectCount != null "> and expect_count = #{expectCount}</if>
+        </where>
+    </select>
+
+    <select id="selectDiffDetailById" parameterType="Integer" resultMap="DiffDetailResult">
+        <include refid="selectDiffDetailVo"/>
+        where diff_detail_id = #{id}
+    </select>
+
+    <insert id="insertDiffDetail" parameterType="DiffDetail" useGeneratedKeys="true" keyProperty="diffDetailId">
+        insert into bss_diff_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="actualCount != null">actual_count,</if>
+            <if test="apiId != null">api_id,</if>
+            <if test="diffId != null">diff_id,</if>
+            <if test="expectCount != null">expect_count,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="actualCount != null">#{actualCount},</if>
+            <if test="apiId != null">#{apiId},</if>
+            <if test="diffId != null">#{diffId},</if>
+            <if test="expectCount != null">#{expectCount},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDiffDetail" parameterType="DiffDetail">
+        update bss_diff_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualCount != null">actual_count = #{actualCount},</if>
+            <if test="apiId != null">api_id = #{apiId},</if>
+            <if test="diffId != null">diff_id = #{diffId},</if>
+            <if test="expectCount != null">expect_count = #{expectCount},</if>
+        </trim>
+        where diff_detail_id = #{id}
+    </update>
+
+    <delete id="deleteDiffDetailById" parameterType="Integer">
+        delete from bss_diff_detail where diff_detail_id = #{id}
+    </delete>
+
+    <delete id="deleteDiffDetailByIds" parameterType="String">
+        delete from bss_diff_detail where diff_detail_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
