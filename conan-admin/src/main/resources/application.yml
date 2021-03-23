@@ -49,9 +49,9 @@ spring:
       aop-patterns: com.tal.wangxiao.conan.admin.service.*
       # 主库数据源
       master:
-        url: jdbc:mysql://10.90.72.126:8080/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: conan
-        password: '%zCM94bo'
+        url: jdbc:mysql://XX.XX.XX.XX:8080/conan?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: 
+        password: 
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭
