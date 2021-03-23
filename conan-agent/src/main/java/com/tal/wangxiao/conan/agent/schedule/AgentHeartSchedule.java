@@ -33,7 +33,7 @@ public class AgentHeartSchedule {
     @Scheduled(cron = "0 0/5 * * * ? ")
     public void agentHeartUpdate() {
         //每5分钟上报一次注册中心
-        log.info("Agent服务 Heart Beat -- agentId :"+ CodeCache.commonMap.get("agentId"));
+        log.info("Agent服务 Heart Beat -- agentId :" + CodeCache.commonMap.get("agentId"));
         AgentNode agentNode = new AgentNode();
         agentNode.setAgentId(CodeCache.getAgentId());
         CodeCache.initAgentConfig(agentNode, log, AgentStatus.FREE);
@@ -50,10 +50,4 @@ public class AgentHeartSchedule {
     }
 
 
-    public static void main(String[] args) throws UnknownHostException {
-        System.out.println(InetAddress.getLocalHost().getCanonicalHostName());
-        //1608117137
-        System.out.println(new Date().getTime());
-        System.out.println(System.currentTimeMillis() / 1000);
-    }
 }

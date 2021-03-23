@@ -35,7 +35,7 @@ export const constantRoutes = [
       {
         path: '/redirect/:path(.*)',
         component: (resolve) => require(['@/views/redirect'], resolve)
-      }
+      },
     ]
   },
   {
@@ -62,7 +62,7 @@ export const constantRoutes = [
         path: 'index',
         component: (resolve) => require(['@/views/index'], resolve),
         name: '首页',
-        meta: { title: '首页', icon: 'dashboard', noCache: true, affix: true }
+        meta: { title: '首页', icon: 'dashboard', noCache: false, affix: true }
       },
     ]
   },
@@ -167,7 +167,7 @@ export const constantRoutes = [
         component: (resolve) => require(['@/views/execution/common/DiffResult'], resolve),
         meta: { title: '单接口比对结果', icon: '', noCache: true },
       },
-        {
+      {
         path: '/common/ReplayDetail',
         name: 'ReplayDetail',
         component: (resolve) => require(['@/views/execution/common/ReplayDetail'], resolve),
@@ -214,19 +214,19 @@ export const constantRoutes = [
         path: '/admin/domain/EsConditionSetting',
         name: 'EsConditionSetting',
         component: (resolve) => require(['@/views/admin/domain/EsConditionSetting'], resolve),
-        meta: { title: '域名管理配置', icon: '' , noCache: true},
+        meta: { title: '域名管理配置', icon: '', noCache: true },
       },
       {
         path: '/admin/domain/domainAuth',
         name: 'DomainAuth',
         component: (resolve) => require(['@/views/admin/domain/domainAuth'], resolve),
-        meta: { title: '鉴权配置', icon: '' , noCache: true},
+        meta: { title: '鉴权配置', icon: '', noCache: true },
       },
       {
         path: '/admin/domain/interface/exportExcel',
         name: 'exportExcel',
         component: (resolve) => require(['@/views/admin/interface/exportExcel'], resolve),
-        meta: { title: '导出网关域名接口Excel', icon: '' , noCache: true},
+        meta: { title: '导出网关域名接口Excel', icon: '', noCache: true },
       },
     ]
   },

@@ -145,8 +145,4 @@ public class HomeServiceImpl implements HomeService {
     }
 
 
-    public static void main(String[] args) {
-        LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);//当天零点
-        System.out.println(today_start);
-    }
 }

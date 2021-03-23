@@ -209,6 +209,8 @@ export default {
       rules: {
         esIp: [{ required: true, message: "ip不能为空", trigger: "blur" }],
         esPort: [{ required: true, message: "port不能为空", trigger: "blur" }],
+        esName:[{ required: true, message: "esName", trigger: "blur" }],
+        esBeanName:[{ required: true, message: "esBeanName", trigger: "blur" }]
       },
     };
   },

@@ -94,7 +94,7 @@ public class KafkaConsumerListener {
                     agentNodeRepository.save(agentNode);
                 }
             } else {
-                log.info("消息环境不匹配，收到{}环境的agent消息，agent服务环境为{}，将不执行", agentEnv, systemEnv);
+                //log.info("消息环境不匹配，收到{}环境的agent消息，agent服务环境为{}，将不执行", agentEnv, systemEnv);
             }
         } catch (Exception e) {
             log.error("消费任务队列消息异常", e);

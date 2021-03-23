@@ -9,7 +9,7 @@
     >
       <el-tab-pane label="回放列表" name="first">
         <el-tag style="margin:10px 0">
-         点击执行比对时要满足的条件，回放条数大于两条并且要将其中一条置为基准
+       Tips： 执行比对要满足的条件：1.回放条数必须大于两条；2.其中一条必须置为基准；
         </el-tag>
         <DetailsTable v-on:startDiff="getStartDiff"></DetailsTable>
       </el-tab-pane>

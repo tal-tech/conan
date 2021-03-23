@@ -1,8 +1,5 @@
 package com.tal.wangxiao.conan.agent.service.impl;
 
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONUtil;
-import com.alibaba.druid.support.json.JSONUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.tal.wangxiao.conan.agent.cache.CodeCache;
@@ -10,17 +7,18 @@ import com.tal.wangxiao.conan.agent.service.ReplayService;
 import com.tal.wangxiao.conan.common.constant.enums.HttpMethodConstants;
 import com.tal.wangxiao.conan.common.constant.enums.TaskStatus;
 import com.tal.wangxiao.conan.common.entity.db.*;
+import com.tal.wangxiao.conan.common.exception.CustomException;
 import com.tal.wangxiao.conan.common.exception.api.ApiException;
 import com.tal.wangxiao.conan.common.exception.execution.TaskExecutionException;
 import com.tal.wangxiao.conan.common.exception.record.RecordException;
 import com.tal.wangxiao.conan.common.exception.replay.ReplayException;
 import com.tal.wangxiao.conan.common.redis.RedisTemplateTool;
 import com.tal.wangxiao.conan.common.repository.db.*;
+import com.tal.wangxiao.conan.common.service.common.RuleCheckoutService;
 import com.tal.wangxiao.conan.common.utils.HttpUtil;
 import com.tal.wangxiao.conan.utils.enumutils.EnumUtil;
 import com.tal.wangxiao.conan.utils.http.CurlUtils;
 import com.tal.wangxiao.conan.utils.json.JsonChangesUtils;
-import com.tal.wangxiao.conan.utils.json.JsonCheckUtils;
 import com.tal.wangxiao.conan.utils.str.StringHandlerUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.framework.AopContext;
@@ -30,7 +28,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 
 import javax.annotation.Resource;
@@ -81,6 +78,8 @@ public class ReplayServiceImpl implements ReplayService {
 
     @Value("${system.replay.timeout}")
     private int replayTimeout;
+    @Resource
+    RuleCheckoutService ruleCheckoutService;
 
     @Override
     public void replay(Integer taskExecutionId, Integer recordId, Integer replayId) throws Exception {
@@ -255,6 +254,16 @@ public class ReplayServiceImpl implements ReplayService {
                 errMsg = "url=" + urlStr + ", body=" + body + ",回放异常：" + rest.getMessage();
                 log.error(errMsg);
                 redisTemplateTool.setLogByReplayId_ERROR(replayId, errMsg);
+            }
+
+            if (!Objects.isNull(response)) {
+                try {
+                    ruleCheckoutService.checketRule(apiId, replayId, headerMap.toString() + "",body, response);
+                } catch (CustomException e) {
+                    log.error("精准比对发现异常 CustomException" + e);
+                } catch (Exception e) {
+                    log.error("精准比对发现异常" + e);
+                }
             }
             //回放校验开发
             if (actualCountMap.containsKey(apiId)) {

@@ -204,7 +204,6 @@ public class RecordServiceImpl implements RecordService{
         }
         QueryBuilder shouldQuery = QueryBuilders.boolQuery()
                 .should(QueryBuilders.termQuery(domainKeyword+".keyword", domainName));
-        //.should(QueryBuilders.termQuery("domain", "studentlive.xueersi.com"));
         BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery()
                 .must(shouldQuery);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();

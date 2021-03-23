@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_830376_qzecyukz0s.css">
-    <link rel="stylesheet" href="https://at.alicdn.com/t/font_2251970_vdiuff4jgve.css">
-    <title>柯南流量回放平台</title>
-	  <style>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_830376_qzecyukz0s.css">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_2251970_vdiuff4jgve.css">
+  <link rel="stylesheet" href="https:///at.alicdn.com/t/font_2392428_nnnbcibeba.css">
+  <title>柯南流量回放平台</title>
+  <style>
     html,
     body,
     #app {
@@ -17,6 +19,7 @@
       margin: 0px;
       padding: 0px;
     }
+
     .chromeframe {
       margin: 0.2em 0;
       background: #ccc;
@@ -93,6 +96,7 @@
         -ms-transform: rotate(0deg);
         transform: rotate(0deg);
       }
+
       100% {
         -webkit-transform: rotate(360deg);
         -ms-transform: rotate(360deg);
@@ -106,6 +110,7 @@
         -ms-transform: rotate(0deg);
         transform: rotate(0deg);
       }
+
       100% {
         -webkit-transform: rotate(360deg);
         -ms-transform: rotate(360deg);
@@ -195,15 +200,41 @@
       opacity: 0.5;
     }
   </style>
-  </head>
-  <body>
-    <div id="app">
-	    <div id="loader-wrapper">
-		    <div id="loader"></div>
-		    <div class="loader-section section-left"></div>
-		    <div class="loader-section section-right"></div>
-		    <div class="load_title">正在加载系统资源，请耐心等待</div>
-        </div>
-	</div>
-  </body>
+</head>
+
+<body>
+  <div id="app">
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+      <div class="load_title">正在加载系统资源，请耐心等待</div>
+    </div>
+  </div>
+</body>
+
 </html>
+<script>
+  Function.prototype.makeMulti = function () {
+    let l = new String(this)
+    l = l.substring(l.indexOf("/*") + 3, l.lastIndexOf("*/"))
+    return l
+  }
+  let string = function () {
+    /* 
+ .----------------.  .----------------.  .-----------------. .----------------.  .-----------------.
+| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+| |     ______   | || |     ____     | || | ____  _____  | || |      __      | || | ____  _____  | |
+| |   .' ___  |  | || |   .'    `.   | || ||_   \|_   _| | || |     /  \     | || ||_   \|_   _| | |
+| |  / .'   \_|  | || |  /  .--.  \  | || |  |   \ | |   | || |    / /\ \    | || |  |   \ | |   | |
+| |  | |         | || |  | |    | |  | || |  | |\ \| |   | || |   / ____ \   | || |  | |\ \| |   | |
+| |  \ `.___.'\  | || |  \  `--'  /  | || | _| |_\   |_  | || | _/ /    \ \_ | || | _| |_\   |_  | |
+| |   `._____.'  | || |   `.____.'   | || ||_____|\____| | || ||____|  |____|| || ||_____|\____| | |
+| |              | || |              | || |              | || |              | || |              | |
+| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+ '----------------'  '----------------'  '----------------'  '----------------'  '----------------' 
+ */
+  }
+  console.log(string.makeMulti());
+ 
+</script>

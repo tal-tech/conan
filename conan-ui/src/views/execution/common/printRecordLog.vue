@@ -4,7 +4,12 @@
     <div>
       <!-- 修改部分，更换展示方式单独引css-->
       <CommonCard :type="type" :taskExecutionId="id"></CommonCard>
-      <el-tabs class="tabsFlex" v-model="activeName" id="tabs"  v-if="!recordComplete">
+      <el-tabs
+        class="tabsFlex"
+        v-model="activeName"
+        id="tabs"
+        v-if="!recordComplete"
+      >
         <el-tab-pane label="录制日志" name="first">
           <!-- 进度条 -->
           <el-progress
@@ -23,7 +28,7 @@
           >
             <pre
               id="textarea_id"
-              style="width:100%;height:500px"
+              style="width: 100%; height: 500px"
               readonly
               spellcheck="false"
               v-show="logs.length > 1"
@@ -37,7 +42,7 @@
         <el-tabs class="tabsFlex" v-model="activeLog" id="tabs">
           <el-tab-pane label="录制详情" name="first">
             <!-- 图表 -->
-            <div class="card" v-show="recordDetail.length!=0">
+            <div class="card" v-show="recordDetail.length != 0">
               <el-card shadow="always" body-style="padding: 10px;">
                 <div ref="pie"></div>
               </el-card>
@@ -60,7 +65,7 @@
                 tooltip-effect="light"
               >
                 <el-table-column
-                align="center"
+                  align="center"
                   label="#"
                   width="40px"
                   type="index"
@@ -80,8 +85,8 @@
                     { text: '/literacySift', value: '/literacySift' },
                     {
                       text: '/app/CourseMall/getGradeList',
-                      value: '/app/CourseMall/getGradeList',
-                    },
+                      value: '/app/CourseMall/getGradeList'
+                    }
                   ]"
                   filter-placement="bottom-end"
                 ></el-table-column>
@@ -135,7 +140,7 @@ import createBar from "@/utils/echarts/bar";
 import {
   getLogByRecord,
   getProgressByRecord,
-  getDetailByRecord,
+  getDetailByRecord
 } from "@/api/execution/printRecordLog";
 import CommonCard from "./commonCard";
 
@@ -148,7 +153,7 @@ export default {
       type: "",
       percentage: 0, //进度条数据
       resultInfo: "", //日志标题
-      logs: "日志正在打印中...",
+      logs: "录制执行中...",
       loading: false,
       Detailloading: false,
       show: false,
@@ -159,15 +164,26 @@ export default {
       activeLog: "first",
       activeName: "first",
       queryParams: {
-        task_execution_id: null,
-      },
+        task_execution_id: null
+      }
     };
   },
   created() {
     this.id = this.$route.query.task_execution_id;
     this.type = this.$route.query.type;
+    console.log(this.type, "type");
     this.queryParams.task_execution_id = this.$route.query.task_execution_id;
     this.initData();
+  },
+  watch: {
+    $route(route) {
+      if (route.path != "/common/printReplayLog") {
+        //当前不在主页就要清楚定时器
+        clearInterval(this.intervalId);
+      }
+    }
+  },
+  mounted() {
     this.intervalId = setInterval(() => {
       this.initData();
     }, 5000);
@@ -180,8 +196,7 @@ export default {
     // 查询进度条
     searchProgress() {
       getProgressByRecord(this.queryParams)
-        .then((res) => {
-          console.log(res, "sssss");
+        .then(res => {
           if (res.code == "200") {
             this.percentage = Number(res.data);
             if (res.data == "100") {
@@ -189,59 +204,34 @@ export default {
               clearInterval(this.intervalId);
               this.getRecordDetail();
               return;
-            } else {
-              this.logs += "录制执行中...";
-            }
+            } 
           } else {
             clearInterval(this.intervalId);
-            return;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           clearInterval(this.intervalId);
         });
     },
     //   查询日志
     searchRecord() {
       getLogByRecord(this.queryParams)
-        .then((res) => {
+        .then(res => {
           if (res.code !== 200) {
             clearInterval(this.intervalId);
             return;
-          }
-
-          // 去除字符串
-          let a = res.data.replace(/"/g, "");
-          // 日期
-          let b = a.replace(/(\d{4}-\d{2}-\d{2})/g, function (a) {
-            return '<span class="datablue">' + a + "</span>";
-          });
-          // 时分秒
-          let c = b.replace(/(\d{2}:\d{2}:\d{2})/g, function (b) {
-            return '<span class="datatuse">' + b + "</span>";
-          });
-          // info状态
-          let d = c.replace(/(\[INFO\])/g, function (c) {
-            return '<span class="datagreen">' + c + "</span>";
-          });
-          // [ERROR]状态
-          let e = d.replace(/(\[ERROR\])/g, function (d) {
-            return '<span class="datared">' + d + "</span>";
-          });
-          let f = e.replace(
-            /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/g,
-            function (e) {
-              return '<span class="dataoldBule">' + e + "</span>";
+          } else {
+            if (res.data) {
+              this.stringFilter(res.data);
+              if (res.data.includes("end") == true) {
+                this.recordComplete = true;
+                clearInterval(this.intervalId);
+                this.getRecordDetail();
+              }
             }
-          );
-          this.logs = f;
-
-          document.getElementById("textarea_id").scrollTop = document.getElementById(
-            "textarea_id"
-          ).scrollHeight;
+          }
         })
-        .catch((err) => {
-          console.log(err, "err");
+        .catch(err => {
           clearInterval(this.intervalId);
         });
     },
@@ -249,7 +239,7 @@ export default {
     getRecordDetail() {
       this.Detailloading = true;
       getDetailByRecord(this.queryParams)
-        .then((res) => {
+        .then(res => {
           if (res.code !== 200) return;
           let list = res.data.record_detail_list;
           this.recordDetail = res.data.record_detail_list;
@@ -257,7 +247,7 @@ export default {
           this.initBar(list);
           this.Detailloading = false;
         })
-        .catch((err) => {
+        .catch(err => {
           this.Detailloading = false;
         });
     },
@@ -265,11 +255,11 @@ export default {
     initPie(list) {
       let legendData = [];
       let seriesData = [];
-      list.forEach((item) => {
+      list.forEach(item => {
         legendData.push(item.api_name);
         let obj = {
           value: item.actual_count,
-          name: item.api_name,
+          name: item.api_name
         };
         seriesData.push(obj);
       });
@@ -277,15 +267,15 @@ export default {
       let params = {
         title: {
           text: "实际录制接口占比",
-          subtext: "",
+          subtext: ""
         },
         tooltip: {
           trigger: "item",
           position: "inside",
-          formatter: "{a} <br/>{b} : {c} ({d}%)",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
-          data: [],
+          data: []
         },
         series: {
           radius: "50%",
@@ -294,9 +284,9 @@ export default {
           label: {
             position: "outer",
             alignTo: "edge",
-            margin: 200,
-          },
-        },
+            margin: 200
+          }
+        }
       };
       createPie(this.$refs.pie, params, this.$refs.detail, 2, 400);
     },
@@ -304,7 +294,7 @@ export default {
     initBar(list) {
       let seriesData = [];
       let xAxisData = [];
-      list.forEach((item) => {
+      list.forEach(item => {
         let num = item.success_rate ? item.success_rate.split("%")[0] : 0;
         xAxisData.push(item.api_name);
         seriesData.push(num);
@@ -313,45 +303,66 @@ export default {
       let params = {
         title: {
           text: "接口录制成功率",
-          x: "center",
+          x: "center"
         },
         xAxis: {
           type: "category",
           axisLabel: {
             //坐标轴刻度标签的相关设置。
             interval: 0,
-            rotate: "20",
+            rotate: "20"
           },
-          data: xAxisData,
+          data: xAxisData
         },
         yAxis: {
           type: "value",
           max: 100,
           min: 0,
           axisLabel: {
-            formatter: "{value}%",
-          },
+            formatter: "{value}%"
+          }
         },
         series: [
           {
             data: seriesData,
             type: "bar",
             barMaxWidth: "30",
-            barMinHeight: 1,
-          },
+            barMinHeight: 1
+          }
         ],
-        legend: [],
+        legend: []
       };
       createBar(this.$refs.bar, params, this.$refs.detail);
     },
-    // 显示日志
-    showRecord() {
-      this.recordShow = true;
-      document.getElementById("recordShowContent").scrollTop = document.getElementById(
-        "recordShowContent"
-      ).scrollHeight;
-    },
-  },
+    // 过滤字符串
+    stringFilter(data) {
+      // 去除字符串
+      let a = data.replace(/"/g, "");
+      // 日期
+      let b = a.replace(/(\d{4}-\d{2}-\d{2})/g, function(a) {
+        return '<span class="datablue">' + a + "</span>";
+      });
+      // 时分秒
+      let c = b.replace(/(\d{2}:\d{2}:\d{2})/g, function(b) {
+        return '<span class="datatuse">' + b + "</span>";
+      });
+      // info状态
+      let d = c.replace(/(\[INFO\])/g, function(c) {
+        return '<span class="datagreen">' + c + "</span>";
+      });
+      // [ERROR]状态
+      let e = d.replace(/(\[ERROR\])/g, function(d) {
+        return '<span class="datared">' + d + "</span>";
+      });
+      let f = e.replace(
+        /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/g,
+        function(e) {
+          return '<span class="dataoldBule">' + e + "</span>";
+        }
+      );
+      this.logs = f;
+    }
+  }
 };
 </script>
 <style lang="scss">

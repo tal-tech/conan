@@ -236,7 +236,6 @@ public class RecordServiceImpl implements RecordService {
         }
         Integer totalExpectCount = 0;
         Integer totalActualCount = 0;
-        List<String> stuIdsList = new ArrayList<>();
         for (RecordDetail recordDetail : recordDetailList) {
             Optional<Api> apiOptional = apiRepository.findById(recordDetail.getApiId());
             if (!apiOptional.isPresent()) {
@@ -308,7 +307,6 @@ public class RecordServiceImpl implements RecordService {
 
         QueryBuilder shouldQuery = QueryBuilders.boolQuery()
                 .should(QueryBuilders.termQuery(domainKeyword + ".keyword", requestQuery.getDomain()));
-        //.should(QueryBuilders.termQuery("domain", "studentlive.xueersi.com"));
         BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery()
                 .must(QueryBuilders.wildcardQuery(url + ".keyword", method + " " + requestQuery.getApi() + "*"))
                 .must(shouldQuery);

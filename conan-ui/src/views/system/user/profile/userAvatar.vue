@@ -85,7 +85,8 @@ export default {
   methods: {
     // 编辑头像
     editCropper() {
-      this.open = true;
+      this.open = false;
+      // 暂时隐藏该功能
     },
     // 打开弹出层结束时的回调
     modalOpened() {
@@ -147,21 +148,21 @@ export default {
   height: 120px;
 }
 
-.user-info-head:hover:after {
-  content: '+';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  color: #eee;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 24px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  cursor: pointer;
-  line-height: 110px;
-  border-radius: 50%;
-}
+// .user-info-head:hover:after {
+//   content: '+';
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+//   color: #eee;
+//   background: rgba(0, 0, 0, 0.5);
+//   font-size: 24px;
+//   font-style: normal;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   cursor: pointer;
+//   line-height: 110px;
+//   border-radius: 50%;
+// }
 </style>

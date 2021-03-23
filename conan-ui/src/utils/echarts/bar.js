@@ -13,7 +13,6 @@ function createBar (dom, params, domContainer, columns, echartsH, colorString, t
   require("echarts/lib/component/toolbox");
   // 引入引导项
   require("echarts/lib/component/legend");
-console.log(params,'params');
   // 动态设置饼图的宽度和高度
   let clientWidth = domContainer.clientWidth;
   let mW;
@@ -23,7 +22,7 @@ console.log(params,'params');
   } else if (columns == 2) {
     mW = clientWidth / 2 - 25;
   }
-  dom.style.width = mW + "px";
+  dom.style.width =(mW || 500)  + "px";
   dom.style.height = (echartsH || 400) + "px";
 
   // 基于准备好的dom，初始化echarts实例
@@ -62,7 +61,7 @@ console.log(params,'params');
           } else if (columns == 2) {
             mW = clientWidth / 2 - 25;
           }
-          dom.style.width = mW + "px";
+          dom.style.width = (mW || 500) + "px";
           myChart.resize();
         }, 260);
       },

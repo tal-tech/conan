@@ -14,10 +14,6 @@ import store from './store'
 import router from './router'
 import permission from './directive/permission'
 
-
-import echarts from 'echarts'
-import 'echarts/map/js/world.js'
-Vue.prototype.$echarts = echarts;
 import './assets/icons' // icon
 import './permission' // permission control
 import { getDicts } from "@/api/system/dict/data";
@@ -28,7 +24,7 @@ import Pagination from "@/components/Pagination";
 import RightToolbar from "@/components/RightToolbar"
 
 // 全局过滤器
-import * as custom from './components/filters/index';
+import * as custom from '@/utils/filters.js';
 Object.keys(custom).forEach(key => {
   Vue.filter(key, custom[key])
 })

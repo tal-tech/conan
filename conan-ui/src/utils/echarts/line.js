@@ -57,7 +57,7 @@ function createLine(dom, params, domContainer, columns, echartsH, colorString) {
   } else if (columns == 2) {
     mW = clientWidth / 2 - 25;
   }
-  dom.style.width = mW + "px";
+  dom.style.width = (mW || 450)  + "px";
   dom.style.height = (echartsH || 400) + "px";
 
   // 基于准备好的dom，初始化echarts实例
@@ -113,7 +113,7 @@ function createLine(dom, params, domContainer, columns, echartsH, colorString) {
       function() {
         // 设置延迟器作用：监听事件的触发快于主动触发resize事件，获取不到元素真实的大小。
         // resize会触发两次，在chome中
-        this.setTimeout(function() {
+        this.setTimeout(function () {
           let clientWidth = domContainer.clientWidth;
           let mW;
           columns = columns || 2;
@@ -122,9 +122,9 @@ function createLine(dom, params, domContainer, columns, echartsH, colorString) {
           } else if (columns == 2) {
             mW = clientWidth / 2 - 25;
           }
-          dom.style.width = mW + "px";
+          dom.style.width = (mW || 450)  + "px";
           myChart.resize();
-        }, 260);
+        }, 1260);
       },
       { passive: true }
   );

@@ -17,7 +17,7 @@ function createMap (dom, params, domContainer, columns, echartsH) {
   let mW;
   columns = columns || 1;
   mW = clientWidth / columns ;
-  dom.style.width = mW + "px";
+  dom.style.width = (mW || 700) + "px";
   dom.style.height = (echartsH || 400) + "px";
 
 
@@ -317,7 +317,7 @@ function createMap (dom, params, domContainer, columns, echartsH) {
         let mW;
          columns = columns || 1;
           mW = clientWidth / columns ;
-        dom.style.width = mW + "px";
+        dom.style.width = (mW || 700)  + "px";
         myChart.resize();
       }, 260);
     },

@@ -153,7 +153,8 @@
 
     <!-- 添加或修改esConditionSetting域名下ES 查询条件配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="70%" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="220px">
+      <!-- :rules="rules" -->
+      <el-form ref="form" :model="form"  label-width="220px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="日志索引名称" prop="indexName">
@@ -169,10 +170,24 @@
               />
             </el-form-item>
             <el-form-item label="ES中_source内请求方法名称" prop="method">
-              <el-input
+              <!-- <el-input
                 v-model="form.method"
                 placeholder="请输入ES中_source内请求方法对应的key名称"
-              />
+              /> -->
+              <el-select
+                v-model="form.method"
+                clearable
+                placeholder="http方法"
+                class="w100"
+              >
+                <el-option
+                  v-for="item in methodOptions"
+                  :key="item.dictCode"
+                  :label="item.dictLabel"
+                  :value="item.dictLabel"
+                >
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="ES中_source内请求Body名称" prop="requestBody">
               <el-input
@@ -278,6 +293,7 @@ export default {
       },
       // 表单参数
       form: {},
+      methodOptions: [],
       // 表单校验
       rules: {
         indexName: [
@@ -319,6 +335,9 @@ export default {
   },
   created() {
     this.getList();
+      this.getDicts("bss_method_status").then(response => {
+        this.methodOptions = response.data;
+      });
   },
   methods: {
     /** 查询esConditionSetting域名下ES 查询条件配置列表 */

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="box-card felxCard bg">
+    <div
+      class="box-card felxCard bg"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+    >
       <el-card shadow="hover" class="felxBox">
         <span class="felxName">域名</span>
         <span class="flexResult">{{ domain }}</span>
@@ -22,8 +27,9 @@
     >
       <div class="detail">
         <pre class="spanStyle">
-第{{ index + 1 }}条流量回放详情
-          request = {{ item.request_body }}</pre
+          第{{ index + 1 }}条流量回放详情
+          request = {{ item.request_body }}
+          </pre
         >
         <span class="spanStyle"> <br />response = </span>
         <div class="response"><Json :jsonString="item.response"></Json></div>
@@ -38,39 +44,45 @@ import { searchReplayDetailByApi } from "@/api/execution/printReplayLog.js";
 export default {
   name: "replayDetail",
   components: { Json },
-  data() {
+  data () {
     return {
+      loading: false,
       domain: "",
       apiName: "",
       successRate: "",
       replayResultByApi: [],
       queryParams: {
         api_id: "",
-        replay_id: "",
-      },
+        replay_id: ""
+      }
     };
   },
-  created() {
+  created () {
     this.queryParams.api_id = this.$route.query.api_id;
     this.queryParams.replay_id = this.$route.query.replay_id;
   },
-  mounted() {
+  mounted () {
     this.getList();
   },
   methods: {
-    getList() {
-      searchReplayDetailByApi(this.queryParams).then((res) => {
+    getList () {
+      this.loading = true;
+      searchReplayDetailByApi(this.queryParams).then(res => {
         if (res.code == 200) {
           this.domain = res.data.domain;
           this.apiName = res.data.api;
           this.successRate = res.data.successRate;
           this.replayResultByApi = res.data.replay_detail;
+          this.loading = false;
         } else {
           this.$message.error(res.data);
+          this.loading = false;
         }
-      });
-    },
-  },
+      }).catch(err => {
+        this.loading = false;
+      })
+    }
+  }
 };
 </script>
 

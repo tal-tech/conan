@@ -20,7 +20,6 @@
 // columns: 饼图列数，默认2，即一行容纳饼图个数。目前支持1、2
 // echartsH: 饼图高度，默认400
 function createPie (dom, params, domContainer, columns, echartsH, colorString) {
-  console.log(params,'params===>>>');
   // 引入 ECharts 主模块
   let echarts = require("echarts/lib/echarts");
   // 引入饼状图
@@ -47,7 +46,7 @@ function createPie (dom, params, domContainer, columns, echartsH, colorString) {
   } else if (columns == 2) {
     mW = clientWidth / 2 - 25;
   }
-  dom.style.width = mW + "px";
+  dom.style.width = (mW || 300)  + "px";
   dom.style.height = (echartsH || 400) + "px";
 
   // 基于准备好的dom，初始化echarts实例
@@ -71,13 +70,6 @@ function createPie (dom, params, domContainer, columns, echartsH, colorString) {
         radius: params.series.radius || "55%",
         center: params.series.center || ["50%", "55%"],
         data: params.series.data || [],
-        // itemStyle: {
-        //   emphasis: {
-        //     shadowBlur: 10,
-        //     shadowOffsetX: 0,
-        //     shadowColor: "rgba(0, 0, 0, 0.5)"
-        //   }
-        // },
         label: params.series.label
       }
     ],
@@ -103,8 +95,9 @@ function createPie (dom, params, domContainer, columns, echartsH, colorString) {
       } else if (columns == 2) {
         mW = clientWidth / 2 - 25;
       }
-      dom.style.width = mW + "px";
+      dom.style.width = (mW || 300)  + "px";
       myChart.resize();
+      
     }, 260);
   });
   return myChart;

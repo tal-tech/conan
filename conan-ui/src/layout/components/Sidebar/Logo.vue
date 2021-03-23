@@ -1,11 +1,13 @@
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}" :style="{ backgroundColor: sideTheme === 'theme-dark' ? variables.menuBg : variables.menuLightBg }">
     <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <i  class="iconfont icon-zhibo sidebar-logo" ></i>
+      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link isImg" to="/">
+        <!-- <i  class="iconfont icon-zhibo sidebar-logo" ></i> -->
+        <img src="../../../assets/images/profile.png" alt="" style="width:32px;height:32px;line-height: 50px;margin-right: 15px;">
       </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <i class="icon-zhibo iconfont sidebar-logo"></i>
+      <router-link v-else key="expand" class="sidebar-logo-link isImg" to="/">
+        <!-- <i class="icon-zhibo iconfont sidebar-logo"></i> -->
+       <img src="../../../assets/images/profile.png" alt="" style="width:32px;height:32px;line-height: 50px;margin-right: 15px;">
         <h1 class="sidebar-title icon-kenan iconfont " :style="{ color: sideTheme === 'theme-dark' ? variables.sidebarTitle : variables.sidebarLightTitle }"></h1>
       </router-link>
     </transition>
@@ -58,11 +60,14 @@ export default {
   background: #2b2f3a;
   text-align: center;
   overflow: hidden;
-
+  .isImg{
+     display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
   & .sidebar-logo-link {
     height: 100%;
     width: 100%;
-
     & .sidebar-logo {
       width: 32px;
       height: 32px;

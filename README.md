@@ -1,4 +1,22 @@
-## 背景 
+## 柯南流量回放平台
+<p align="left">
+    <a href="https://github.com/1042970366/">
+        <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License" />
+    </a>
+    <a href="https://java.org/">
+        <img src="https://img.shields.io/badge/java-1.8.1-green" alt="Vue2.0">
+    </a>
+    <a href="https://vuejs.org/">
+        <img src="https://img.shields.io/badge/vue.js-2.0-green" alt="Vue2.0">
+    </a>
+    <a href="https://github.com/1042970366/">
+        <img src="https://img.shields.io/badge/author-TALconan-blueviolet" alt="Author">
+    </a>
+    <a href="https://github.com/1042970366/">
+        <img src="https://img.shields.io/badge/🚀-open--in--browser-blueviolet" alt="Live Demo">
+    </a>
+</p>
+
 经过在线教育业务中的持续打磨与迭代，柯南平台终于开源，旨在为行业内更多的的质效保障团队提供更专业更稳定的质效保障方案。随着业务与技术架构的不断变化，服务端的质量保障工作变得越来越复杂。近几年流量回放的方案在行业内落地生根，但大部分以工具为主并且使用成本与二次开发生成本较高，柯南平台应运而生。
 
 
@@ -62,10 +80,11 @@
 ## 写在最后
 质效的提升也许不能单单通过一个平台，技术与人的结合才能带来更大的突破。善于利用技术创新才能从容的面对越来越频繁的需求，越来越复杂的业务，柯南平台的技术方案产出于学而思网校的大班业务并且逐步通用化，平台现已开源，希望更多优秀的人或团队参与进来，为质效保障工作提供更多的解决方案。
 
-**更多详细介绍**
-https://mp.weixin.qq.com/s/1Cvi5kkqfF9y1rBi97qLwg
+**详细使用文档**
+https://dengkunnanmayun.gitee.io/conan-docs/#/use/README
 
-**使用文档**
+**更多介绍**
+https://mp.weixin.qq.com/s/1Cvi5kkqfF9y1rBi97qLwg
 
 </br>
 </br>

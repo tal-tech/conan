@@ -3,7 +3,12 @@
     <!-- 执行回放日志详情 -->
     <div style="">
       <CommonCard :type="type" :taskExecutionId="id"></CommonCard>
-      <el-tabs class="tabsFlex" v-model="activeName" id="tabs" v-if="!recordComplete">
+      <el-tabs
+        class="tabsFlex"
+        v-model="activeName"
+        id="tabs"
+        v-if="!recordComplete"
+      >
         <el-tab-pane label="回放详情" name="first">
           <!-- 进度条 -->
           <el-progress
@@ -33,7 +38,7 @@
         <el-tabs class="tabsFlex" v-model="activeLog" id="tabs">
           <el-tab-pane label="回放详情" name="first">
             <!-- 图表 -->
-            <div class="card" v-show="recordDetail.length!=0">
+            <div class="card" v-show="recordDetail.length != 0">
               <el-card shadow="always" body-style="padding: 10px;">
                 <div ref="pie"></div>
               </el-card>
@@ -73,8 +78,8 @@
                     { text: '/literacySift', value: '/literacySift' },
                     {
                       text: '/app/CourseMall/getGradeList',
-                      value: '/app/CourseMall/getGradeList',
-                    },
+                      value: '/app/CourseMall/getGradeList'
+                    }
                   ]"
                   filter-placement="bottom-end"
                 ></el-table-column>
@@ -133,16 +138,19 @@
               <el-form
                 :model="queryParams"
                 :inline="true"
-                label-width="70px"
+                label-width="100px"
                 class="response-search"
               >
-                <el-form-item label="接口名" prop="apiName">
-                  <el-select v-model="queryParams.apiName" placeholder="请输入接口名">
+                <el-form-item :label="apiNameLable" prop="apiName">
+                  <el-select
+                    v-model="queryParams.apiName"
+                    placeholder="请输入接口名"
+                  >
                     <el-option
-                      v-for="item in ApiOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
+                      v-for="(item,index) in ApiOptions"
+                      :key="index"
+                      :label="item"
+                      :value="item"
                     >
                     </el-option>
                   </el-select>
@@ -172,6 +180,7 @@
                   </el-button>
                 </el-form-item>
               </el-form>
+              <div class="text"><el-tag>Tips：双击你想要的表格区域即可复制</el-tag></div>
               <div>
                 <el-table
                   v-loading="isLoading"
@@ -204,29 +213,13 @@
                     show-overflow-tooltip
                     prop="requst"
                   >
-                    <!-- <template slot-scope="scope">
-                      <div>
-                        <div style="text-align: right">
-                          <Copy :copyValue="scope.row.requst"></Copy>
-                        </div>
-                        <span>{{ scope.row.requst }}</span>
-                      </div>
-                    </template> -->
                   </el-table-column>
                   <el-table-column
                     align="center"
-                    label="响应内容"
                     show-overflow-tooltip
+                    label="响应内容"
                     prop="response"
                   >
-                    <!-- <template slot-scope="scope">
-                      <div>
-                        <div style="text-align: right">
-                          <Copy :copyValue="scope.row.response"></Copy>
-                        </div>
-                        <span>{{ scope.row.response }}</span>
-                      </div>
-                    </template> -->
                   </el-table-column>
                   <el-table-column align="center" width="70px" label="操作">
                     <template slot-scope="scope">
@@ -260,20 +253,20 @@ import pagination from "@/components/Pagination";
 import createPie from "@/utils/echarts/pie";
 import createBar from "@/utils/echarts/bar";
 import CommonCard from "./commonCard";
-//
+import Json from "../../conanApi/Edit-component/Json.vue";
 import {
   getReplaySchemaErrorNumber,
   delReplaySchemaError,
-  getReplaySchemaErrorList,
+  getReplaySchemaErrorList
 } from "@/api/execution/replayError.js";
 import {
   getLogByReplay,
   getProgressByReplay,
-  getDetailByReplay,
+  getDetailByReplay
 } from "@/api/execution/printReplayLog";
 export default {
   name: "printReplayLog",
-  components: { CommonCard, pagination },
+  components: { CommonCard, pagination ,Json},
   data() {
     return {
       type: "",
@@ -283,7 +276,7 @@ export default {
       activeLog: "first",
       activeResult: "first",
       resultInfo: "", //日志标题
-      logs: "日志正在打印中...",
+      logs: "回放执行中...",
       loading: false,
       show: false,
       recordComplete: false, //当前回放是否已完成
@@ -295,20 +288,29 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        replayId: "",
+        replayId: ""
       },
-      ApiOptions: {},
+      ApiOptions: [],
+      apiNameLable:'接口名',
     };
   },
   created() {
     this.id = this.$route.query.replay_id;
     this.type = this.$route.query.type;
+    this.initData();
   },
   mounted() {
-    this.initData();
     this.intervalId = setInterval(() => {
       this.initData();
     }, 5000);
+  },
+  watch: {
+    $route(route) {
+      if (route.path != "/common/printRecordLog") {
+        //当前不在主页就要清楚定时器
+        clearInterval(this.intervalId);
+      }
+    }
   },
   methods: {
     //  查询数据的接口
@@ -320,28 +322,32 @@ export default {
     getResponse() {
       this.isLoading = true;
       Object.assign(this.queryParams, {
-        replayId: this.$route.query.replay_id,
+        replayId: this.$route.query.replay_id
       });
       getReplaySchemaErrorList(this.queryParams)
-        .then((res) => {
+        .then(res => {
           if (res.code == 200) {
             this.responseData = res.data.data;
             this.total = res.data.total;
             this.isLoading = false;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false;
         });
     },
     dl(row) {
       const ids = row.taskId;
-      this.$confirm('是否确认删除任务管理名称为"' + row.name + '"的数据项?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(function () {
+      this.$confirm(
+        '是否确认删除任务管理名称为"' + row.name + '"的数据项?',
+        "警告",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }
+      )
+        .then(function() {
           return delReplaySchemaError(ids);
         })
         .then(() => {
@@ -357,10 +363,10 @@ export default {
     // 查询进度条
     searchProgress() {
       let obj = {
-        replay_id: this.$route.query.replay_id,
+        replay_id: this.$route.query.replay_id
       };
       getProgressByReplay(obj)
-        .then((res) => {
+        .then(res => {
           console.log(res, "sssss");
           if (res.code == "200") {
             this.percentage = Number(res.data);
@@ -373,70 +379,48 @@ export default {
               // 最下面查询图表数据
               this.search();
               return;
-            } else {
-              this.logs += "回放执行中...";
-            }
+            } 
           }
         })
-        .catch((err) => {
+        .catch(err => {
           clearInterval(this.intervalId);
         });
     },
     //   查询日志
     searchRecord() {
       let obj = {
-        replay_id: this.$route.query.replay_id,
+        replay_id: this.$route.query.replay_id
       };
       getLogByReplay(obj)
-        .then((res) => {
+        .then(res => {
           if (res.code !== 200) {
             console.error("查询日志详情失败：res = " + res);
             clearInterval(this.intervalId);
-            return;
-          }
-          console.log(res.data, "1234567890");
-
-          // 去除字符串
-          let a = res.data.replace(/"/g, "");
-          // 日期
-          let b = a.replace(/(\d{4}-\d{2}-\d{2})/g, function (a) {
-            return '<span class="datablue">' + a + "</span>";
-          });
-          // 时分秒
-          let c = b.replace(/(\d{2}:\d{2}:\d{2})/g, function (b) {
-            return '<span class="datatuse">' + b + "</span>";
-          });
-          // info状态
-          let d = c.replace(/(\[INFO\])/g, function (c) {
-            return '<span class="datagreen">' + c + "</span>";
-          });
-          // [ERROR]状态
-          let e = d.replace(/(\[ERROR\])/g, function (d) {
-            return '<span class="datared">' + d + "</span>";
-          });
-          let f = e.replace(
-            /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/g,
-            function (e) {
-              return '<span class="dataoldBule">' + e + "</span>";
+          } else {
+            if (res.data) {
+              this.stringFilter(res.data);
+              if (res.data.includes("end") == true) {
+                this.recordComplete = true;
+                clearInterval(this.intervalId);
+                this.getRecordDetail();
+                // 下拉数据
+                this.getNumberList();
+                // 最下面查询图表数据
+                this.search();
+              }
             }
-          );
-          this.logs = f;
-
-          document.getElementById("textarea_id").scrollTop = document.getElementById(
-            "textarea_id"
-          ).scrollHeight;
+          }
         })
-        .catch((err) => {
-          console.log(err, "err");
+        .catch(err => {
           clearInterval(this.intervalId);
         });
     },
     //   获取回放详情
     getRecordDetail() {
       let obj = {
-        replay_id: this.$route.query.replay_id,
+        replay_id: this.$route.query.replay_id
       };
-      getDetailByReplay(obj).then((res) => {
+      getDetailByReplay(obj).then(res => {
         if (res.code !== 200) {
           console.error("查询回放详情失败：res = " + res);
           return;
@@ -453,9 +437,17 @@ export default {
       let obj = {
         rePlayid: this.$route.query.replay_id,
       };
-      getReplaySchemaErrorNumber(obj).then((res) => {
+      getReplaySchemaErrorNumber(obj).then(res => {
         if (res.code == 200 || res.code == 0) {
-          this.ApiOptions = res.data.apiNameMap;
+          this.apiNameLable=`接口名 (${res.data.count} 个)`;
+          let object=res.data.apiNameMap;
+          let ary=[];
+          for (const key in object) {
+            if (Object.hasOwnProperty.call(object, key)) {
+               ary.push(key);
+            }
+          }
+          this.ApiOptions=ary;
         }
       });
     },
@@ -463,18 +455,18 @@ export default {
     replayData(index, row) {
       this.$router.push({
         name: "ReplayDetail",
-        query: { replay_id: this.$route.query.replay_id, api_id: row.api_id },
+        query: { replay_id: this.$route.query.replay_id, api_id: row.api_id }
       });
     },
     // 实际回放接口占比饼图
     initPie(list) {
       let legendData = [];
       let seriesData = [];
-      list.forEach((item) => {
+      list.forEach(item => {
         legendData.push(item.api_name);
         let obj = {
           value: item.actual_count,
-          name: item.api_name,
+          name: item.api_name
         };
         seriesData.push(obj);
       });
@@ -482,15 +474,15 @@ export default {
       let params = {
         title: {
           text: "实际回放接口占比",
-          subtext: "",
+          subtext: ""
         },
         tooltip: {
           trigger: "item",
           position: "inside",
-          formatter: "{a} <br/>{b} : {c} ({d}%)",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
-          data: [],
+          data: []
         },
         series: {
           radius: "50%",
@@ -499,9 +491,9 @@ export default {
           label: {
             position: "outer",
             alignTo: "edge",
-            margin: 200,
-          },
-        },
+            margin: 200
+          }
+        }
       };
       createPie(this.$refs.pie, params, this.$refs.detail, 2, 400);
     },
@@ -509,7 +501,7 @@ export default {
     initBar(list) {
       let seriesData = [];
       let xAxisData = [];
-      list.forEach((item) => {
+      list.forEach(item => {
         let num = item.success_rate;
         xAxisData.push(item.api_name);
         seriesData.push(num);
@@ -518,34 +510,34 @@ export default {
       let params = {
         title: {
           text: "接口回放成功率",
-          x: "center",
+          x: "center"
         },
         xAxis: {
           type: "category",
           axisLabel: {
             //坐标轴刻度标签的相关设置。
             interval: 0,
-            rotate: "20",
+            rotate: "20"
           },
-          data: xAxisData,
+          data: xAxisData
         },
         yAxis: {
           type: "value",
           max: 100,
           min: 0,
           axisLabel: {
-            formatter: "{value}%",
-          },
+            formatter: "{value}%"
+          }
         },
         series: [
           {
             data: seriesData,
             type: "bar",
             barMaxWidth: "30",
-            barMinHeight: 1,
-          },
+            barMinHeight: 1
+          }
         ],
-        legend: [],
+        legend: []
       };
       createBar(this.$refs.bar, params, this.$refs.detail);
     },
@@ -553,16 +545,43 @@ export default {
     celldblclick(row, column, cell, event) {
       let _this = this;
       this.$copyText(row[column.property]).then(
-        function (e) {
-           this.msgSuccess("复制成功");
+        function(e) {
+          _this.msgSuccess("复制成功");
         },
-        function (e) {
-          _this.onError();
-          this.msgError("复制失败")
+        function(e) {
+          _this.msgError("复制失败");
         }
       );
     },
-  },
+    // 过滤字符串
+    stringFilter(data) {
+      // 去除字符串
+      let a = data.replace(/"/g, "");
+      // 日期
+      let b = a.replace(/(\d{4}-\d{2}-\d{2})/g, function(a) {
+        return '<span class="datablue">' + a + "</span>";
+      });
+      // 时分秒
+      let c = b.replace(/(\d{2}:\d{2}:\d{2})/g, function(b) {
+        return '<span class="datatuse">' + b + "</span>";
+      });
+      // info状态
+      let d = c.replace(/(\[INFO\])/g, function(c) {
+        return '<span class="datagreen">' + c + "</span>";
+      });
+      // [ERROR]状态
+      let e = d.replace(/(\[ERROR\])/g, function(d) {
+        return '<span class="datared">' + d + "</span>";
+      });
+      let f = e.replace(
+        /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/g,
+        function(e) {
+          return '<span class="dataoldBule">' + e + "</span>";
+        }
+      );
+      this.logs = f;
+    }
+  }
 };
 </script>
 <style lang="scss">
@@ -570,5 +589,10 @@ export default {
 .response-search {
   background: #fff;
   padding-top: 20px;
+}
+.text{
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 </style>

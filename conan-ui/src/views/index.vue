@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <el-row :gutter="20">
       <el-col :span="8">
         <el-card shadow="hover" class="mgb20" style="height:272px;">
@@ -110,7 +110,7 @@
                   <small>Your can see important data for a week</small>
                 </div>
                 <div ref="detail2">
-                  <div ref="line"></div>
+                  <div ref="line" style="min-width:599px;"></div>
                 </div>
               </div>
             </el-card>
@@ -158,8 +158,8 @@
             <br />
             <small>Agent Machine for task replay</small>
           </div>
-          <div style="height:300px;">
-            <healthyMap></healthyMap>
+          <div >
+            <healthyMap ></healthyMap>
           </div>
         </el-card>
       </el-col>
@@ -445,7 +445,7 @@ export default {
         params,
         this.$refs.detail2,
         1,
-        height,
+        300,
         "macarons"
       );
     },
@@ -581,6 +581,9 @@ export default {
 </script>
 
 <style scoped lang="less">
+.home{
+  min-width: 1200px;
+}
 .el-row {
   margin-bottom: 20px;
   .versionBox {

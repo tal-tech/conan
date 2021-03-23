@@ -35,15 +35,12 @@ public class RegisterCenterSchedule {
         String durationTime = LocalDateTime.now().minus(10, ChronoUnit.MINUTES).format(df);*/
         //暂时先改状态
         List<AgentNode> agentNodeList = agentNodeRepository.findByUpdateTimeBefore(LocalDateTime.now().minus(10, ChronoUnit.MINUTES));
-        for(AgentNode agentNode:agentNodeList){
+        for (AgentNode agentNode : agentNodeList) {
             agentNode.setStatus(AgentStatus.READY.getValue());
         }
         agentNodeRepository.saveAll(agentNodeList);
         //log.info("Agent服务 Heart Killed -- count :");
     }
 
-    public static void main(String[] args) throws UnknownHostException {
-        System.out.println(InetAddress.getLocalHost().getCanonicalHostName());
 
-    }
 }

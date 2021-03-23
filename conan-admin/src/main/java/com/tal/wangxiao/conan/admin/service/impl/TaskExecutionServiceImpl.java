@@ -52,24 +52,6 @@ public class TaskExecutionServiceImpl implements TaskExecutionService {
     private RecordRepository recordRepository;
 
     @Resource
-    private RecordDetailRepository recordDetailRepository;
-
-    @Resource
-    private DepartmentRepository departmentRepository;
-
-    @Resource
-    private RecordServiceImpl recordServiceImpl;
-
-    @Resource
-    private ReplayRepository replayRepository;
-
-    @Resource
-    private DiffRepository diffRepository;
-
-    @Resource
-    private TaskStatusUtil taskStatusUtil;
-
-    @Resource
     private TokenService tokenService;
 
     @Resource
