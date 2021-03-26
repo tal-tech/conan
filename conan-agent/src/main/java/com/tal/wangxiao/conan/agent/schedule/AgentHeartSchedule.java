@@ -30,14 +30,22 @@ public class AgentHeartSchedule {
     @Resource
     private KafkaMessageService kafkaMessageService;
 
+    private int showLogCount = 0;
+
     @Scheduled(cron = "0 0/5 * * * ? ")
     public void agentHeartUpdate() {
-        //每5分钟上报一次注册中心
-        log.info("Agent服务 Heart Beat -- agentId :" + CodeCache.commonMap.get("agentId"));
+        //每5分钟上报一次注册中心，每3次显示一次日志
+        if(showLogCount%3 == 0){
+            log.info("Agent服务 Heart Beat -- agentId :" + CodeCache.commonMap.get("agentId"));
+        }
         AgentNode agentNode = new AgentNode();
         agentNode.setAgentId(CodeCache.getAgentId());
         CodeCache.initAgentConfig(agentNode, log, AgentStatus.FREE);
         agentHeartMessage(agentNode, KafkaType.AGENT_CHECK_RUN, kafkaMessageService);
+        showLogCount++;
+        if(showLogCount>=33333333){
+            showLogCount = 0;
+        }
     }
 
     public static void agentHeartMessage(AgentNode agentNode, KafkaType agentCheckRun, KafkaMessageService kafkaMessageService) {
