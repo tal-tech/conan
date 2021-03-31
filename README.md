@@ -1,4 +1,5 @@
 ## 柯南流量回放平台
+English | [简体中文](readmeCN.md)
 <p align="left">
     <a href="https://github.com/1042970366/">
         <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License" />
@@ -17,94 +18,171 @@
     </a>
 </p>
 
-经过在线教育业务中的持续打磨与迭代，柯南平台终于开源，旨在为行业内更多的的质效保障团队提供更专业更稳定的质效保障方案。随着业务与技术架构的不断变化，服务端的质量保障工作变得越来越复杂。近几年流量回放的方案在行业内落地生根，但大部分以工具为主并且使用成本与二次开发生成本较高，柯南平台应运而生。
+After continuous polishing and iteration in online education business, Conan platform is finally open source, aiming to provide more professional and stable quality-effectiveness assurance scheme for more quality-effectiveness assurance teams in the industry. With the continuous changes of business and technology architecture, the quality assurance work of the service end becomes more and more complex. In recent years, the traffic playback has taken root in the industry, but most of them are tools based and the cost of use and secondary development are relatively high. Conan platform emerged.
 
 
 
-## 目标
-基于线上真实用户流量的录制回放能力与结果校验能力，为冒烟测试，集成回归测试，线上验证与线上巡检提供解决方案。
 
 
-## 核心功能
-**流量采集**
+## Objectives
 
-基于ES日志源的流量录制采集，平台化配置接入，降低使用成本，并且提供详细的流量采集数据。
-
-
-**流量回放**
-
-分布式的后端架构，为流量回放提升执行效率，支持服务鉴权配置，基于http协议的回放符合真实业务场景。
-
-**结果校验**
-
-流量回放的常规校验方式基本上是以流量结果的DIFF为主，但大量的流量噪声（时间戳，自增数据...）一直影响结果的准确性，柯南平台在回放中基于配置的jsonSchema做第一层校验，再结合自研的降噪比对服务进行流量DIFF的第二层校验，从而保障了结果校验的准确性，大大提升了流量回放结果的可信度。
+Based on the recording and playback capability and result verification capability of online real user traffic, the solution is provided for smoke test, integrated regression test, online verification and online inspection.
 
 
-## 平台优势与应用场景
-**优势**   
-  - 解决传统自动化覆盖率低，维护成本高的问题
-  - 多规则的流量结果断言校验
-  - 多规则的流量结果比对支持
-  - 流量数据可用于自动化测试与性能测试
-  - 交互简单，配置化接入
-  - 开源共建，持续优化
-
-**应用场景**   
-  - 提测质量卡点
-  - CI/CD流水线质量卡点
-  - 服务线上监控巡检
 
 
-**平台业务架构**    
+## Core functions
+
+**Flow collection**
+
+
+
+The traffic recording and acquisition based on ES log source, platform configuration access, low cost of use, and detailed traffic collection data are provided.
+
+
+
+
+**Traffic playback**
+
+
+
+The distributed back-end architecture improves the execution efficiency for traffic playback, supports service authentication configuration, and the playback based on HTTP protocol conforms to the real business scenario.
+
+
+
+**Result verification**
+
+
+
+The routine verification mode of traffic playback is mainly diff of traffic results, but a large number of traffic noise (time stamp, self increasing data...) has always affected the accuracy of the results. Conan platform performs the first layer verification based on the configured jsonschema in playback, and then carries out the second layer verification of traffic diff based on the self-developed noise reduction comparison service, thus ensuring the accuracy of the result verification , which greatly improves the reliability of the traffic playback results.
+
+
+
+
+## Platform advantages and application scenarios
+
+**Advantages**
+
+-Solve the problem of low coverage and high maintenance cost of traditional automation
+
+-Multi rule traffic result Assertion Verification
+
+-Support for multi rule traffic result comparison
+
+-Flow data can be used for automated testing and performance testing
+
+-Simple interaction, configuration access
+
+-Open source co construction, continuous optimization
+
+
+
+**Application scenarios**
+
+-Lift and measure the quality card point
+
+-CI/CD pipeline quality card point
+
+-Service line monitoring and inspection
+
+
+
+
+**Platform business architecture**
+
 ![后端业务架构.png](http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605259627/%E5%90%8E%E7%AB%AF%E4%B8%9A%E5%8A%A1%E6%9E%B6%E6%9E%84.png)
+
 <center>
-业务架构
+
+Business architecture
+
 </center>
 
-**平台技术架构**  
+
+
+**Platform technical architecture**
+
 ![后端技术架构.png](http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605255935/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84.png)
 <center>
-服务端架构
+
+Server architecture
+
 </center>
 
 <br>
 
-**平台能力及功能** 
+
+
+**Platform capability and function**
+
+
 ![柯南能力图.png](http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605261800/%E6%9F%AF%E5%8D%97%E8%83%BD%E5%8A%9B%E5%9B%BE.png)
 
-**使用须知**
-- 流量采集: ES日志；
-- 回放协议: http协议；
-- 具体环境可参考开源详细技术文档
 
-## 写在最后
-质效的提升也许不能单单通过一个平台，技术与人的结合才能带来更大的突破。善于利用技术创新才能从容的面对越来越频繁的需求，越来越复杂的业务，柯南平台的技术方案产出于学而思网校的大班业务并且逐步通用化，平台现已开源，希望更多优秀的人或团队参与进来，为质效保障工作提供更多的解决方案。
+**Instructions for use**
 
-**详细使用文档**
+-Traffic collection: ES log;
+
+-Playback protocol: http protocol;
+
+-For specific environment, please refer to the open source detailed technical documents
+
+
+
+##Write at the end
+
+The improvement of quality and efficiency may not be achieved through a single platform, and the combination of technology and human can bring more breakthroughs. Being good at using technological innovation, we can calmly face more and more frequent demands and more complex business. The technical solution of Conan platform is produced by the class business of online school and gradually popularized. The platform is now open source, and hope more excellent people or teams will participate in it to provide more solutions for quality and efficiency assurance.
+
+
+
+**Detailed use of documents**
+
 https://dengkunnanmayun.gitee.io/conan-docs/#/use/README
 
-**更多介绍**
+
+
+**More**
+
 https://mp.weixin.qq.com/s/1Cvi5kkqfF9y1rBi97qLwg
 
-</br>
+
+
 </br>
 
-**项目负责人**-李宁
-
-<img src="http://ttc-tal.oss-cn-beijing.aliyuncs.com/1606904630/image.png" width="100" height="100" align="middle" />
-</br>
 </br>
 
-**项目成员**-刘劲松 胡耀国 邓坤楠 纪莹
 
-<img src="http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605698754/image.png" width="100" height="100" align="middle" />
-<img src="http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605702320/image.png" width="100" height="100" align="middle" /> 
-<img src="http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605702371/image.png" width="100" height="100" align="middle" />
-<img src="http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605698855/image.png" width="100" height="100" align="middle" /> 
-</br>
+**Project leader** - Li Ning
+
+
+
+<img src=" http://ttc-tal.oss-cn-beijing.aliyuncs.com/1606904630/image.png " width="100" height="100" align="middle" />
+
 </br>
 
-**柯南官方QQ群**
+</br>
+
+
+
+**Project member** - Liu Jinsong huyaoguo dengkunnan Ji Ying
+
+
+
+<img src=" http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605698754/image.png " width="100" height="100"  />
+
+<img src=" http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605702320/image.png " width="100" height="100" />
+
+<img src=" http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605702371/image.png " width="100" height="100"  />
+
+<img src=" http://ttc-tal.oss-cn-beijing.aliyuncs.com/1605698855/image.png " width="100" height="100"  />
+
+</br>
+
+</br>
+
+
+
+**Official QQ group of Conan**
 
 <img src="http://ttc-tal.oss-cn-beijing.aliyuncs.com/1614485571/image.png" width="150" height="230" align="middle" />
 
