@@ -1,5 +1,5 @@
 ## 柯南流量回放平台
-[English](readme.md) | 简体中文
+[English](README.md) | 简体中文
 <p align="left">
     <a href="https://github.com/1042970366/">
         <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License" />
