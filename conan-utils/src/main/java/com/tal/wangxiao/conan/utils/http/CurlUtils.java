@@ -65,17 +65,4 @@ public class CurlUtils {
 
 
 
-
-
-
-
-    public static void main(String[] args) {
-
-        String s = "curl -s -D- -o/dev/null https://teacherlive.xueersi.com/v1/teacher/login -H Content-Type:application/json -d {\"password\":\"java2019.\",\"userName\":\"huyaoguo\",\"teacherType\":2}";
-//        System.out.println(execCurl(s));
-//        System.out.println(getCookieByCurl(s,"set-cookie"));
-
-
-    }
-
 }
