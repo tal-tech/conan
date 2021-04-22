@@ -1,27 +1,21 @@
 package com.tal.wangxiao.conan.admin.controller;
 
-import java.util.List;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.tal.wangxiao.conan.sys.common.annotation.Log;
 import com.tal.wangxiao.conan.common.api.ApiResponse;
 import com.tal.wangxiao.conan.common.api.PageInfoResponse;
 import com.tal.wangxiao.conan.common.controller.ConanBaseController;
-import com.tal.wangxiao.conan.sys.common.core.domain.AjaxResult;
-import com.tal.wangxiao.conan.sys.common.enums.BusinessType;
 import com.tal.wangxiao.conan.common.domain.EsConditionSetting;
 import com.tal.wangxiao.conan.common.service.EsConditionSettingService;
+import com.tal.wangxiao.conan.sys.common.annotation.Log;
+import com.tal.wangxiao.conan.sys.common.core.domain.AjaxResult;
+import com.tal.wangxiao.conan.sys.common.enums.BusinessType;
 import com.tal.wangxiao.conan.sys.common.utils.poi.ExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * esConditionSetting域名下ES 查询条件配置Controller
@@ -57,7 +51,7 @@ public class EsConditionSettingController extends ConanBaseController {
     public AjaxResult export( EsConditionSetting esConditionSetting) {
         List<EsConditionSetting> list = esConditionSettingService.selectEsConditionSettingList(esConditionSetting);
         ExcelUtil<EsConditionSetting> util = new ExcelUtil<EsConditionSetting>(EsConditionSetting.class);
-        return util.exportExcel(list, "esConditionSetting");
+        return util.exportExcel(list, "ES查询条件配置");
     }
 
     /**

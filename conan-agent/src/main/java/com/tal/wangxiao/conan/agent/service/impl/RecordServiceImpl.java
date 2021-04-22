@@ -417,13 +417,14 @@ public class RecordServiceImpl implements RecordService {
         String methodKey = esConditionSetting.getMethod();
         String requestBodyKey = esConditionSetting.getRequestBody();
         String headerKey = esConditionSetting.getHeader();
-        String apiName = RegexUtils.getMsgByRegex(esFlowMap.get(apiKey).toString(), esConditionSetting.getApiRegex());
-        String method = RegexUtils.getMsgByRegex(esFlowMap.get(methodKey).toString(), esConditionSetting.getMethodRegex());
+        // 在获取不到key时避免抛出 NullPointerException 空指针异常
+        String apiName = RegexUtils.getMsgByRegex(esFlowMap.get(apiKey) + "", esConditionSetting.getApiRegex());
+        String method = RegexUtils.getMsgByRegex(esFlowMap.get(methodKey) + "", esConditionSetting.getMethodRegex());
         List<Api> apiList = apiRepository.findByNameAndMethod(apiName, HttpMethodConstants.valueOf(method).getValue());
         if (apiList.size() != 0) {
             int apiId = apiList.get(0).getId();
-            String body = RegexUtils.getMsgByRegex(esFlowMap.get(requestBodyKey).toString(), esConditionSetting.getRequestBodyRegex());
-            String header = RegexUtils.getMsgByRegex(esFlowMap.get(headerKey).toString(), esConditionSetting.getHeaderRegex());
+            String body = RegexUtils.getMsgByRegex(esFlowMap.get(requestBodyKey) + "", esConditionSetting.getRequestBodyRegex());
+            String header = RegexUtils.getMsgByRegex(esFlowMap.get(headerKey) + "", esConditionSetting.getHeaderRegex());
             String requestId = hit.getId();
             recordResult.setApiId(apiId);
             recordResult.setBody(body);

@@ -18,10 +18,11 @@
         <result property="requestBodyRegex"    column="request_body_regex"    />
         <result property="header"    column="header"    />
         <result property="headerRegex"    column="header_regex"    />
+        <result property="esSourceId"    column="es_source_id"    />
     </resultMap>
 
     <sql id="selectEsConditionSettingVo">
-        select es_setting_id, index_name, domain_id, api, api_regex, domain, domain_regex, method, method_regex, request_body, request_body_regex, header, header_regex from bss_es_condition_setting
+        select es_setting_id, index_name, domain_id, api, api_regex, domain, domain_regex, method, method_regex, request_body, request_body_regex, header, header_regex, es_source_id from bss_es_condition_setting
     </sql>
 
     <select id="selectEsConditionSettingList" parameterType="EsConditionSetting" resultMap="EsConditionSettingResult">
@@ -39,6 +40,7 @@
             <if test="requestBodyRegex != null  and requestBodyRegex != ''"> and request_body_regex = #{requestBodyRegex}</if>
             <if test="header != null  and header != ''"> and header = #{header}</if>
             <if test="headerRegex != null  and headerRegex != ''"> and header_regex = #{headerRegex}</if>
+            <if test="esSourceId != null  and esSourceId != ''"> and es_source_id = #{esSourceId}</if>
         </where>
     </select>
 
@@ -62,6 +64,7 @@
             <if test="requestBodyRegex != null and requestBodyRegex != ''">request_body_regex,</if>
             <if test="header != null">header,</if>
             <if test="headerRegex != null">header_regex,</if>
+            <if test="esSourceId != null">es_source_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="indexName != null and indexName != ''">#{indexName},</if>
@@ -76,6 +79,7 @@
             <if test="requestBodyRegex != null and requestBodyRegex != ''">#{requestBodyRegex},</if>
             <if test="header != null">#{header},</if>
             <if test="headerRegex != null">#{headerRegex},</if>
+            <if test="esSourceId != null">#{esSourceId},</if>
         </trim>
     </insert>
 
@@ -94,6 +98,7 @@
             <if test="requestBodyRegex != null and requestBodyRegex != ''">request_body_regex = #{requestBodyRegex},</if>
             <if test="header != null">header = #{header},</if>
             <if test="headerRegex != null">header_regex = #{headerRegex},</if>
+            <if test="esSourceId != null">es_source_id = #{esSourceId},</if>
         </trim>
         where es_setting_id = #{esSettingId}
     </update>

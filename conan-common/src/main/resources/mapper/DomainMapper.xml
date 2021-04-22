@@ -36,6 +36,10 @@
         ${params.dataScope}
     </select>
 
+    <select id="selectEsSourceIdByDomainId" parameterType="int" resultType="int">
+        SELECT es_source_id from bss_domain where id = #{id}
+    </select>
+
     <select id="selectDomainById" parameterType="Long" resultMap="DomainResult">
         <include refid="selectDomainVo"/>
         where id = #{id}

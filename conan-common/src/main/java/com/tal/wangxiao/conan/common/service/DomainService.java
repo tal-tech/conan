@@ -1,7 +1,8 @@
 package com.tal.wangxiao.conan.common.service;
 
-import java.util.List;
 import com.tal.wangxiao.conan.common.domain.Domain;
+
+import java.util.List;
 
 /**
  * 域名信息Service接口
@@ -11,6 +12,13 @@ import com.tal.wangxiao.conan.common.domain.Domain;
  */
 public interface DomainService
 {
+    /**
+     * 查询es_source_id
+     * @param id 域名信息ID
+     * @return es_source_id
+     */
+    public int selectEsSourceIdByDomainId(int id);
+
     /**
      * 查询域名信息
      * 

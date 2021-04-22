@@ -49,6 +49,7 @@ spring:
       aop-patterns: com.tal.wangxiao.conan.admin.service.*
       # 主库数据源
       master:
+        enabled: true
         url: jdbc:mysql://XX.XX.XX.XX:8080/conan?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
         username: 
         password: 
@@ -139,7 +140,7 @@ spring:
   redis:
     port: 6379 # Redis服务器连接端口
     timeout: 50000 # 连接超时时间（毫秒）
-    password: test@123
+    password: 123456
     jedis:
       pool:
         max-active: 100 # 连接池最大连接数（使用负值表示没有限制）
