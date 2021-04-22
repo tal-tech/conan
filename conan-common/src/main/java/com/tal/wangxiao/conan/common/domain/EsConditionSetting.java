@@ -1,6 +1,7 @@
 package com.tal.wangxiao.conan.common.domain;
 
 
+import com.tal.wangxiao.conan.sys.common.annotation.Excel;
 import com.tal.wangxiao.conan.utils.core.ConanBaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -18,68 +19,75 @@ public class EsConditionSetting extends ConanBaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+
     /** $column.columnComment */
+    @Excel(name = "es_setting_id")
     private Long esSettingId;
 
     /** ES对应日志索引名称 */
-   
+    @Excel(name = "index_name")
     @ApiModelProperty("ES对应日志索引名称")
     private String indexName;
 
     /** 模版关联域名 */
-   
+    @Excel(name = "domain_id")
     @ApiModelProperty("模版关联域名")
     private Integer domainId;
 
     /** ES中_source内接口对应的key名称  */
-   
+    @Excel(name = "api")
     @ApiModelProperty("ES中_source内接口对应的key名称 ")
     private String api;
 
     /** 接口正则表达式 */
-   
+    @Excel(name = "api_regex")
     @ApiModelProperty("接口正则表达式")
     private String apiRegex;
 
     /** ES中_source内域名对应的key名称  */
-   
+    @Excel(name = "domain")
     @ApiModelProperty("ES中_source内域名对应的key名称 ")
     private String domain;
 
     /** 域名正则表达式 */
-   
+    @Excel(name = "domain_regex")
     @ApiModelProperty("域名正则表达式")
     private String domainRegex;
 
     /** ES中_source内请求方法对应的key名称 */
-   
+    @Excel(name = "method")
     @ApiModelProperty("ES中_source内请求方法对应的key名称")
     private String method;
 
     /** 请求方法的正则表达式 */
-   
+    @Excel(name = "method_regex")
     @ApiModelProperty("请求方法的正则表达式")
     private String methodRegex;
 
     /** ES中_source内请求体对应的key名称 */
-   
+    @Excel(name = "request_body")
     @ApiModelProperty("ES中_source内请求体对应的key名称")
     private String requestBody;
 
     /** 请求体正则表达式 */
-   
+    @Excel(name = "request_body_regex")
     @ApiModelProperty("请求体正则表达式")
     private String requestBodyRegex;
 
     /** ES中_source内请求体对应的key名称 */
-   
+    @Excel(name = "header")
     @ApiModelProperty("ES中_source内请求体对应的key名称")
     private String header;
 
     /** Header的正则表达式 */
-   
+    @Excel(name = "header_regex")
     @ApiModelProperty("Header的正则表达式")
     private String headerRegex;
+
+    /** es_source_id */
+    @Excel(name = "es_source_id")
+    @ApiModelProperty("es_source_id")
+    private Integer esSourceId;
 
     public void setEsSettingId(Long esSettingId) 
     {
@@ -199,13 +207,23 @@ public class EsConditionSetting extends ConanBaseEntity
         return headerRegex;
     }
 
+    public void setEsSourceId(Integer esSourceId)
+    {
+        this.esSourceId = esSourceId;
+    }
+
+    public Integer getEsSourceId()
+    {
+        return esSourceId;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("esSettingId", getEsSettingId())
             .append("indexName", getIndexName())
             .append("domainId", getDomainId())
-            .append("com/tal/wangxiao/conan/utils" , getApi())
+            .append("api" , getApi())
             .append("apiRegex", getApiRegex())
             .append("domain", getDomain())
             .append("domainRegex", getDomainRegex())
@@ -215,6 +233,7 @@ public class EsConditionSetting extends ConanBaseEntity
             .append("requestBodyRegex", getRequestBodyRegex())
             .append("header", getHeader())
             .append("headerRegex", getHeaderRegex())
+            .append("esSourceId", getEsSourceId())
             .toString();
     }
 }

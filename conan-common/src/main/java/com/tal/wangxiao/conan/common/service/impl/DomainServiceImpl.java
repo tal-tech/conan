@@ -23,6 +23,18 @@ public class DomainServiceImpl implements DomainService
     private DomainMapper domainMapper;
 
     /**
+     * 查询es_source_id
+     *
+     * @param id 域名信息ID
+     * @return es_source_id
+     */
+    @Override
+    public int selectEsSourceIdByDomainId(int id)
+    {
+        return domainMapper.selectEsSourceIdByDomainId(id);
+    }
+
+    /**
      * 查询域名信息
      * 
      * @param id 域名信息ID

@@ -7,16 +7,16 @@ spring:
       public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANsWW73DEl2CvtErLWWFI5dlfqsen+vNywQZF+Waz5wCWhSkXzbkGNk5Dkv2d9S0AcdpztB/Ymwu9J1nkIsZS1kCAwEAAQ==
   redis:
     database: 1 # Redis数据库索引（默认为0）
-    host: 10.20.97.30
+    host: 127.0.0.1
     password: test@123 #Redis服务器连接密码
   kafka:
-    bootstrap-servers: 10.20.97.30:9092
+    bootstrap-servers: 127.0.0.1:9092
     consumer:
       group-id: conan-agent-gray0
   data:
     elasticsearch:
       cluster-name: xes_log_cluster_wg
-      cluster-nodes: 10.20.34.105:9301
+      cluster-nodes: 127.0.0.1:9301
 
   jackson:
     time-zone: Asia/Shanghai    #或UTC

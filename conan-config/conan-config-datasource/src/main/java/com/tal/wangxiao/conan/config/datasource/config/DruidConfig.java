@@ -1,16 +1,10 @@
 package com.tal.wangxiao.conan.config.datasource.config;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.sql.DataSource;
-
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.util.Utils;
 import com.tal.wangxiao.conan.config.core.spring.SpringUtils;
 import com.tal.wangxiao.conan.config.datasource.datasource.DynamicDataSource;
 import com.tal.wangxiao.conan.config.datasource.enums.DataSourceType;
@@ -22,10 +16,13 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
-import com.alibaba.druid.util.Utils;
+
+import javax.servlet.*;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * druid 配置多数据源
@@ -37,6 +34,7 @@ import com.alibaba.druid.util.Utils;
 public class DruidConfig {
     @Bean
     @ConfigurationProperties("spring.datasource.druid.master")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.master", name = "enabled", havingValue = "true")
     public DataSource masterDataSource(DruidProperties druidProperties) {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
         return druidProperties.dataSource(dataSource);
@@ -69,9 +67,10 @@ public class DruidConfig {
     public void setDataSource(Map<Object, Object> targetDataSources, String sourceName, String beanName) {
         try {
             DataSource dataSource = SpringUtils.getBean(beanName);
+
             targetDataSources.put(sourceName, dataSource);
         } catch (Exception e) {
-            if("slaveDataSource".equals(sourceName)) {
+            if("slaveDataSource".equals(beanName)) {
                 return;
             }
             log.error("设置数据源失败 e={}", e);
