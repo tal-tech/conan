@@ -183,11 +183,7 @@ public class RecordServiceImpl implements RecordService {
         if (!taskExecutionOptional.isPresent()) {
             throw new BaseException("录制失败，找不到执行记录：taskExecutionId=" + taskExecutionId);
         }
-        //拿到任务执行id后，再创建录制，先通过task_id从数据库查询该任务下的接口个数，方法：从task_api_relation表格中查询
-        Optional<Record> byId = recordRepository.findById(recordId);
-        Optional<TaskApiRelation> byTaskId = taskApiRelationRepository.findByTaskId(taskId);
-        log.info(byTaskId.get().getApiId().toString());
-        byId.get();
+
         //创建录制对象成功，创建录制详情
         Optional<List<TaskApiRelation>> taskApiRelationList = taskApiRelationRepository.findAllByTaskId(taskId);
         if (!taskApiRelationList.isPresent()) {
