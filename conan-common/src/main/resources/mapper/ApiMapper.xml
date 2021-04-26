@@ -52,7 +52,7 @@
         where api.api_id = #{id}
     </select>
 
-    <insert id="insertApi" parameterType="ApiInfo" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertApi" parameterType="ApiInfo" useGeneratedKeys="true" keyProperty="apiId">
         insert into bss_api
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="sysDeptId != null">sys_dept_id,</if>
@@ -104,7 +104,7 @@
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="responseIsJson != null">response_is_json = #{responseIsJson},</if>
         </trim>
-        where api_id = #{id}
+        where api_id = #{apiId}
     </update>
 
     <delete id="deleteApiById" parameterType="Integer">
