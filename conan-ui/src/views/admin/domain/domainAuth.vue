@@ -7,10 +7,10 @@
       v-show="showSearch"
       label-width=""
     >
-      <el-form-item label="请求URL" prop="curlUrl">
+      <el-form-item label="请输入curl表达式" prop="curlUrl">
         <el-input
           v-model="queryParams.curlUrl"
-          placeholder="请输入请求URL"
+          placeholder="请输入curl表达式（获取header用curl -I）"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"

@@ -2,7 +2,7 @@
 <configuration debug="false">
 
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="/var/log/conan-agent" />
+    <property name="LOG_HOME" value="/var/log/conan" />
     <!--<property name="LOG_HOME" value="/Users/lidoudou/sofe/log/conna" />-->
     <!--控制台日志， 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -16,7 +16,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_HOME}/conan.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${LOG_HOME}/conan-agent.log.%d{yyyy-MM-dd}.log</FileNamePattern>
             <!--日志文件保留天数-->
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>

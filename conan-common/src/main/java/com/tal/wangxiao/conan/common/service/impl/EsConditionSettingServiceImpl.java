@@ -2,6 +2,8 @@ package com.tal.wangxiao.conan.common.service.impl;
 
 import java.util.List;
 
+import com.tal.wangxiao.conan.common.mapper.DomainMapper;
+import com.tal.wangxiao.conan.sys.common.annotation.DataScope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tal.wangxiao.conan.common.mapper.EsConditionSettingMapper;
@@ -10,7 +12,6 @@ import com.tal.wangxiao.conan.common.service.EsConditionSettingService;
 
 /**
  * esConditionSetting域名下ES 查询条件配置Service业务层处理
- *
  * @author dengkunan
  * @date 2021-01-05
  */
@@ -19,9 +20,11 @@ public class EsConditionSettingServiceImpl implements EsConditionSettingService 
     @Autowired
     private EsConditionSettingMapper esConditionSettingMapper;
 
+    @Autowired
+    private DomainMapper domainMapper;
+
     /**
      * 查询esConditionSetting域名下ES 查询条件配置
-     *
      * @param esSettingId esConditionSetting域名下ES 查询条件配置ID
      * @return esConditionSetting域名下ES 查询条件配置
      */
@@ -32,7 +35,6 @@ public class EsConditionSettingServiceImpl implements EsConditionSettingService 
 
     /**
      * 查询esConditionSetting域名下ES 查询条件配置列表
-     *
      * @param esConditionSetting esConditionSetting域名下ES 查询条件配置
      * @return esConditionSetting域名下ES 查询条件配置
      */
@@ -43,29 +45,36 @@ public class EsConditionSettingServiceImpl implements EsConditionSettingService 
 
     /**
      * 新增esConditionSetting域名下ES 查询条件配置
-     *
      * @param esConditionSetting esConditionSetting域名下ES 查询条件配置
      * @return 结果
      */
     @Override
     public int insertEsConditionSetting(EsConditionSetting esConditionSetting) {
+        // 通过esConditionSetting中的domainId 查询bss_domain表中的es_source_id
+        int DomainId = esConditionSetting.getDomainId();
+        int esSourceId = domainMapper.selectEsSourceIdByDomainId(DomainId);
+        // 将es_source_id 添加到esConditionSetting中
+        esConditionSetting.setEsSourceId(esSourceId);
         return esConditionSettingMapper.insertEsConditionSetting(esConditionSetting);
     }
 
     /**
      * 修改esConditionSetting域名下ES 查询条件配置
-     *
      * @param esConditionSetting esConditionSetting域名下ES 查询条件配置
      * @return 结果
      */
     @Override
     public int updateEsConditionSetting(EsConditionSetting esConditionSetting) {
+        // 通过esConditionSetting中的domainId 查询bss_domain表中的es_source_id
+        int DomainId = esConditionSetting.getDomainId();
+        int esSourceId = domainMapper.selectEsSourceIdByDomainId(DomainId);
+        // 将es_source_id 添加到esConditionSetting中
+        esConditionSetting.setEsSourceId(esSourceId);
         return esConditionSettingMapper.updateEsConditionSetting(esConditionSetting);
     }
 
     /**
      * 批量删除esConditionSetting域名下ES 查询条件配置
-     *
      * @param esSettingIds 需要删除的esConditionSetting域名下ES 查询条件配置ID
      * @return 结果
      */
@@ -76,7 +85,6 @@ public class EsConditionSettingServiceImpl implements EsConditionSettingService 
 
     /**
      * 删除esConditionSetting域名下ES 查询条件配置信息
-     *
      * @param esSettingId esConditionSetting域名下ES 查询条件配置ID
      * @return 结果
      */
