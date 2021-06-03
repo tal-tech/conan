@@ -29,9 +29,11 @@ export default {
   // 生命周期 - 挂载完成（访问DOM元素）
   mounted() {
     this.healthyMap();
-    this.TimeId = setInterval(() => {
-      this.getMessage();
-    }, 30000);
+    // this.getMessage();
+
+    // this.TimeId = setInterval(() => {
+    //   this.getMessage();
+    // }, 30000);
   },
   watch: {
     mm() {
@@ -341,7 +343,11 @@ export default {
         }
         return res;
       };
-      var color = ["#a6c84c", "#ffa022", "#46bee9", "#fff"];
+      var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
+      var color = [  '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
+        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
+        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
+        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'];
       var series = [];
       ff.forEach((item, i) => {
         series.push(
@@ -353,15 +359,17 @@ export default {
               show: true,
               period: 6,
               trailLength: 0.7,
-              color: "#fff",
-              symbolSize: 3
+              color: '#ddd',
+              symbol:planePath,
+
+              symbolSize: 10
             },
             lineStyle: {
-              normal: {
-                color: color[i],
-                width: 0,
-                curveness: 0.2
-              }
+                normal: {
+                    color: color[i],
+                    width: 0,
+                    curveness: 0.2
+                }
             },
             data: convertData(item[1])
           },
@@ -373,20 +381,12 @@ export default {
               show: true,
               period: 6,
               trailLength: 0,
+              symbol:planePath,
               symbolSize: 1
             },
             lineStyle: {
               normal: {
                 color: e => {
-                  // if (e.value) {
-                  //   if ((e.value.agentId * 100).toFixed(2) < 80) {
-                  //     return "red";
-                  //   } else {
-                  //     return color[i];
-                  //   }
-                  // } else {
-                  //   return color[i];
-                  // }
                   return color[i];
                 },
                 width: 2,
@@ -412,7 +412,6 @@ export default {
               }
             },
             symbolSize: function(val) {
-              // return val[2] / 8;
               return 10;
             },
             itemStyle: {
@@ -470,7 +469,7 @@ export default {
       });
       let params = {
         regions: regions,
-        series: series
+        series: series,
       };
       createMap(this.$refs.main, params, this.$refs.healthyMap, 1, 300);
     },
@@ -498,17 +497,19 @@ export default {
           var num = this.geoCoordMap[key];
           console.log(num,'num');
           if (key === this.keys[0]) {
-            this.geoCoordMap[arr[index].name] = [
+            console.log(this.keys[0],'this.keys[0]');
+            this.geoCoordMap[arr[index].name] = [ 
               (Math.random() * 15 + num[0]).toFixed(3) * 1,
               (Math.random() * 37 + num[1] - 19).toFixed(3) * 1
-            ]; // geoCoordMap[key] // (Math.random()*(n-m) + m).toFixed(2)
+            ]; 
           } else {
+            console.log('这是啥时候才走的',key);
             this.geoCoordMap[arr[index].name] = [
               (Math.random() * 30 + (num[0] - 15)).toFixed(3) * 1,
               (Math.random() * 37 + num[1] - 19).toFixed(3) * 1
-            ]; // geoCoordMap[key] // (Math.random()*(n-m) + m).toFixed(2)
+            ]; 
           }
-          console.log(index,arr[index].name,key,'?????')
+          console.log(index,arr[index].name,key,'>>>>>>>>>>>>>=======>>>>>>>>>>>>>')
         });
       }
       var values = Object.values(this.geoCoordMap);

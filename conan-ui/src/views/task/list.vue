@@ -72,11 +72,14 @@
               <el-form-item label="负责人">
                 <span>{{ props.row.domainName }}</span>
               </el-form-item>
+              <el-form-item label="部门">
+                <span>{{ props.row.deptName }}</span>
+              </el-form-item>
             </el-form>
           </template>
         </el-table-column>
         <el-table-column label="#" type="index" align="center"></el-table-column>
-        <el-table-column label="部门" align="center" prop="deptName"></el-table-column>
+        <!-- <el-table-column label="部门" align="center" prop="deptName"></el-table-column> -->
         <el-table-column
           label="名称"
           show-overflow-tooltip

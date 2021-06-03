@@ -630,34 +630,41 @@ export default {
 }
 
 .grid-con-1 .grid-con-icon {
-  background: #a88add;
+  background: #2ec7c9;
 }
 
 .grid-con-1 .grid-num {
-  color: #a88add;
+  color: #2ec7c9;
 }
 
 .grid-con-2 .grid-con-icon {
-  background: rgb(100, 213, 114);
+  // background: rgb(100, 213, 114);
+  background: #b6a2de;
 }
 
 .grid-con-2 .grid-num {
-  color: rgb(100, 213, 114);
+  // color: rgb(100, 213, 114);
+  color: #b6a2de;
 }
 
 .grid-con-3 .grid-con-icon {
-  background: rgb(242, 94, 67);
+  // background: rgb(242, 94, 67);
+  background: #5ab1ef;
 }
 
 .grid-con-3 .grid-num {
-  color: rgb(242, 94, 67);
+  // color: rgb(242, 94, 67);
+  color: #5ab1ef;
 }
 .grid-con-4 .grid-con-icon {
-  background: #6887ff;
+  // background: #6887ff;
+  background: #ffb980;
+
 }
 
 .grid-con-4 .grid-num {
-  color: #6887ff;
+  // color: #6887ff;
+  color: #ffb980;
 }
 .box-header h3 {
   margin-top: 0;

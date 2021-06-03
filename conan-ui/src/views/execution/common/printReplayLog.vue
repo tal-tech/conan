@@ -180,7 +180,7 @@
                   </el-button>
                 </el-form-item>
               </el-form>
-              <div class="text"><el-tag>Tips：双击你想要的表格区域即可复制</el-tag></div>
+              <div class="text"><el-tag>Tips：双击左键表格区域即可复制；单击左键表格区域即可查看JSON格式;</el-tag></div>
               <div>
                 <el-table
                   v-loading="isLoading"
@@ -213,6 +213,14 @@
                     show-overflow-tooltip
                     prop="requst"
                   >
+                   <template slot-scope="scope">
+                    <el-popover placement="right" width="500" trigger="click">
+                      <div style="width: 500px; overflow:scroll ;height: 600px">
+                        <Json :jsonString="scope.row.requst"></Json>
+                      </div>
+                      <span slot="reference">{{ scope.row.requst }}</span>
+                    </el-popover>
+                  </template>
                   </el-table-column>
                   <el-table-column
                     align="center"
@@ -220,7 +228,25 @@
                     label="响应内容"
                     prop="response"
                   >
+                  <template slot-scope="scope">
+                    <el-popover placement="right" width="500" trigger="click">
+                      <div style="width: 500px; overflow:scroll ;height: 600px">
+                        <Json :jsonString="scope.row.response"></Json>
+                      </div>
+                      <span slot="reference">{{ scope.row.response }}</span>
+                    </el-popover>
+                  </template>
                   </el-table-column>
+                  <el-table-column align="center" width="120px" label="查看数据">
+                  <template slot-scope="scope">
+                    <el-button
+                      @click="replayData(scope.$index, scope.row)"
+                      size="small"
+                      type="text"
+                      >查看接口回放数据</el-button
+                    >
+                  </template>
+                </el-table-column>
                   <el-table-column align="center" width="70px" label="操作">
                     <template slot-scope="scope">
                       <el-button
@@ -231,6 +257,7 @@
                       ></el-button>
                     </template>
                   </el-table-column>
+                 
                 </el-table>
                 <!-- 分页 -->
                 <pagination
@@ -455,7 +482,7 @@ export default {
     replayData(index, row) {
       this.$router.push({
         name: "ReplayDetail",
-        query: { replay_id: this.$route.query.replay_id, api_id: row.api_id }
+        query: { replay_id: this.$route.query.replay_id, api_id: row.api_id?row.api_id:row.apiId }
       });
     },
     // 实际回放接口占比饼图

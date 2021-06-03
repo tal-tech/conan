@@ -26,11 +26,8 @@
       :key="index"
     >
       <div class="detail">
-        <pre class="spanStyle">
-          第{{ index + 1 }}条流量回放详情
-          request = {{ item.request_body }}
-          </pre
-        >
+        <h4 style="text-align: center">第{{ index + 1 }}条流量回放详情</h4>
+        <span class="spanStyle"> request = {{ item.request_body }}<br /> </span>
         <span class="spanStyle"> <br />response = </span>
         <div class="response"><Json :jsonString="item.response"></Json></div>
       </div>
@@ -74,6 +71,7 @@ export default {
           this.successRate = res.data.successRate;
           this.replayResultByApi = res.data.replay_detail;
           this.loading = false;
+          console.log(res.data.replay_detail.replace(/原body/g,'\n  '),'sdfsdfsdfsdfdsfsd');
         } else {
           this.$message.error(res.data);
           this.loading = false;
@@ -99,10 +97,10 @@ export default {
   border-radius: 5px;
   overflow-y: auto;
   .spanStyle {
-    font-weight: 900;
+    font-weight: 600;
     font-size: 15px;
-    line-height: 24px;
-    // background: aliceblue;
+    line-height: 35px;
+    background: aliceblue;
   }
 }
 </style>

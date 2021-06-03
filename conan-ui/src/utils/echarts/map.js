@@ -25,26 +25,16 @@ function createMap (dom, params, domContainer, columns, echartsH) {
   let myChart = echarts.init(dom);
   // 绘制图表
   myChart.setOption({
-    backgroundColor: '#404a59',
-    title: {
-      // text: '模拟迁徙',
-      // subtext: '数据纯属虚构',
-      left: 'center',
-      textStyle: {
-        color: '#fff'
-      }
-    },
+    backgroundColor: '#fff',
     tooltip: {
       trigger: 'item',
       formatter: function (params, ticket, callback) {
         // console.log(params)
         if (params.seriesType === 'effectScatter') {
-          console.log(params.data.value)
+          console.log(params.data.value,'这个是啥')
           if (!params.data.value[2]) {
             return ''
           }
-          // return `成功率：${(params.data.value[2].successRate * 100).toFixed(2)}%
-          //       <br /> 总人数：${params.data.value[2].failNum + params.data.value[2].successNum}`
         } else if (params.seriesType === 'lines') {
           return params.data.fromName + '>' + params.data.toName
         } else {
@@ -57,7 +47,7 @@ function createMap (dom, params, domContainer, columns, echartsH) {
       top: 'bottom',
       left: 'right',
       textStyle: {
-        color: '#fff'
+        color: '#373737'
       },
       selectedMode: 'multiple'
     },
@@ -296,8 +286,10 @@ function createMap (dom, params, domContainer, columns, echartsH) {
       roam: 'move',
       itemStyle: {
         normal: {
-          areaColor: '#323c48',
-          borderColor: '#404a59'
+          // areaColor: '#323c48',
+          // borderColor: '#404a59'
+          areaColor: '#fff',
+          borderColor: '#fff'
         },
         emphasis: {
           areaColor: '#2a333d'

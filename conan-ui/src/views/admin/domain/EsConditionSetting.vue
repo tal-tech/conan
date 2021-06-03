@@ -170,11 +170,11 @@
               />
             </el-form-item>
             <el-form-item label="ES中_source内请求方法名称" prop="method">
-              <!-- <el-input
+              <el-input
                 v-model="form.method"
                 placeholder="请输入ES中_source内请求方法对应的key名称"
-              /> -->
-              <el-select
+              />
+              <!-- <el-select
                 v-model="form.method"
                 clearable
                 placeholder="http方法"
@@ -187,7 +187,7 @@
                   :value="item.dictLabel"
                 >
                 </el-option>
-              </el-select>
+              </el-select> -->
             </el-form-item>
             <el-form-item label="ES中_source内请求Body名称" prop="requestBody">
               <el-input
