@@ -188,10 +188,13 @@ public class ReplayServiceImpl implements ReplayService {
         }
         replay.setSuccessRate(successRate);
         replayRepository.save(replay);
+
         redisTemplateTool.setLogByReplayId_INFO(replayId, "本次任务回放接口数" + totalActualCountMap.size() + ", 期望流量回放总数: " + totalExpectCount + ", 实际流量总数: " + totalActualCount + " ,成功率: " + successRate);
         taskExecution.setStatus(TaskStatus.REPLAY_SUCCESS.getValue());
         taskExecutionRepository.save(taskExecution);
         redisTemplateTool.setLogByReplayId_END(replayId, "回放replay_id = " + replayId + "的过程已完成 成功率" + successRate);
+        log.info("本次任务回放接口数" + totalActualCountMap.size() + ", 期望流量回放总数: " + totalExpectCount + ", 实际流量总数: " + totalActualCount + " ,成功率: " + successRate);
+        log.info("回放结束");
     }
 
     @Async

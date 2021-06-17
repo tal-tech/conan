@@ -25,67 +25,118 @@ public class EsConditionSetting extends ConanBaseEntity
     private Long esSettingId;
 
     /** ES对应日志索引名称 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "index_name")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES对应日志索引名称")
     private String indexName;
 
     /** 模版关联域名 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "domain_id")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("模版关联域名")
     private Integer domainId;
 
     /** ES中_source内接口对应的key名称  */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "api")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内接口对应的key名称 ")
     private String api;
 
     /** 接口正则表达式 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "api_regex")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("接口正则表达式")
     private String apiRegex;
 
     /** ES中_source内域名对应的key名称  */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "domain")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内域名对应的key名称 ")
     private String domain;
 
     /** 域名正则表达式 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "domain_regex")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("域名正则表达式")
     private String domainRegex;
 
     /** ES中_source内请求方法对应的key名称 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "method")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内请求方法对应的key名称")
     private String method;
 
     /** 请求方法的正则表达式 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "method_regex")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("请求方法的正则表达式")
     private String methodRegex;
 
     /** ES中_source内请求体对应的key名称 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "request_body")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内请求体对应的key名称")
     private String requestBody;
 
     /** 请求体正则表达式 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "request_body_regex")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("请求体正则表达式")
     private String requestBodyRegex;
 
     /** ES中_source内请求体对应的key名称 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "header")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内请求体对应的key名称")
     private String header;
 
     /** Header的正则表达式 */
+<<<<<<< HEAD
+
+=======
     @Excel(name = "header_regex")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("Header的正则表达式")
     private String headerRegex;
 
     /** es_source_id */
+<<<<<<< HEAD
+=======
     @Excel(name = "es_source_id")
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("es_source_id")
     private Integer esSourceId;
 

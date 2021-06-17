@@ -1,5 +1,6 @@
 package com.tal.wangxiao.conan.admin.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.tal.wangxiao.conan.admin.cache.AdminCache;
 import com.tal.wangxiao.conan.admin.service.DiffService;
 import com.tal.wangxiao.conan.common.api.ApiResponse;
@@ -75,10 +76,17 @@ public class DiffServiceImpl implements DiffService {
 
 
     @Resource
-    private RedisTemplate<Object,Object> redisTemplateLog;
+    private RedisTemplate<Object, Object> redisTemplateLog;
+
+  /*  @Resource
+    private StringRedisTemplate stringRedisTemplate;*/
+
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private RedisTemplate<String, String> redisTemplate;
 
     @Resource
     ReplayRepository replayRepository;
@@ -208,7 +216,7 @@ public class DiffServiceImpl implements DiffService {
         String baseData = "";
         DiffResultInRedis diffResultInRedis = null;
         String requestBody = "";
-        int baseDataReplayId = 1;
+        int baseDataReplayId = diff.getBaseReplayId();
         List<String> apiRequestIdSet = diffMapper.getRecordRequestIdApiByTaskexcuteId(taskExcutionId, apiId);
         ApiInfo apiInfo = apiMapper.selectApiById(apiId);
         Optional<Record> recordOptional = recordRepository.findFirstByTaskExecutionId(taskExcutionId);
@@ -225,8 +233,11 @@ public class DiffServiceImpl implements DiffService {
             boolean flag = false;
             DiffApiLogInfo apiLogInfo = new DiffApiLogInfo();
             try {
-                compareData = stringRedisTemplate.opsForValue().get(requestId + "-" + recordId + "-" + replayId + "-" + apiId)+"";
-                baseData = stringRedisTemplate.opsForValue().get(requestId + "-" + recordId + "-" + baseDataReplayId + "-" + apiId)+"";
+                compareData = redisTemplate.opsForValue().get(requestId + "-" + recordId + "-" + replayId + "-" + apiId)+"";
+                compareData = splitStrDelete(compareData);
+
+                baseData = redisTemplate.opsForValue().get(requestId + "-" + recordId + "-" + baseDataReplayId + "-" + apiId)+"";
+                baseData = splitStrDelete(baseData);
             } catch (Exception e) {
                 return new ApiResponse(new Result(ResponseCode.INVALID_REDIS_KEY, requestId + "-" + recordId + "-" + baseDataReplayId + "-" + apiId));
             }
@@ -251,7 +262,8 @@ public class DiffServiceImpl implements DiffService {
             }
             //获取body信息
             try {
-                requestBody = stringRedisTemplate.opsForValue().get(requestId + "-" + recordId + "-" + replayId + "-" + apiId + "-body")+"";
+                requestBody = redisTemplate.opsForValue().get(requestId + "-" + recordId + "-" + replayId + "-" + apiId + "-body")+"";
+                requestBody = splitStrDelete(requestBody);
             } catch (Exception e) {
                 log.error("获取body信息失败，无效的redis key");
             }
@@ -285,6 +297,28 @@ public class DiffServiceImpl implements DiffService {
 
         }
         return ApiResponse.success("获取diff 详细信息成功", apiDiffDetailInfo);//.success("", resultMap);
+    }
+
+    private String splitStrDelete(String str) {
+      /*  if(StringHandlerUtils.isNull(str)) {
+            return "";
+        }
+        if(str.length()<2) {
+            return str;
+        }
+        if("\"\"".equals(str.substring(0,2))){
+            str = str.substring(1,str.length());
+        }
+        if("\"\"".equals(str.substring(str.length()-3,str.length() -1))){
+            str = str.substring(0,str.length()-2);
+        }*/
+        try {
+            JSON json = JSON.parseObject(str);
+            return json.toJSONString();
+        } catch (Exception e) {
+        }
+
+        return str;
     }
 
     @Override

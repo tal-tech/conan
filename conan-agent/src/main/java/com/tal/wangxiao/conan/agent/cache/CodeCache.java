@@ -61,7 +61,9 @@ public class CodeCache {
     public void init() {
         //系统初始化执行
         String agentId =  StringHandlerUtils.getUniqueId();
-        log.info("程序启动，初始化缓存类 正在上报注册中心 机器ID : "+agentId);
+        //Tdo test
+        //String agentId = "93e1b98d-330b-42c8-bc06-f6bcfaa32b3a";
+                log.info("程序启动，初始化缓存类 正在上报注册中心 机器ID : "+agentId);
         commonMap.put("agentId",agentId);
         commonMap.put("env", env);
         commonMap.put("redisCacheTime", redisCacheTime);

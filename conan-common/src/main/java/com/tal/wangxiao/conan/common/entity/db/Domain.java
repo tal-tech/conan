@@ -32,5 +32,5 @@ public class Domain extends BaseEntity {
     private Boolean sysDeptId;
 
     @Column(name="es_source_id")
-    private Boolean esSourceId;
+    private Integer esSourceId;
 }

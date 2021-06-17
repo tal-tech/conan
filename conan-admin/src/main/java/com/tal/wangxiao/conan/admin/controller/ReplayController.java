@@ -2,6 +2,7 @@ package com.tal.wangxiao.conan.admin.controller;
 
 import com.tal.wangxiao.conan.admin.service.ReplayService;
 import com.tal.wangxiao.conan.common.api.ApiResponse;
+import com.tal.wangxiao.conan.common.api.ResponseCode;
 import com.tal.wangxiao.conan.common.controller.ConanBaseController;
 import com.tal.wangxiao.conan.common.model.Result;
 import com.tal.wangxiao.conan.common.model.vo.ReplayDetailVO;
@@ -47,9 +48,9 @@ public class ReplayController extends ConanBaseController {
     })
     @PreAuthorize("@ss.hasPermi('admin:execution:replay')")
     @PostMapping("")
-    public ApiResponse<Object> startReplay(@RequestParam(value = "task_execution_id") Integer taskExecutionId,@RequestParam(value = "replay_env") String replayEnv,@RequestParam(value = "replay_type") Integer replayType) {
+    public ApiResponse<Object> startReplay(@RequestParam(value = "task_execution_id") Integer taskExecutionId, @RequestParam(value = "replay_env") String replayEnv, @RequestParam(value = "replay_type") Integer replayType) {
         log.info("ReplayController#startReplay");
-        Result<Object> result = replayService.startReplay(taskExecutionId,replayEnv,replayType);
+        Result<Object> result = replayService.startReplay(taskExecutionId, replayEnv, replayType);
         return new ApiResponse<>(result);
     }
 
@@ -57,20 +58,29 @@ public class ReplayController extends ConanBaseController {
     @PreAuthorize("@ss.hasPermi('admin:execution:replay:list')")
     @ApiImplicitParam(name = "task_execution_id", value = "任务执行ID", dataType = "int", paramType = "query")
     @GetMapping(value = "")
-    public ApiResponse<List<ReplayVO>> findReplayListByTaskExecutionId(@RequestParam(value = "task_execution_id") Integer taskExecutionId){
-        log.info("ReplayController#findReplayListByTaskExecutionId:"+taskExecutionId);
+    public ApiResponse<List<ReplayVO>> findReplayListByTaskExecutionId(@RequestParam(value = "task_execution_id") Integer taskExecutionId) {
+        log.info("ReplayController#findReplayListByTaskExecutionId:" + taskExecutionId);
         Result<Object> result = replayService.findReplaysByTaskExecutionId(taskExecutionId);
-        return  new ApiResponse(result);
+        return new ApiResponse(result);
+    }
+
+    @ApiOperation(value = "根据回放ID获取最新比对ID", notes = "根据回放ID获取最新比对ID")
+    @ApiImplicitParam(name = "replayId", value = "replayId", dataType = "int", paramType = "query")
+    @GetMapping(value = "/getDiffIdByReplayId")
+    public ApiResponse<Integer> findDiffIdByReplayId(@RequestParam(value = "replayId") Integer replayId) {
+        log.info("replayId:" + replayId);
+        Integer diffId = replayService.findDiffIdByReplayId(replayId);
+        return new ApiResponse(new Result<>(ResponseCode.SUCCESS, diffId));
     }
 
     @ApiOperation(value = "查询回放执行详情", notes = "根据回放ID查询回放执行详情")
     @Cacheable(value = "replay-info")
     @GetMapping(value = "detail")
     @PreAuthorize("@ss.hasPermi('admin:replay:detail')")
-    public ApiResponse<List<ReplayDetailVO>>  findDetailByReplayId(@RequestParam(value = "replay_id") Integer replayId){
+    public ApiResponse<List<ReplayDetailVO>> findDetailByReplayId(@RequestParam(value = "replay_id") Integer replayId) {
         log.info("ReplayController#findDetailByReplayId, replay_id = {}", replayId);
         Result<Object> result = replayService.findDetailByReplayId(replayId);
-        return  new ApiResponse(result);
+        return new ApiResponse(result);
     }
 
     @ApiOperation(value = "单接口的回放数据", notes = "根据ApiID查询单接口的流量回放数据")
@@ -79,29 +89,29 @@ public class ReplayController extends ConanBaseController {
             @ApiImplicitParam(name = "api_id", value = "接口Id", dataType = "int", paramType = "query")
     })
     @GetMapping(value = "oneApiDetail")
-    public ApiResponse<Object> findOneApiDetailByReplayIdAndApiId(@RequestParam(value = "replay_id") Integer replayId,@RequestParam(value = "api_id") Integer apiId) {
+    public ApiResponse<Object> findOneApiDetailByReplayIdAndApiId(@RequestParam(value = "replay_id") Integer replayId, @RequestParam(value = "api_id") Integer apiId) {
         log.info("ReplayController#findOneApiDetailByReplayIdAndApiId");
-        Result<Object> result = replayService.findOneApiDetailByReplayIdAndApiId(replayId,apiId);
-        return  new ApiResponse<>(result);
+        Result<Object> result = replayService.findOneApiDetailByReplayIdAndApiId(replayId, apiId);
+        return new ApiResponse<>(result);
     }
 
     @ApiOperation(value = "根据回放ID查询回放日志", notes = "根据回放ID查询回放日志")
     @ApiImplicitParam(name = "replay_id", value = "回放Id", dataType = "int", paramType = "query")
     @GetMapping(value = "/log")
     @PreAuthorize("@ss.hasPermi('admin:replay:log')")
-    public ApiResponse<String> findReplayLog(@RequestParam(value = "replay_id") Integer replayId){
-        log.info("ReplayController#findReplayLog:"+replayId);
+    public ApiResponse<String> findReplayLog(@RequestParam(value = "replay_id") Integer replayId) {
+        log.info("ReplayController#findReplayLog:" + replayId);
         Result<String> result = replayService.findLogByReplayId(replayId);
-        return  new ApiResponse<>(result);
+        return new ApiResponse<>(result);
     }
 
     @ApiOperation(value = "根据回放ID查询回放进度", notes = "根据回放ID查询回放进度")
     @ApiImplicitParam(name = "replay_id", value = "回放Id", dataType = "int", paramType = "query")
     @GetMapping(value = "/progress")
-    public ApiResponse<Object> findReplayProgress(@RequestParam(value = "replay_id") Integer replayId){
-        log.info("ReplayController#findReplayProgress:"+replayId);
+    public ApiResponse<Object> findReplayProgress(@RequestParam(value = "replay_id") Integer replayId) {
+        log.info("ReplayController#findReplayProgress:" + replayId);
         Result<Object> result = replayService.findReplayProgress(replayId);
-        return  new ApiResponse<>(result);
+        return new ApiResponse<>(result);
     }
 
     @ApiOperation(value = "设置某次回放记录作为比对基准", notes = "设置某次回放记录作为比对基准")
@@ -109,19 +119,19 @@ public class ReplayController extends ConanBaseController {
             @ApiImplicitParam(name = "replayId", value = "回放ID", dataType = "int", paramType = "query")})
     @GetMapping(value = "/setBaseLine")
     public ApiResponse<String> setReplayAsBaseLine(
-            @RequestParam(value = "replayId") Integer replayId){
+            @RequestParam(value = "replayId") Integer replayId) {
         log.info("ReplayController#setReplayAsBaseLine:replay_id=" + replayId);
         Result<String> result = replayService.setBaseLine(replayId);
-        return  new ApiResponse<>(result);
+        return new ApiResponse<>(result);
     }
 
     @ApiOperation(value = "根据回放ID写入回放进度（上线后清除）", notes = "根据回放ID写入回放进度")
     @ApiImplicitParam(name = "replay_id", value = "回放Id", dataType = "int", paramType = "query")
     @GetMapping(value = "/setProgress")
-    public ApiResponse<Object> setReplayProgress(@RequestParam(value = "replay_id") Integer replayId,@RequestParam(value = "progress") String progress ){
-        log.info("ReplayController#setRecordProgress:"+replayId);
-        redisTemplateTool.setReplayProgress(replayId,progress);
-        return  new ApiResponse<>(200,"ok");
+    public ApiResponse<Object> setReplayProgress(@RequestParam(value = "replay_id") Integer replayId, @RequestParam(value = "progress") String progress) {
+        log.info("ReplayController#setRecordProgress:" + replayId);
+        redisTemplateTool.setReplayProgress(replayId, progress);
+        return new ApiResponse<>(200, "ok");
     }
 
 }

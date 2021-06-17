@@ -43,14 +43,14 @@ public class ElasticCommonService {
         if (domainOptional.isPresent()) {
             Optional<EsConditionSetting> esConditionSetting = esConditionSettingRepository.findByDomainId(domainOptional.get().getId());
             if (esConditionSetting.isPresent()) {
-                Optional<EsSource> esSource = esSourceRepository.findById(esConditionSetting.get().getEsSourceId());
+                Optional<EsSource> esSource = esSourceRepository.findById(domainOptional.get().getEsSourceId());
                 if (esSource.isPresent()) {
                     String esIp = esSource.get().getEsIp();
                     Integer esPort = esSource.get().getEsPort();
                     String beanName= esSource.get().getEsBeanName();
                     return DynamicEsUtils.getRestHighLevelClient(beanName,esIp, esPort);
                 }else{
-                    log.error("该ES的配置esSourceId:{}无效，请检查esCondition是否配置成功",esConditionSetting.get().getEsSourceId());
+                    log.error("该ES的配置esSourceId:{}无效，请检查esCondition是否配置成功",domainOptional.get().getEsSourceId());
                 }
             }else{
                 log.error("该域名{}获取ES的数据源无效，请检查该域名是否配置",domainName);

@@ -14,10 +14,10 @@ public interface ApiMapper
     /**
      * 查询接口管理
      * 
-     * @param id 接口管理ID
+     * @param apiId 接口管理ID
      * @return 接口管理
      */
-    public ApiInfo selectApiById(Integer id);
+    public ApiInfo selectApiById(Integer apiId);
 
     /**
      * 查询接口管理列表

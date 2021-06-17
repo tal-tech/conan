@@ -30,12 +30,12 @@ public class CurlUtils {
             return builder.toString();
 
         } catch (IOException e) {
-            System.out.print("error，"+e.getMessage());
+            System.out.print("error，" + e.getMessage());
         }
         return null;
     }
 
-    public static String getCookieByCurl(String curlUrl,String headerKey) {
+    public static String getCookieByCurl(String curlUrl, String headerKey) {
         String cookieFromHead = "";
         String[] cmd = curlUrl.split(" ");
         ProcessBuilder process = new ProcessBuilder(cmd);
@@ -48,9 +48,9 @@ public class CurlUtils {
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
                 builder.append(System.getProperty("line.separator"));
-                if(line.contains(":")){
+                if (line.contains(":")) {
                     String[] str = line.split(":");
-                    if(headerKey.equals(str[0])){
+                    if (headerKey.equals(str[0])) {
                         cookieFromHead += str[1];
                     }
                 }
@@ -58,9 +58,13 @@ public class CurlUtils {
             return cookieFromHead.trim();
 
         } catch (IOException e) {
-            System.out.print("error，"+e.getMessage());
+            System.out.print("error，" + e.getMessage());
         }
         return null;
     }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
 }

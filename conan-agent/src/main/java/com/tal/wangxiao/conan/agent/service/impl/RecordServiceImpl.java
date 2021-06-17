@@ -19,6 +19,7 @@ import com.tal.wangxiao.conan.common.utils.DynamicEsUtils;
 import com.tal.wangxiao.conan.sys.common.exception.CustomException;
 import com.tal.wangxiao.conan.utils.enumutils.EnumUtil;
 import com.tal.wangxiao.conan.utils.regex.RegexUtils;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.*;
 import org.elasticsearch.client.RequestOptions;
@@ -148,9 +149,13 @@ public class RecordServiceImpl implements RecordService {
             recordDetailInfo.setDomainId(apiOptional.get().getDomainId());
             recordDetailInfo.setApiMethod(EnumUtil.getByField(HttpMethodConstants.class, "getValue", String.valueOf(apiOptional.get().getMethod())).getLabel());
             recordDetailInfo.setRecordableCount(apiOptional.get().getRecordableCount());
-            recordDetailInfo.setExpectCount(recordDetail.getExpectCount());
-            recordDetailInfo.setActualCount(recordDetail.getActualCount());
-            Integer successRate = (recordDetail.getActualCount() * 100) / recordDetail.getExpectCount();
+            int expectCount = recordDetail.getExpectCount();
+            if (expectCount == 0) {
+                expectCount = 1;
+            }
+            recordDetailInfo.setExpectCount(expectCount);
+            recordDetailInfo.setActualCount(expectCount);
+            Integer successRate = (recordDetail.getActualCount() * 100) / expectCount;
             recordDetailInfo.setSuccessRate(String.valueOf(successRate) + "%");
 
             Optional<Domain> domainOptional = domainRepository.findById(apiOptional.get().getDomainId());
@@ -183,7 +188,10 @@ public class RecordServiceImpl implements RecordService {
         if (!taskExecutionOptional.isPresent()) {
             throw new BaseException("录制失败，找不到执行记录：taskExecutionId=" + taskExecutionId);
         }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
         //创建录制对象成功，创建录制详情
         Optional<List<TaskApiRelation>> taskApiRelationList = taskApiRelationRepository.findAllByTaskId(taskId);
         if (!taskApiRelationList.isPresent()) {
@@ -255,7 +263,7 @@ public class RecordServiceImpl implements RecordService {
             log.info("开始录制流量 " + domainOptional.get().getName() + api.getName());
             redisTemplateTool.setLogByRecordId_INFO(recordId, "开始录制流量 " + domainOptional.get().getName() + api.getName());
             //查询并存储流量
-            List<String> flowByEsClient = getFlowByEsClientAndSaveFLow(requestQuery, recordId);
+            List<String> flowByEsClient = getFlowByEsClientAndSaveFLow(requestQuery, recordId, api.getDomainId());
             log.info(api.getName() + "录制完成: 期望录制总数=" + recordDetail.getExpectCount() + "," + "实际录制总数=" + flowByEsClient.size());
             redisTemplateTool.setLogByRecordId_INFO(recordId, api.getName() + "录制完成: 期望录制总数=" + recordDetail.getExpectCount() + "," + "实际录制总数=" + flowByEsClient.size());
             totalActualCount += flowByEsClient.size();
@@ -283,7 +291,7 @@ public class RecordServiceImpl implements RecordService {
      * @param requestQuery
      * @return ES 数据源配置，域名需要绑定ES数据源
      */
-    public List<String> getFlowByEsClientAndSaveFLow(RequestQuery requestQuery, Integer recordId) {
+    public List<String> getFlowByEsClientAndSaveFLow(RequestQuery requestQuery, Integer recordId, Integer domainId) {
         String domainKeyword = "";
         String url = "";
         String method = EnumUtil.getByField(HttpMethodConstants.class, "getValue", String.valueOf(requestQuery.getMethod())).getLabel();
@@ -292,7 +300,7 @@ public class RecordServiceImpl implements RecordService {
         long totalElements = 0;
         int scanElements = requestQuery.getCount();
         //根据域名获取es mapping设置
-        Optional<EsConditionSetting> esConditionSetting = esConditionSettingRepository.findByDomainId(domainRepository.findByName(requestQuery.getDomain()).get().getId());
+        Optional<EsConditionSetting> esConditionSetting = esConditionSettingRepository.findByDomainId(domainId);
         if (esConditionSetting.isPresent()) {
             domainKeyword = esConditionSetting.get().getDomain();
             url = esConditionSetting.get().getApi();
@@ -315,10 +323,11 @@ public class RecordServiceImpl implements RecordService {
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.source(sourceBuilder).scroll(scroll).indices();
         //根据域名获取对应es配置信息
-        RestHighLevelClient restHighLevelClient = getRestHighLevelClient(requestQuery.getDomain());
+        RestHighLevelClient restHighLevelClient = getRestHighLevelClient(domainId);
         try {
             searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
+            redisTemplateTool.setLogByRecordId_WARN(recordId, "日志ES查询失败");
             log.error("日志查询失败" + e);
         }
         String scrollId = searchResponse.getScrollId();
@@ -379,15 +388,15 @@ public class RecordServiceImpl implements RecordService {
     /**
      * 根据domain获取restHighLevelClient
      *
-     * @param domainName
+     * @param domainId
      * @return restHighLevelClient
      */
-    private RestHighLevelClient getRestHighLevelClient(String domainName) {
-        Optional<Domain> domainOptional = domainRepository.findByName(domainName);
+    private RestHighLevelClient getRestHighLevelClient(Integer domainId) {
+        Optional<Domain> domainOptional = domainRepository.findById(domainId);
         if (domainOptional.isPresent()) {
             Optional<EsConditionSetting> esConditionSetting = esConditionSettingRepository.findByDomainId(domainOptional.get().getId());
             if (esConditionSetting.isPresent()) {
-                Optional<EsSource> esSource = esSourceRepository.findById(esConditionSetting.get().getEsSourceId());
+                Optional<EsSource> esSource = esSourceRepository.findById(domainOptional.get().getEsSourceId());
                 if (esSource.isPresent()) {
                     String esIp = esSource.get().getEsIp();
                     Integer esPort = esSource.get().getEsPort();
@@ -409,6 +418,11 @@ public class RecordServiceImpl implements RecordService {
         RecordResult recordResult = new RecordResult();
         Map esFlowMap = hit.getSourceAsMap();
         String apiKey = esConditionSetting.getApi();
+        //当URL中GET 请求参数是单独的字段存储的时候，采用接口key?参数key
+        if (apiKey.contains("?")) {
+            String[] urlPathKeys = apiKey.split("\\?");
+            apiKey = urlPathKeys[0];
+        }
         String domianKey = esConditionSetting.getDomain();
         String methodKey = esConditionSetting.getMethod();
         String requestBodyKey = esConditionSetting.getRequestBody();
@@ -416,9 +430,15 @@ public class RecordServiceImpl implements RecordService {
         // 在获取不到key时避免抛出 NullPointerException 空指针异常
         String apiName = RegexUtils.getMsgByRegex(esFlowMap.get(apiKey) + "", esConditionSetting.getApiRegex());
         String method = RegexUtils.getMsgByRegex(esFlowMap.get(methodKey) + "", esConditionSetting.getMethodRegex());
+<<<<<<< HEAD
+        Api api = getApiInfo(recordId,method,apiName);
+        if (api !=null) {
+            int apiId = api.getId();
+=======
         List<Api> apiList = apiRepository.findByNameAndMethod(apiName, HttpMethodConstants.valueOf(method).getValue());
         if (apiList.size() != 0) {
             int apiId = apiList.get(0).getId();
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
             String body = RegexUtils.getMsgByRegex(esFlowMap.get(requestBodyKey) + "", esConditionSetting.getRequestBodyRegex());
             String header = RegexUtils.getMsgByRegex(esFlowMap.get(headerKey) + "", esConditionSetting.getHeaderRegex());
             String requestId = hit.getId();
@@ -432,6 +452,37 @@ public class RecordServiceImpl implements RecordService {
             log.error("未查询到api数据 API={}", apiName);
         }
 
+    }
+
+
+    private Api getApiInfo(Integer recordId, String method,String apiName) {
+        List<Api> apiList = apiRepository.findByNameAndMethod(apiName, HttpMethodConstants.valueOf(method).getValue());
+        if(apiList == null) {
+            return null;
+        }
+        if(apiList.size()<1) {
+            return null;
+        }
+        List<RecordDetail> recordDetailList = recordDetailRepository.findByRecordId(recordId);
+        for (Api api : apiList) {
+
+            if (recordDetailList.isEmpty()) {
+                continue;
+            }
+            for (RecordDetail recordDetail : recordDetailList) {
+                if (recordDetail.getApiId().intValue() == api.getId().intValue()) {
+                    return api;
+                }
+            }
+        }
+        return apiList.get(0);
+    }
+
+    public static void main(String[] arge) {
+        String apiKey = "cs_ui_stem?uri_pslist";
+        if (apiKey.contains("?")) {
+            String[] urlPathKeys = apiKey.split("\\?");
+        }
     }
 
 

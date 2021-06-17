@@ -190,37 +190,4 @@ public class ExcelHanderUtil {
     }
 
 
-
-
-    public static void main(String[] args) {
-        String path = "../Test3.xlsx";
-
-     /*  File file =new File(path);
-       List<TestExcel> testExcelList =  readToList(2,3,file, TestExcel.class);
-       System.out.println(testExcelList.toString());*/
-        List shu = new ArrayList<Object>();
-        List heng = new ArrayList<String>();
-        heng.add("interfaceName");
-        heng.add("body");
-        heng.add("header");
-        heng.add("url");
-        heng.add("type");
-        shu.add(heng);
-        List heng2 = new ArrayList<String>();
-        heng2.add("买课接口");
-        heng2.add("{\n" +
-                "    \"planId\":1002258,                                       \n" +
-                "    \"courseId\":1234,\n" +
-                "    \"bizId\": 3,       \n" +
-                "    \"type\":1     \n" +
-                "}");
-        heng2.add("{Content-Type:application/json\n" +
-                "X-Auth-Appid:1002774\n" +
-                "X-Auth-TimeStamp:1596009743762\n" +
-                "X-Auth-Sign:b6f2c48f334b22181d48cb5c7ac3192a}");
-        heng2.add("http://adminliveapi.xesv5.com/grouping/GroupingV2Star");
-        heng2.add("POST");
-        shu.add(heng2);
-        excelWriter(0, 1, path, shu, "Conan 流量回放平台接入接口模板");
-    }
 }

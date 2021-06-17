@@ -49,7 +49,7 @@
     <select id="selectApiById" parameterType="Integer" resultMap="ApiResult">
       	select api.*, domain.name as domain_name, dept.dept_name as dept_name
         from bss_api api LEFT JOIN bss_domain  domain ON domain.id = api.domain_id LEFT  JOIN sys_dept dept on api.sys_dept_id = dept.dept_id
-        where api.api_id = #{id}
+        where api.api_id = #{apiId}
     </select>
 
     <insert id="insertApi" parameterType="ApiInfo" useGeneratedKeys="true" keyProperty="apiId">
@@ -108,7 +108,7 @@
     </update>
 
     <delete id="deleteApiById" parameterType="Integer">
-        delete from bss_api where id = #{id}
+        delete from bss_api where apiId = #{id}
     </delete>
 
     <delete id="deleteApiByIds" parameterType="String">

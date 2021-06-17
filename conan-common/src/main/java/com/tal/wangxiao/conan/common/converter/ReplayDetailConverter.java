@@ -42,8 +42,19 @@ public class ReplayDetailConverter extends AbstractObjectConverter<ReplayDetail,
             //转换接口请求方法
             replayDetailVO.setApiMethod(EnumUtil.getByField(HttpMethodConstants.class, "getValue", String.valueOf(api.getMethod())).getLabel());
         }
-        //成功率转化
-        replayDetailVO.setSuccessRate((replayDetail.getActualCount()*100.0)/replayDetail.getExpectCount());
+        if(replayDetail == null) {
+            return;
+        }
+        int expectCount = replayDetail.getExpectCount();
+        if(expectCount == 0) {
+            expectCount =5;
+        }
+        int actual = 0;
+        if(replayDetail.getActualCount() != null) {
+            actual = replayDetail.getActualCount();
+        }
+         //成功率转化
+        replayDetailVO.setSuccessRate((actual*100.0)/expectCount);
 
 
     }

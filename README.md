@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+# conan
+
+柯南流量回放整体服务 
+http://conan.xesv5.com
+=======
 ## 柯南流量回放平台
 English | [简体中文](readmeCN.md)
 <p align="left">
@@ -19,16 +25,39 @@ English | [简体中文](readmeCN.md)
 </p>
 
 After continuous polishing and iteration in online education business, Conan platform is finally open source, aiming to provide more professional and stable quality-effectiveness assurance scheme for more quality-effectiveness assurance teams in the industry. With the continuous changes of business and technology architecture, the quality assurance work of the service end becomes more and more complex. In recent years, the traffic playback has taken root in the industry, but most of them are tools based and the cost of use and secondary development are relatively high. Conan platform emerged.
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
 
+## 一、 背景
 
+柯南是一站式的开源流量回放平台，基于线上流量回放能力助力开发和测试团队快速拥有相关能力，加速高质量软件的交付。
 
+<<<<<<< HEAD
+-   流量采集: ES日志；
+-   回放协议: http协议；
+-   接入成本: 无需安装采集，对服务性能无影响；
+-   支持场景: 目前支持读接口。
+=======
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
 
+## 二、项目介绍
 
+<<<<<<< HEAD
+### 1. 工程文件目录
+
+柯南项目整体采用的父子结构
+=======
 ## Objectives
 
 Based on the recording and playback capability and result verification capability of online real user traffic, the solution is provided for smoke test, integrated regression test, online verification and online inspection.
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
 
+conan-common存放的是公共资源
 
+<<<<<<< HEAD
+conan-admin提供的是与前端数据交互的接口
+
+conan-agent提供的是比较费时的服务包括录制回放和比对
+=======
 
 
 ## Core functions
@@ -187,3 +216,4 @@ https://mp.weixin.qq.com/s/1Cvi5kkqfF9y1rBi97qLwg
 <img src="http://ttc-tal.oss-cn-beijing.aliyuncs.com/1614485571/image.png" width="150" height="230" align="middle" />
 
 <br>
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
