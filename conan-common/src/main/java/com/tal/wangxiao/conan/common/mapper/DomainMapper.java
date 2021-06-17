@@ -1,7 +1,8 @@
 package com.tal.wangxiao.conan.common.mapper;
 
-import java.util.List;
 import com.tal.wangxiao.conan.common.domain.Domain;
+
+import java.util.List;
 
 /**
  * 域名信息Mapper接口

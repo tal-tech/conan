@@ -2,22 +2,22 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://10.20.96.26:3306/conangraydb?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://127.0.0.1:3306/conangraydb?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai
       password: 1WtFLD+NjkDAboHex6veopxdBm5RknEn59EE+N3RMYkjtN4yOIV8v4+3aLF1vqNeIKnapOe4U03JBTi+bIoAZA==
       public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANsWW73DEl2CvtErLWWFI5dlfqsen+vNywQZF+Waz5wCWhSkXzbkGNk5Dkv2d9S0AcdpztB/Ymwu9J1nkIsZS1kCAwEAAQ==
   redis:
     database: 1 # Redis数据库索引（默认为0）
-    host: 10.20.97.30
-    password: test@123 #Redis服务器连接密码
+    host: 127.0.0.1
+    password: 123456 #Redis服务器连接密码
 
   kafka:
-    bootstrap-servers: 10.20.97.30:9092
+    bootstrap-servers: 127.0.0.1:9092
     consumer:
       group-id: conan-agent-gray0
   data:
     elasticsearch:
       cluster-name: xes_log_cluster_wg
-      cluster-nodes: 10.20.34.105:9301
+      cluster-nodes: 127.0.0.1:9301
 
   jackson:
     time-zone: Asia/Shanghai    #或UTC

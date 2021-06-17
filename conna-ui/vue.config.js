@@ -33,9 +33,12 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
+<<<<<<< HEAD:conna-ui/vue.config.js
         // target: `http://10.73.35.25:8081/`,
         // target: `http://10.73.46.60:8081/`,
         // target: `http://10.90.72.114:8081/`,
+=======
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2:conan-ui/vue.config.js
         target: `http://127.0.0.1:8081/`,
         changeOrigin: true,
         pathRewrite: {

@@ -1,5 +1,15 @@
 package com.tal.wangxiao.conan.common.service.impl;
 
+<<<<<<< HEAD
+=======
+import java.util.List;
+
+import com.tal.wangxiao.conan.common.mapper.DomainMapper;
+import com.tal.wangxiao.conan.sys.common.annotation.DataScope;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.tal.wangxiao.conan.common.mapper.EsConditionSettingMapper;
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
 import com.tal.wangxiao.conan.common.domain.EsConditionSetting;
 import com.tal.wangxiao.conan.common.mapper.DomainMapper;
 import com.tal.wangxiao.conan.common.mapper.EsConditionSettingMapper;
@@ -19,7 +29,11 @@ public class EsConditionSettingServiceImpl implements EsConditionSettingService 
     @Resource
     private EsConditionSettingMapper esConditionSettingMapper;
 
+<<<<<<< HEAD
     @Resource
+=======
+    @Autowired
+>>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     private DomainMapper domainMapper;
 
     /**
