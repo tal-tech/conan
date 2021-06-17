@@ -16,100 +16,6 @@ import java.util.*;
 @Slf4j
 public class ProductLineJsonSchemaUtils {
 
-    public static void main(String arge[]) {
-        String sc = "{\n" +
-                "\t\"stat\": {\n" +
-                "\t\t\"type\": \"number\",\n" +
-                "\t\t\"minimum\": 0,\n" +
-                "\t\t\"maximum\": 1\n" +
-                "\t},\n" +
-                "\n" +
-                "\t\"status\": {\n" +
-                "\t\t\"type\": \"string\",\n" +
-                "\t\t\"equals\": true\n" +
-                "\t}\n" +
-                "}";
-
-        //String jsonstr = "{\"stat\":2,\"data\":{\"id\":\"21510168\",\"uid\":\"21514649\",\"name\":\"21510168\",\"tal_id\":\"TalzJcmWz-EFWJ9Ve17iTR-Onw\",\"role\":\"1\",\"sex\":\"3\",\"realname\":\"\",\"nickname\":\"学员KuNY5K\",\"en_name\":\"\",\"avatar_path\":\"https:\\/\\/hwt.xesimg.com\\/user\\/h\\/wx-def20191008.png\",\"avatar_version\":\"0\",\"auth\":\"99\",\"status\":\"1\",\"create_time\":\"2019-09-08 17:03:09\",\"user_id\":\"21510168\",\"grade_id\":2,\"grade_name\":\"一年级\",\"grade_alias\":\"xiao1\"}}";
-        String jsonstr = "{\n" +
-                "  \"status\": true,\n" +
-                "  \"msg\": \"Execute Success\",\n" +
-                "  \"data\": {\n" +
-                "    \"correct\": 0,\n" +
-                "    \"correct_soon\": 0,\n" +
-                "    \"correct_timeout\": 0,\n" +
-                "    \"contact\": 0,\n" +
-                "    \"contact_soon\": 0,\n" +
-                "    \"contact_timeout\": 0,\n" +
-                "    \"question\": 0,\n" +
-                "    \"question_soon\": 0,\n" +
-                "    \"question_timout\": 0,\n" +
-                "    \"question_duty_task\": 0,\n" +
-                "    \"rate\": \"0%\",\n" +
-                "    \"rank\": 5954,\n" +
-                "    \"to_be_done\": 0,\n" +
-                "    \"done\": 0,\n" +
-                "    \"timeout\": 0,\n" +
-                "    \"live_remind\": [\n" +
-                "      {\n" +
-                "        \"plan_start_time\": 1598871600,\n" +
-                "        \"plan_id\": 733002,\n" +
-                "        \"stime_format\": \"2020-08-31 19:00:00\",\n" +
-                "        \"plan_name\": \"【阅】关于你的故事——妙解人物形象（2课时）\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"plan_start_time\": 1598871600,\n" +
-                "        \"plan_id\": 733002,\n" +
-                "        \"stime_format\": \"2020-08-31 19:00:00\",\n" +
-                "        \"plan_name\": \"【阅】关于你的故事——妙解人物形象（2课时）\"\n" +
-                "      }\n" +
-                "    ],\n" +
-                "    \"time\": \"423.7ms\",\n" +
-                "    \"refund_contact\": 0,\n" +
-                "    \"refund_soon\": 0,\n" +
-                "    \"refund_timeout\": 0,\n" +
-                "    \"taday_video_task\": 0,\n" +
-                "    \"tomorrow_video_task\": 0,\n" +
-                "    \"all_video_task\": 0\n" +
-                "  }\n" +
-                "}";
-
-        String rule3 = "{\n" +
-                "\"ret\":{\n" +
-                " \"equals\":\"true\"\n" +
-                "},\n" +
-                "\"msg\":{\n" +
-                " \"equals\":\"操作成功\"\n" +
-                "}\n" +
-                "}";
-        String str3 = "{\n" +
-                "  \"ret\" : true,\n" +
-                "  \"msg\" : \"操作成功1\",\n" +
-                "  \"data\" : {\n" +
-                "    \"records\" : [ ],\n" +
-                "    \"total\" : 0,\n" +
-                "    \"size\" : 10,\n" +
-                "    \"current\" : 1,\n" +
-                "    \"searchCount\" : true,\n" +
-                "    \"pages\" : 0\n" +
-                "  },\n" +
-                "  \"errcode\" : 0\n" +
-                "}";
-
-
-        String rule4 = "{\n" +
-                "\t\"ret\": {\n" +
-                "\t\t\"equals\": \"true\"\n" +
-                "\t},\n" +
-                "\t\"msg\": {\n" +
-                "\t\t\"equals\": \"\\\"操作成功\\\"\"\n" +
-                "\t}\n" +
-                "}";
-        System.out.println(checkProductLineJson(rule4, str3).toString());
-        ;
-        //System.out.println( checkProductLineJson(sc, jsonstr).toString());;
-
-    }
 
     public static JSONSchemaResult checkProductLineJson(String jsonSchema, String jsonStr) {
         Map<String, Object> jsonSchemaMap = JSONObject.parseObject(jsonSchema, Map.class);
@@ -273,7 +179,7 @@ public class ProductLineJsonSchemaUtils {
                 String[] strNumber = str.split("\\.");
                 if (!StringHandlerUtils.isNull(strNumber)) {
                     String type = strNumber[strNumber.length - 1];
-                    infoMap.put("type" , type);
+                    infoMap.put("type", type);
                 }
 
             }

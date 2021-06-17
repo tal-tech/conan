@@ -39,7 +39,4 @@ public class DateHandleUtils {
         return res;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getNowWithFormatter("MM-DD-HH"));
-    }
 }

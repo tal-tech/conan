@@ -47,7 +47,7 @@ public class JSONSchemaUtils {
             String text = jsonStrNode.asText();
             return text;
         } catch (Exception e) {
-            log.error("json转换JsonNode失败， 请检查JSON{}" , e);
+            log.error("json转换JsonNode失败， 请检查JSON{}", e);
             return "";
         }
     }
@@ -285,97 +285,6 @@ public class JSONSchemaUtils {
     }
 
 
-
-
-
-    public static void main(String arge[]) {
-
-        String jsonStr = "{\n" +
-                "    \"result\": {\n" +
-                "        \"status\": 0,\n" +
-                "        \"rows\": 1,\n" +
-                "        \"data\": \"订正已提交，请等待老师批改！\"\n" +
-                "    }\n" +
-                "}";
-        //要校验的json字符串（如来自自动化测试中的响应结果）
-        String jsonStr1 = "{\r\n" + "  \"teacherId\": 1,\r\n" + "  \"teacherNam\": \"Happy\",\r\n" + "  \"age\": 18,\r\n"
-                + "  \"tags\": [ ]\r\n" + "}";
-//根据响应结果需求，编写的JSON Schema
-        String jsonSchema1 = "{\r\n" + "   \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r\n"
-                + "  \"$id\": \"http://example.com/teacher.schema.json\",\r\n" + "  \"title\": \"老师信息\",\r\n"
-                + "  \"description\": \"柠檬班的一个老师信息\",\r\n" + "  \"type\": \"object\",\r\n" + "  \"properties\": {\r\n"
-                + "    \"teacherId\": {\r\n" + "      \"description\": \"老师信息的唯一标识符\",\r\n"
-                + "      \"type\": \"integer\"\r\n" + "    },\r\n" + "    \"teacherName\": {\r\n"
-                + "      \"description\": \"老师的名称\",\r\n" + "      \"type\": \"string\"\r\n" + "    },\r\n"
-                + "    \"age\": {\r\n" + "      \"description\": \"老师的年龄\",\r\n" + "      \"type\": \"number\",\r\n"
-                + "      \"minimum\": 18\r\n" + "    },\r\n" + "    \"tags\": {\r\n"
-                + "      \"description\": \"老师的标签\",\r\n" + "      \"type\": \"array\",\r\n" + "      \"items\": {\r\n"
-                + "        \"type\": \"string\"\r\n" + "      },\r\n" + "      \"minItems\": 1,\r\n"
-                + "      \"uniqueItems\": true\r\n" + "    }\r\n" + "  },\r\n"
-                + "  \"required\": [ \"teacherId\",\"teacherName\",\"age\" ]\r\n" + "}";
-
-
-        String schemaT1 = "{\n" +
-                "\t\"$schema\": \"http://json-schema.org/draft-04/schema#\",\n" +
-                "\t\"type\": \"object\",\n" +
-                "\t\"properties\": {\n" +
-                "\t\t\"code\": {\n" +
-                "\t\t\t\"type\": \"string\",\n" +
-                "\t\t\t\"minimum\": 5,\n" +
-                "\t\t\t\"maximum\": 5,\n" +
-                "\t\t\t\"multipleOf\": 3\n" +
-
-                "\t\t},\n" +
-                "\t\t\"msg\": {\n" +
-                "\t\t\t\"type\": \"string\"\n" +
-                "\t\t},\n" +
-                "\t\t\"data\": {\n" +
-                "\t\t\t\"type\": \"object\",\n" +
-                "\t\t\t\"properties\": {\n" +
-                "\t\t\t\t\"show_type\": {\n" +
-                "\t\t\t\t\t\"type\": \"integer\"\n" +
-                "\t\t\t\t},\n" +
-                "\t\t\t\t\"config\": {\n" +
-                "\t\t\t\t\t\"type\": \"array\",\n" +
-                "\t\t\t\t\t\"items\": [{\n" +
-                "\t\t\t\t\t\t\t\"type\": \"integer\"\n" +
-                "\t\t\t\t\t\t},\n" +
-                "\t\t\t\t\t\t{\n" +
-                "\t\t\t\t\t\t\t\"type\": \"integer\"\n" +
-                "\t\t\t\t\t\t},\n" +
-                "\t\t\t\t\t\t{\n" +
-                "\t\t\t\t\t\t\t\"type\": \"integer\"\n" +
-                "\t\t\t\t\t\t},\n" +
-                "\t\t\t\t\t\t{\n" +
-                "\t\t\t\t\t\t\t\"type\": \"integer\"\n" +
-                "\t\t\t\t\t\t}\n" +
-                "\t\t\t\t\t]\n" +
-                "\t\t\t\t}\n" +
-                "\t\t\t},\n" +
-                "\t\t\t\"required\": [\n" +
-                "\t\t\t\t\"show_type\",\n" +
-                "\t\t\t\t\"config\"\n" +
-                "\t\t\t]\n" +
-                "\t\t}\n" +
-                "\t},\n" +
-                "\t\"required\": [\n" +
-                "\t\t\"code\",\n" +
-                "\t\t\"msg\",\n" +
-                "\t\t\"data\"\n" +
-                "\t]\n" +
-                "}";
-
-        String resultJson = "{\"code\":8,\"msg\":\"\",\"data\":{\"show_type\":1,\"config\":[1,2,3,4]}}";
-
-        System.out.println(verifyJsonSchemaByString(schemaT1, resultJson));
-        try {
-            //test(sc1, te);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-
     public static void test(String jsonSchema, String jsonStr) throws IOException, ProcessingException {
 
         //创建JsonSchema工厂
@@ -409,7 +318,7 @@ public class JSONSchemaUtils {
         System.out.println("——————————————————————————————————————————");
 
         JsonNode schemaNodePr = schemaNode.get("properties");
-       // getTree(schemaNodePr, dataNode);
+        // getTree(schemaNodePr, dataNode);
         System.out.println("" + dataNode);
 
 

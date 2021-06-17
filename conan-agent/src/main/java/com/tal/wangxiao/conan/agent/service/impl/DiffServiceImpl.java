@@ -57,7 +57,7 @@ public class DiffServiceImpl implements AgentDiffService {
 
 
     @Resource
-    private RedisTemplate<Object, Object> template;
+    private RedisTemplate<Object, Object> redisTemplateLog;
 
 
     @Resource
@@ -70,6 +70,9 @@ public class DiffServiceImpl implements AgentDiffService {
 
     @Resource
     private RedisTemplateTool redisTemplateTool;
+
+    @Resource
+    private RedisTemplate<String, String> redisTemplate;
 
     @Resource
     private TaskStatusUtil taskStatusUtil;
@@ -92,6 +95,15 @@ public class DiffServiceImpl implements AgentDiffService {
     //回放结果写入Redis，key = 'requestId-recordId-replayId-apiId'
     @Override
     public void startDiff(Integer taskExecutionId, Integer recordId, Integer replayId, Integer diffId) throws BaseException {
+        try {
+            startDiffDetaile(taskExecutionId, recordId, replayId, diffId);
+        } catch (Exception e) {
+            log.error("e={}", e);
+        }
+
+    }
+
+    private void startDiffDetaile(Integer taskExecutionId, Integer recordId, Integer replayId, Integer diffId) throws BaseException {
         DiffMode diffMode = initDiffMode(taskExecutionId, recordId, replayId, diffId);
         List<Integer> apiList = diffMapper.getRecordIdApiById(recordId);
         //根据record_id 在record_result表中获取 apiId list
@@ -123,37 +135,52 @@ public class DiffServiceImpl implements AgentDiffService {
                 String BaseDataKey = requestId + "-" + recordId + "-" + diffMode.getBaseReplayId() + "-" + apiId;
                 log.info("BaseDataKey=" + BaseDataKey);
                 //获取diff规则
-                String compareJson = strReplceHandler(stringRedisTemplate.opsForValue().get(compreDataKey));
-                String baseJson = strReplceHandler(stringRedisTemplate.opsForValue().get(BaseDataKey));
+                String compareJson = strReplceHandler(redisTemplate.opsForValue().get(compreDataKey));
+                String baseJson = strReplceHandler(redisTemplate.opsForValue().get(BaseDataKey));
                 //response is JSON, compareJson 和 BaseDataKey 不是JSON
-                if (diffMode.getTaskApiRespnseIsJsonMap().get(apiId) == 0) {
-                    if (!JsonCheckUtils.isJSONValidByalibaba(compareJson)) {
-                        //不进行比对，直接记录比对失败
-                        jsonKeyDiffResult.setEqual(false);
-                        jsonKeyDiffResult.setTotalMsgCount(1);
-                        jsonKeyDiffResult.setDiffMsgCount(1);
-                        resultWriteRedis(jsonKeyDiffResult, diffMode, apiId, requestId);
+                if (diffMode.getTaskApiRespnseIsJsonMap().get(apiId) == null) {
+                    textDiffJsonSchema(jsonKeyDiffResult, baseJson, compareJson, jsonCompareResultsList);
+                } else {
+                    if (diffMode.getTaskApiRespnseIsJsonMap().get(apiId) == 0) {
+                        if (!JsonCheckUtils.isJSONValidByalibaba(compareJson)) {
+                            //不进行比对，直接记录比对失败
+                            jsonKeyDiffResult.setEqual(false);
+                            jsonKeyDiffResult.setTotalMsgCount(1);
+                            jsonKeyDiffResult.setDiffMsgCount(1);
+                            resultWriteRedis(jsonKeyDiffResult, diffMode, apiId, requestId);
+                            continue;
+                        }
+                    }
+
+                    if ((null == compareJson || "".equals(compareJson)) || (null == baseJson || "".equals(baseJson))) {
+                        log.info("请检查对比json的redis key=" + compreDataKey + "与baseJson的redis key=" + BaseDataKey + "是否在redis中有Value");
+                        redisTemplateTool.setLogByDiffId_ERROR(diffId, "请检查对比json的redis key=" + compreDataKey + "与baseJson的redis key=" + BaseDataKey + "是否在redis中有Value");
                         continue;
+                    }
+                    int diffType = 0;
+                    HashMap<Integer, TaskApiRelation> taskApiRelationHashMap = diffMode.getTaskApiRelationMap();
+                    if (taskApiRelationHashMap != null) {
+                        TaskApiRelation taskApiRelation = taskApiRelationHashMap.get(apiId);
+                        if (taskApiRelation != null) {
+                            if (taskApiRelation.getDiffType() != null) {
+                                diffType = taskApiRelation.getDiffType();
+                            }
+                        }
+                    }
+
+                    switch (diffType) {
+                        case 0:
+                            isLostArrayAndAddAnddiffJsonSchema(jsonKeyDiffResult, baseJson, compareJson, count, jsonCompareResultsList);
+                            break;
+                        case 1:
+                            textDiffJsonSchema(jsonKeyDiffResult, baseJson, compareJson, jsonCompareResultsList);
+                            break;
+                        default:
+                            isLostArrayAndAddAnddiffJsonSchema(jsonKeyDiffResult, baseJson, compareJson, count, jsonCompareResultsList);
+
                     }
                 }
 
-                if ((null == compareJson || "".equals(compareJson)) || (null == baseJson || "".equals(baseJson))) {
-                    log.info("请检查对比json的redis key=" + compreDataKey + "与baseJson的redis key=" + BaseDataKey + "是否在redis中有Value");
-                    redisTemplateTool.setLogByDiffId_ERROR(diffId, "请检查对比json的redis key=" + compreDataKey + "与baseJson的redis key=" + BaseDataKey + "是否在redis中有Value");
-                    continue;
-                }
-
-                switch (diffMode.getTaskApiRelationMap().get(apiId).getDiffType()) {
-                    case 0:
-                        isLostArrayAndAddAnddiffJsonSchema(jsonKeyDiffResult, baseJson, compareJson, count, jsonCompareResultsList);
-                        break;
-                    case 1:
-                        textDiffJsonSchema(jsonKeyDiffResult, baseJson, compareJson, jsonCompareResultsList);
-                        break;
-                    default:
-                        isLostArrayAndAddAnddiffJsonSchema(jsonKeyDiffResult, baseJson, compareJson, count, jsonCompareResultsList);
-
-                }
 
                 resultWriteRedis(jsonKeyDiffResult, diffMode, apiId, requestId);
             }
@@ -170,17 +197,20 @@ public class DiffServiceImpl implements AgentDiffService {
         }
         editDiffTable(diffId, taskExecutionId);
 
-
     }
+
 
     private String strReplceHandler(String str) {
         if (StringHandlerUtils.isNull(str)) {
             return "";
         }
+        if (str.length() < 2) {
+            return "";
+        }
         if (str.trim().substring(0, 1).equals("\"")) {
             str = str.substring(1, str.length());
         }
-        if (str.trim().substring(str.length() - 1, str.length()).equals("\"")) {
+        if (str.trim().substring(str.length() - 2, str.length() - 1).equals("\"")) {
             str = str.substring(0, str.length() - 1);
         }
         str = str.replace("\\", "");
@@ -202,7 +232,7 @@ public class DiffServiceImpl implements AgentDiffService {
         String diffResultKey = diffMode.getRecordId() + "-" + diffMode.getReplayId() + "-" + apiId + "-" + diffMode.getDiffId() + "-" + requestId;
         log.info("diff结果写入redis redis key=" + diffResultKey);
         try {
-            template.opsForValue().set(diffResultKey, diffResultInRedis, CodeCache.getRedisCacheTime(), TimeUnit.DAYS);
+            redisTemplateLog.opsForValue().set(diffResultKey, diffResultInRedis, CodeCache.getRedisCacheTime(), TimeUnit.DAYS);
         } catch (Exception e) {
             //把对应的比对ID的日志写入Redis, key='logBydiffId='+diffId
             redisTemplateTool.setLogByDiffId_ERROR(diffMode.getDiffId(), "diff结果写入redis失败可能没有比对日志 redis key=" + diffResultKey + ",errMsg = " + e.getMessage());
@@ -292,7 +322,7 @@ public class DiffServiceImpl implements AgentDiffService {
         int expect_count = 0;
         for (String key : keys) {
             log.error("key = " + key);
-            Object obj = template.opsForValue().get(key);
+            Object obj = redisTemplateLog.opsForValue().get(key);
             if (StringHandlerUtils.isNull(obj)) {
                 log.error("redis 查询null");
                 continue;
@@ -361,6 +391,11 @@ public class DiffServiceImpl implements AgentDiffService {
             log.error("recordId" + recordId + "无对应requestId");
             throw new BaseException("recordId" + recordId + "无对应requestId");
         }
+        //在发起比对的时候将当前基准记录到本次diff中
+        Diff diff = diffMapper.selectDiffById(diffId);
+        diff.setBaseReplayId(baseReplayId);
+        diffMapper.updateDiff(diff);
+
         diffMode.setTaskId(taskId);
         diffMode.setBaseReplayId(baseReplayId);
         TaskApiRelation taskApiRelation = new TaskApiRelation();

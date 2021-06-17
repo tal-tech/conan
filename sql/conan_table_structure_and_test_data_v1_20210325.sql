@@ -529,18 +529,18 @@ COMMIT;
 -- Table structure for bss_record
 -- ----------------------------
 DROP TABLE IF EXISTS `bss_record`;
+
 CREATE TABLE `bss_record` (
   `record_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `task_execution_id` int(11) NOT NULL COMMENT '任务执行id',
-  `api_count` int(11) DEFAULT NULL COMMENT '录制接口数',
-  `operate_by` int(11) DEFAULT NULL COMMENT '操作人',
-  `start_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
-  `success_rate` decimal(11,0) DEFAULT NULL COMMENT '录制成功率',
+  `api_count` int(11) NULL DEFAULT NULL COMMENT '录制接口数',
+  `operate_by` int(11) NULL DEFAULT NULL COMMENT '操作人',
+  `start_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '开始时间',
+  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '结束时间',
+  `success_rate` decimal(11, 0) NULL DEFAULT NULL COMMENT '录制成功率',
   PRIMARY KEY (`record_id`) USING BTREE,
-  KEY `operate_by` (`operate_by`) USING BTREE,
-  CONSTRAINT `fk_transcribe_1` FOREIGN KEY (`operate_by`) REFERENCES `conandb`.`user` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='录制记录表';
+  INDEX `operate_by`(`operate_by`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 192 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '录制记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of bss_record
@@ -2083,4 +2083,11 @@ BEGIN;
 INSERT INTO `sys_version` VALUES (1, '1.0.0', 2213, '1.0.0版本问世了', '柯南流量回放平台', 0, '2021-01-14 19:55:40', '2021-01-14 19:55:42', 0);
 COMMIT;
 
+-- ----------------------------
+-- 2021.06.09m, 增加基准比对的回放ID
+-- ----------------------------
+ALTER TABLE `bss_diff`
+    ADD COLUMN `base_replay_id` int(10) NULL COMMENT '基准比对回放ID' AFTER `diff_error_msg`;
+
 SET FOREIGN_KEY_CHECKS = 1;
+

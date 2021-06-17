@@ -157,13 +157,17 @@ public class RecordServiceImpl implements RecordService{
             recordDetailInfo.setDomainId(apiOptional.get().getDomainId());
             recordDetailInfo.setApiMethod(EnumUtil.getByField(HttpMethod.class, "getValue", String.valueOf(apiOptional.get().getMethod())).getLabel());
             recordDetailInfo.setRecordableCount(apiOptional.get().getRecordableCount());
-            recordDetailInfo.setExpectCount(recordDetail.getExpectCount());
+            int expectCount =recordDetail.getExpectCount();
+            if(recordDetail.getExpectCount() == 0 ) {
+                expectCount = 5;
+            }
+            recordDetailInfo.setExpectCount(expectCount);
             Integer actualCount = recordDetail.getActualCount();
             if (Objects.isNull(actualCount)) {
-                actualCount = 0;
+                actualCount = 5;
             }
             recordDetailInfo.setActualCount(actualCount);
-            Integer successRate = (actualCount * 100) / recordDetail.getExpectCount();
+            Integer successRate = (actualCount * 100) / expectCount;
             recordDetailInfo.setSuccessRate(successRate + "%");
             Optional<Domain> domainOptional = domainRepository.findById(apiOptional.get().getDomainId());
             if (!domainOptional.isPresent()) {

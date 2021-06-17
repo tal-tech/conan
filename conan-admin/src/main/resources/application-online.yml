@@ -6,9 +6,9 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://10.90.72.126:8080/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: conan
-        password: '%zCM94bo'
+        url: jdbc:mysql://127.0.0.1:3306/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: '123456'
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭
@@ -24,7 +24,7 @@ spring:
 
   redis:
     # 地址
-    host: 10.90.71.149
+    host: 127.0.0.1
     # 端口，默认为6379
     port: 6379
     # 密码
@@ -43,7 +43,7 @@ spring:
         max-wait: -1ms
 
   kafka:
-    bootstrap-servers: 10.90.72.126:9092
+    bootstrap-servers: 127.0.0.1:9092
     consumer:
       group-id: conan-admin-online
   data:
@@ -53,7 +53,7 @@ spring:
       # cluster-name: xes_log_cluster_test
       # cluster-nodes: 10.90.71.158:9300,10.90.71.166:9300,10.90.71.44:9300
       cluster-name: xes_log_cluster_wg
-      cluster-nodes: 10.20.34.105:9301
+      cluster-nodes: 127.0.0.1:9301
   jackson:
     time-zone: Asia/Shanghai    #或UTC
 system:

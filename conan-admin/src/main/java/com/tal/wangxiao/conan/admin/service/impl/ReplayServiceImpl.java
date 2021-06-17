@@ -77,11 +77,27 @@ public class ReplayServiceImpl implements ReplayService {
     @Resource
     private RedisTemplateTool redisTemplateTool;
 
+    @Resource
+    private DiffRepository diffRepository;
+
     @Override
     public Result<Object> findReplaysByTaskExecutionId(Integer taskExecutionId) {
         List<Replay> replayList = replayRepository.findByTaskExecutionIdOrderByStartAtDesc(taskExecutionId);
         List<ReplayVO> replayVOList = ConvertUtil.convert2List(replayList, ReplayVO.class, new ReplayConverter());
         return new Result<>(ResponseCode.SUCCESS, replayVOList);
+    }
+
+    @Override
+    public Integer findDiffIdByReplayId(Integer replayId) {
+        Optional<Replay> replayOptional1 = replayRepository.findById(replayId);
+        if (!replayOptional1.isPresent()) {
+            return 0;
+        }
+        Optional<Diff> diffOptional = diffRepository.findFirstByTaskExecutionIdAndReplayIdOrderByCreateTimeDesc(replayOptional1.get().getTaskExecutionId(), replayId);
+        if (!diffOptional.isPresent()) {
+            return 0;
+        }
+        return diffOptional.get().getId();
     }
 
     @Override
@@ -187,8 +203,12 @@ public class ReplayServiceImpl implements ReplayService {
         if (!replayDetailOptional.isPresent()) {
             return new Result<>(ResponseCode.INVALID_DOMAIN_ID, "找不到该接口的回放详情，api_id=" + apiId + "，replay_id=" + replayId);
         }
+        Integer expectCount = replayDetailOptional.get().getExpectCount();
+        if(expectCount == 0) {
+            expectCount = 1;
+        }
         if (!Objects.isNull(replayDetailOptional.get().getActualCount())) {
-            resultMap.put("successRate", (replayDetailOptional.get().getActualCount() * 100 / replayDetailOptional.get().getExpectCount()) + "%");
+            resultMap.put("successRate", (replayDetailOptional.get().getActualCount() * 100 /expectCount) + "%");
         }
         //获取同一 record_id 相同api的request_ID set去重
         List<RecordResult> findByRecordIdAndApiId = recordResultRepository.findByRecordIdAndApiId(recordId, apiId);

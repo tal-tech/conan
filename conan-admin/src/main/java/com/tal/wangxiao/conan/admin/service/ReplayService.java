@@ -17,6 +17,13 @@ public interface ReplayService {
      */
     Result<Object> findReplaysByTaskExecutionId(Integer taskExecutionId);
 
+
+    /**
+     * 根据任务执行ID获取流量回放记录列表
+     * @param replayId replayId
+     * @return
+     */
+    Integer findDiffIdByReplayId(Integer replayId);
     /**
      * 查询流量回放详情
      * @param replayId 回放ID

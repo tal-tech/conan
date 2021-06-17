@@ -1,48 +1,43 @@
 <template>
-    <!-- 单条比对 -->
-    <div>
-      <div
-        class="box-card felxCard diff"
-        v-loading="loading"
-        element-loading-text="拼命加载中"
-        element-loading-spinner="el-icon-loading"
-      >
-        <el-card shadow="hover" class="felxBox">
-          <span class="felxName">域名</span>
-          <span class="flexResult">{{ domain }}</span>
-        </el-card>
-        <el-card shadow="hover" class="felxBox">
-          <span class="felxName">接口</span>
-          <span class="flexResult">{{ apiName }}</span>
-        </el-card>
-        <el-card shadow="hover" class="felxBox">
-          <span class="felxName">成功率</span>
-          <span class="flexResult">{{ successRate }}</span>
-        </el-card>
-      </div>
-      <div class="mergely-conan">
-        <div id="mergely"></div>
-      </div>
+  <!-- 单条比对 -->
+  <div>
+    <div class="box-card felxCard diff" v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
+      <el-card shadow="hover" class="felxBox">
+        <span class="felxName">域名</span>
+        <span class="flexResult">{{ domain }}</span>
+      </el-card>
+      <el-card shadow="hover" class="felxBox">
+        <span class="felxName">接口</span>
+        <span class="flexResult">{{ apiName }}</span>
+      </el-card>
+      <el-card shadow="hover" class="felxBox">
+        <span class="felxName">成功率</span>
+        <span class="flexResult">{{ successRate }}</span>
+      </el-card>
     </div>
+    <div class="mergely-conan">
+      <div id="mergely"></div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { getDiffDetailList } from "@/api/execution/printDiffLog.js";
-import "codemirror/lib/codemirror.css";
-import "mergely/lib/mergely.css";
-import "mergely";
+import { getDiffDetailList } from '@/api/execution/printDiffLog.js';
+import 'codemirror/lib/codemirror.css';
+import 'mergely/lib/mergely.css';
+import 'mergely';
 export default {
-  name: "diffResult",
+  name: 'diffResult',
   data() {
     return {
-      loading:false,
-      apiName: "",
-      successRate: "",
-      domain: "",
+      loading: false,
+      apiName: '',
+      successRate: '',
+      domain: '',
       queryParams: {
         diffId: null,
-        apiId: null
-      }
+        apiId: null,
+      },
     };
   },
 
@@ -59,10 +54,10 @@ export default {
   methods: {
     //获取diffResult
     searchDiffDetail() {
-      this.loading=true;
-      getDiffDetailList(this.queryParams).then(res => {
-        let basedata = "";
-        let comparedata = "";
+      this.loading = true;
+      getDiffDetailList(this.queryParams).then((res) => {
+        let basedata = '';
+        let comparedata = '';
         this.apiName = res.data.apiName;
         this.domain = res.data.domainName;
         for (let i = 0; i < res.data.diffApiLogInfoList.length; i++) {
@@ -70,19 +65,19 @@ export default {
           try {
             basedata =
               basedata +
-              "\n" +
-              "-----------------------流量" +
+              '\n' +
+              '-----------------------流量' +
               number +
-              "---------------------" +
-              "\n" +
-              "\n" +
-              "RequestBody:" +
-              "\n" +
+              '---------------------' +
+              '\n' +
+              '\n' +
+              'RequestBody:' +
+              '\n' +
               res.data.diffApiLogInfoList[i].requestBody +
-              "\n" +
-              "\n" +
-              "Response:" +
-              "\n" +
+              '\n' +
+              '\n' +
+              'Response:' +
+              '\n' +
               JSON.stringify(
                 JSON.parse(res.data.diffApiLogInfoList[i].baseData),
                 null,
@@ -90,19 +85,19 @@ export default {
               );
             comparedata =
               comparedata +
-              "\n" +
-              "-----------------------流量" +
+              '\n' +
+              '-----------------------流量' +
               number +
-              "---------------------" +
-              "\n" +
-              "\n" +
-              "RequestBody:" +
-              "\n" +
+              '---------------------' +
+              '\n' +
+              '\n' +
+              'RequestBody:' +
+              '\n' +
               res.data.diffApiLogInfoList[i].requestBody +
-              "\n" +
-              "\n" +
-              "Response:" +
-              "\n" +
+              '\n' +
+              '\n' +
+              'Response:' +
+              '\n' +
               JSON.stringify(
                 JSON.parse(res.data.diffApiLogInfoList[i].compareData),
                 null,
@@ -112,80 +107,80 @@ export default {
             if (res.data.diffApiLogInfoList[i].baseData.length > 200) {
               basedata =
                 basedata +
-                "\n" +
-                "-----------------------流量" +
+                '\n' +
+                '-----------------------流量' +
                 number +
-                "---------------------" +
-                "\n" +
-                "\n" +
-                "RequestBody:" +
-                "\n" +
+                '---------------------' +
+                '\n' +
+                '\n' +
+                'RequestBody:' +
+                '\n' +
                 res.data.diffApiLogInfoList[i].requestBody +
-                "\n" +
-                "\n" +
-                "Response:" +
-                "\n" +
+                '\n' +
+                '\n' +
+                'Response:' +
+                '\n' +
                 res.data.diffApiLogInfoList[i].baseData.substring(0, 200) +
-                "流量过长已忽略";
+                '流量过长已忽略';
             } else {
               basedata =
                 basedata +
-                "\n" +
-                "-----------------------流量" +
+                '\n' +
+                '-----------------------流量' +
                 number +
-                "---------------------" +
-                "\n" +
-                "\n" +
-                "RequestBody:" +
-                "\n" +
+                '---------------------' +
+                '\n' +
+                '\n' +
+                'RequestBody:' +
+                '\n' +
                 res.data.diffApiLogInfoList[i].requestBody +
-                "\n" +
-                "\n" +
-                "Response:" +
-                "\n" +
+                '\n' +
+                '\n' +
+                'Response:' +
+                '\n' +
                 res.data.diffApiLogInfoList[i].baseData;
             }
             if (res.data.diffApiLogInfoList[i].compareData.length > 200) {
               comparedata =
                 comparedata +
-                "\n" +
-                "-----------------------流量" +
+                '\n' +
+                '-----------------------流量' +
                 number +
-                "---------------------" +
-                "\n" +
-                "\n" +
-                "RequestBody:" +
-                "\n" +
+                '---------------------' +
+                '\n' +
+                '\n' +
+                'RequestBody:' +
+                '\n' +
                 res.data.diffApiLogInfoList[i].requestBody +
-                "\n" +
-                "\n" +
-                "Response:" +
-                "\n" +
+                '\n' +
+                '\n' +
+                'Response:' +
+                '\n' +
                 res.data.diffApiLogInfoList[i].compareData.substring(0, 200) +
-                "流量过长已忽略";
+                '流量过长已忽略';
             } else {
               comparedata =
                 comparedata +
-                "\n" +
-                "-----------------------流量" +
+                '\n' +
+                '-----------------------流量' +
                 number +
-                "---------------------" +
-                "\n" +
-                "\n" +
-                "RequestBody:" +
-                "\n" +
+                '---------------------' +
+                '\n' +
+                '\n' +
+                'RequestBody:' +
+                '\n' +
                 res.data.diffApiLogInfoList[i].requestBody +
-                "\n" +
-                "\n" +
-                "Response:" +
-                "\n" +
+                '\n' +
+                '\n' +
+                'Response:' +
+                '\n' +
                 res.data.diffApiLogInfoList[i].compareData;
             }
           }
         }
         this.showNextDiffResult(basedata, comparedata);
         setTimeout(() => {
-          this.loading=false;
+          this.loading = false;
         }, 500);
       });
     },
@@ -193,28 +188,34 @@ export default {
       let l = baseData;
       let r = compareData;
       this.$nextTick(() => {
-        $("#mergely").mergely({
-          lhs: function(setValue) {
+        $('#mergely').mergely({
+          lhs: function (setValue) {
             setValue(l);
           },
-          rhs: function(setValue) {
+          rhs: function (setValue) {
             setValue(r);
-          }
+          },
         });
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less">
-.diff{
-  background: #fff;padding: 5px
+.diff {
+  background: #fff;
+  padding: 5px;
+}
+.CodeMirror-code {
+  color: #fff !important;
+  background: #2b3c57;
 }
 /* required */
 .mergely-column textarea {
   width: 80px;
   height: 200px;
+  background: rgb(0, 33, 64);
 }
 .mergely-column {
   float: left;

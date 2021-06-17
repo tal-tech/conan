@@ -140,14 +140,14 @@
           <template slot-scope="scope">
             <el-tooltip class="item" effect="light" content="回放" placement="top-start">
               <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
+                <div class="el-dropdown-link" style="margin-right: 10px;">
                   <el-button
                     type="warning"
                     size="mini"
                     circle
                     class="iconfont icon-huifang"
                   ></el-button>
-                </span>
+                </div>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item icon="el-icon-video-camera">
                     <el-button

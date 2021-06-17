@@ -12,6 +12,13 @@ import com.tal.wangxiao.conan.common.domain.Domain;
 public interface DomainMapper 
 {
     /**
+     * 查询es_source_id
+     * @param id 域名信息ID
+     * @return es_source_id
+     */
+    public int selectEsSourceIdByDomainId(int id);
+
+    /**
      * 查询域名信息
      * 
      * @param id 域名信息ID

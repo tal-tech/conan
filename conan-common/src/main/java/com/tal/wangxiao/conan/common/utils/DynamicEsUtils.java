@@ -30,7 +30,7 @@ public class DynamicEsUtils {
                 return dynamicEsClient.getRestHighLevelClient();
             }
         } catch (Exception e) {
-            log.error("e= {}", e);
+            log.debug("从容器中获取Bean失败，e= {}", e);
         }
         ConfigurableApplicationContext
                 configurableApplicationContext = (ConfigurableApplicationContext) SpringContextHolder.getApplicationContext();
@@ -47,7 +47,7 @@ public class DynamicEsUtils {
                 return dynamicEsClient.getRestHighLevelClient(host, port);
             }
         } catch (Exception e) {
-            log.error("e= {}", e);
+            log.error("注册Bean异常，e= {}", e);
         }
         return null;
     }

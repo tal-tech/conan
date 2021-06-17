@@ -1,34 +1,27 @@
 package com.tal.wangxiao.conan.sys.api.web.controller.system;
 
-import java.util.List;
-
 import com.tal.wangxiao.conan.sys.auth.core.domain.model.LoginUser;
+import com.tal.wangxiao.conan.sys.auth.utils.SecurityUtils;
 import com.tal.wangxiao.conan.sys.common.annotation.Log;
+import com.tal.wangxiao.conan.sys.common.constant.UserConstants;
 import com.tal.wangxiao.conan.sys.common.core.controller.BaseController;
 import com.tal.wangxiao.conan.sys.common.core.domain.AjaxResult;
 import com.tal.wangxiao.conan.sys.common.core.domain.entity.SysRole;
 import com.tal.wangxiao.conan.sys.common.core.page.TableDataInfo;
 import com.tal.wangxiao.conan.sys.common.enums.BusinessType;
-import com.tal.wangxiao.conan.sys.auth.utils.SecurityUtils;
 import com.tal.wangxiao.conan.sys.common.utils.ServletUtils;
 import com.tal.wangxiao.conan.sys.common.utils.StringUtils;
 import com.tal.wangxiao.conan.sys.common.utils.poi.ExcelUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.tal.wangxiao.conan.sys.common.constant.UserConstants;
 import com.tal.wangxiao.conan.sys.framework.web.service.SysPermissionService;
 import com.tal.wangxiao.conan.sys.framework.web.service.TokenService;
 import com.tal.wangxiao.conan.sys.system.service.ISysRoleService;
 import com.tal.wangxiao.conan.sys.system.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 角色信息

@@ -165,7 +165,18 @@ public class TaskServiceImpl implements TaskService {
                 userOptional1.ifPresent(user -> taskVO.setOperateBy(user.getNickName()));
                 break;
             case "diff":
+                //id还是replayId
+              /*  Optional<Replay> replayOptional1 = replayRepository.findById(id);
+                if(!replayOptional1.isPresent()){
+                    return new Result<>(ResponseCode.INVALID_REPLAY_ID,"查询失败，无效的回放ID:"+id);
+                }
+                Optional<Diff> diffOptional = diffRepository.findFirstByTaskExecutionIdAndReplayIdOrderByCreateTimeDesc(replayOptional1.get().getTaskExecutionId(), id);
+                */
                 Optional<Diff> diffOptional = diffRepository.findById(id);
+                if(!diffOptional.isPresent()){
+                    return new Result<>(ResponseCode.INVALID_REPLAY_ID,"查询失败，无效的比对ID:"+id);
+                }
+
                 if(!diffOptional.isPresent()){
                     return new Result<>(ResponseCode.INVALID_REPLAY_ID,"查询失败，无效的比对ID:"+id);
                 }

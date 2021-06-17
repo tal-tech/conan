@@ -4,8 +4,6 @@ spring:
     add-mappings: true
   datasource:
     druid:
-      mysql:
-        usePingMethod: false
       # 主库数据源
       master:
         url: jdbc:mysql://10.90.72.126:8080/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
@@ -47,7 +45,7 @@ spring:
   kafka:
     bootstrap-servers: 10.90.72.126:9092
     consumer:
-      group-id: conan-agent-js
+      group-id: conan-agent-test
   data:
     elasticsearch:
       #      cluster-name: elasticsearch
@@ -61,5 +59,4 @@ spring:
 system:
   env: TEST
   redis:
-    cacheTime: 14 # 录制redis数据的过期时间为14天  14*24*60*60 S
-
+    cacheTime: 14 # 录制redis数据的过期时间为14天

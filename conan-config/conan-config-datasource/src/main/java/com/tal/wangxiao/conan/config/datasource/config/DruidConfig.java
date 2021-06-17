@@ -71,10 +71,10 @@ public class DruidConfig {
             DataSource dataSource = SpringUtils.getBean(beanName);
             targetDataSources.put(sourceName, dataSource);
         } catch (Exception e) {
-            if("slaveDataSource".equals(sourceName)) {
+            if(DataSourceType.SLAVE.name().equals(sourceName)) {
                 return;
             }
-            log.error("设置数据源失败 e={}", e);
+            log.error("设置数据源{0},失败 e={1}",sourceName, e);
         }
     }
 

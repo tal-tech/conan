@@ -52,3 +52,12 @@ export function setBaseLineByTaskExecutionID (data) {
     params:data
   })
 }
+
+// 点击比对结果按钮查比对id
+export function getDiffIdByReplayId (data) {
+  return request({
+    url: '/api/1.0/admin/replay/getDiffIdByReplayId',
+    method: 'get',
+    params:data
+  })
+}

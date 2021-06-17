@@ -1,6 +1,6 @@
 <template>
   <div ref="detail">
-    <!-- 执行录制日志详情 -->
+    <!-- 比对 -->
     <div>
       <CommonCard :type="type" :taskExecutionId="id"></CommonCard>
       <el-tabs
@@ -148,7 +148,7 @@ import {
   getDiffInfo,
   getDiffInfoList,
   getDiffProgress,
-  getDiffDetailList
+  getDiffDetailList,
 } from "@/api/execution/printDiffLog";
 export default {
   name: "printDiffLog",

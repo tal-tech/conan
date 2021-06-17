@@ -32,7 +32,7 @@ public class ReplaySchemaError extends ConanBaseEntity
     private Integer apiId;
 
     @ApiModelProperty("回放ID")
-    private Integer apiName;
+    private String apiName;
 
     /** 请求参数 */
 
@@ -55,11 +55,11 @@ public class ReplaySchemaError extends ConanBaseEntity
     private String errorDesc;
 
 
-    public Integer getApiName() {
+    public String getApiName() {
         return apiName;
     }
 
-    public void setApiName(Integer apiName) {
+    public void setApiName(String apiName) {
         this.apiName = apiName;
     }
 

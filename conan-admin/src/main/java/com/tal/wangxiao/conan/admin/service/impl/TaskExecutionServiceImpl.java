@@ -124,11 +124,14 @@ public class TaskExecutionServiceImpl implements TaskExecutionService {
     }
 
 
-    private Record createRecord(Integer taskId, Integer taskExecutionId, Integer operateBy) {
+    private Record createRecord(Integer taskId, Integer taskExecutionId, Integer operateBy) throws Exception {
         Record record = new Record();
         //计算每个任务的接口个数
         Optional<List<TaskApiRelation>> taskApiRelationList = taskApiRelationRepository.findAllByTaskId(taskId);
         List<Integer> apiList = Lists.newArrayList();
+        if(!taskApiRelationList.isPresent()) {
+            throw new Exception("该任务下面没有绑定接口，请绑定后宅执行录制");
+        }
         for (TaskApiRelation taskApiRelation : taskApiRelationList.get()) {
             Integer apiId = taskApiRelation.getApiId();
             apiList.add(apiId);

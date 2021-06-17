@@ -9,6 +9,8 @@ export function getTaskExecution (data) {
     params:data
   })
 }
+
+
 // // 点击查看详情获取流量接口/api/1.0/record
 // export function getRecord (data) {
 //   return request({

@@ -43,9 +43,9 @@
         <dependency>
             <groupId>com.tal.wangxiao</groupId>
             <artifactId>json-compare-tool</artifactId>
-            <scope>system</scope>
             <version>${json-compare-tool}</version>
-            <systemPath>${project.basedir}/src/main/lib/json-compare-tool-0.0.1.jar</systemPath>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/json-compare-tool-0.0.1.jar</systemPath>
         </dependency>
 
         <!--json-schema-->
@@ -74,11 +74,16 @@
 
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 本地jar打包 -->
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -92,6 +97,46 @@
         </plugins>
         <finalName>${project.artifactId}</finalName>
     </build>
+
+   <!-- <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    &lt;!&ndash; 本地jar打包 &ndash;&gt;
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+
+                    <mainClass>com.tal.wangxiao.conan.agent.ConanAgentApplication</mainClass>>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+        <resources>
+            <resource>
+                <directory>lib</directory>
+                <targetPath>${project.basedir}/src/main/resources/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>-->
+
 
     <!-- 配置环境的profile -->
     <profiles>

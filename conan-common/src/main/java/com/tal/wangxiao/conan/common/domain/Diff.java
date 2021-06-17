@@ -57,6 +57,9 @@ public class Diff extends ConanBaseEntity {
     @ApiModelProperty("比对成功率")
     private String diffErrorMsg;
 
+    @ApiModelProperty("比对基准ReplayId")
+    private Integer baseReplayId;
+
     public void setTaskExecutionId(Integer taskExecutionId) {
         this.taskExecutionId = taskExecutionId;
     }
@@ -95,6 +98,15 @@ public class Diff extends ConanBaseEntity {
 
     public String getDiffErrorMsg() {
         return diffErrorMsg;
+    }
+
+
+    public Integer getBaseReplayId() {
+        return baseReplayId;
+    }
+
+    public void setBaseReplayId(Integer baseReplayId) {
+        this.baseReplayId = baseReplayId;
     }
 
     @Override

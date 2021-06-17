@@ -30,12 +30,12 @@ public class CurlUtils {
             return builder.toString();
 
         } catch (IOException e) {
-            System.out.print("error，"+e.getMessage());
+            System.out.print("error，" + e.getMessage());
         }
         return null;
     }
 
-    public static String getCookieByCurl(String curlUrl,String headerKey) {
+    public static String getCookieByCurl(String curlUrl, String headerKey) {
         String cookieFromHead = "";
         String[] cmd = curlUrl.split(" ");
         ProcessBuilder process = new ProcessBuilder(cmd);
@@ -48,9 +48,9 @@ public class CurlUtils {
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
                 builder.append(System.getProperty("line.separator"));
-                if(line.contains(":")){
+                if (line.contains(":")) {
                     String[] str = line.split(":");
-                    if(headerKey.equals(str[0])){
+                    if (headerKey.equals(str[0])) {
                         cookieFromHead += str[1];
                     }
                 }
@@ -58,24 +58,10 @@ public class CurlUtils {
             return cookieFromHead.trim();
 
         } catch (IOException e) {
-            System.out.print("error，"+e.getMessage());
+            System.out.print("error，" + e.getMessage());
         }
         return null;
     }
 
-
-
-
-
-
-
-    public static void main(String[] args) {
-
-        String s = "curl -s -D- -o/dev/null https://teacherlive.xueersi.com/v1/teacher/login -H Content-Type:application/json -d {\"password\":\"java2019.\",\"userName\":\"huyaoguo\",\"teacherType\":2}";
-//        System.out.println(execCurl(s));
-//        System.out.println(getCookieByCurl(s,"set-cookie"));
-
-
-    }
 
 }

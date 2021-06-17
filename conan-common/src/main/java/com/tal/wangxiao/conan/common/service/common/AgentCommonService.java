@@ -40,7 +40,7 @@ public class AgentCommonService {
             List<AgentNode> agentNodeList = agentNodeRepository.findByStatusAndAgentEnv(AgentStatus.BUSY.getValue(), agentEnv);
             int size = agentNodeList.size();
             if (size <= 0) {
-                throw new BaseException("has not free agent machine");
+                throw new BaseException("has not free agent machine（没有可以使用的Agent机器，请检查Agent是否启动或全部忙碌中）");
             } else {
                 return agentNodeList.get(RandomUtils.getRandom(0, size)).getAgentId();
             }

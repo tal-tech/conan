@@ -14,10 +14,12 @@
         <result property="updateTime"    column="update_time"    />
         <result property="successRate"    column="success_rate"    />
         <result property="diffErrorMsg"    column="diff_error_msg"    />
+        <result property="baseReplayId"    column="base_replay_id"    />
+
     </resultMap>
 
     <sql id="selectDiffVo">
-        select diff_id, task_execution_id, record_id, replay_id, create_by, create_time, update_time, success_rate, diff_error_msg from bss_diff
+        select diff_id, task_execution_id, record_id, replay_id, create_by, create_time, update_time, success_rate, diff_error_msg,base_replay_id from bss_diff
     </sql>
 
     <select id="selectDiffList" parameterType="Diff" resultMap="DiffResult">
@@ -71,6 +73,7 @@
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="successRate != null">success_rate = #{successRate},</if>
             <if test="diffErrorMsg != null">diff_error_msg = #{diffErrorMsg},</if>
+            <if test="baseReplayId != null">base_replay_id = #{baseReplayId},</if>
         </trim>
         where diff_id = #{diffId}
     </update>
