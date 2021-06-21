@@ -188,10 +188,6 @@ public class RecordServiceImpl implements RecordService {
         if (!taskExecutionOptional.isPresent()) {
             throw new BaseException("录制失败，找不到执行记录：taskExecutionId=" + taskExecutionId);
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
         //创建录制对象成功，创建录制详情
         Optional<List<TaskApiRelation>> taskApiRelationList = taskApiRelationRepository.findAllByTaskId(taskId);
         if (!taskApiRelationList.isPresent()) {
@@ -430,26 +426,24 @@ public class RecordServiceImpl implements RecordService {
         // 在获取不到key时避免抛出 NullPointerException 空指针异常
         String apiName = RegexUtils.getMsgByRegex(esFlowMap.get(apiKey) + "", esConditionSetting.getApiRegex());
         String method = RegexUtils.getMsgByRegex(esFlowMap.get(methodKey) + "", esConditionSetting.getMethodRegex());
-<<<<<<< HEAD
         Api api = getApiInfo(recordId,method,apiName);
         if (api !=null) {
             int apiId = api.getId();
-=======
-        List<Api> apiList = apiRepository.findByNameAndMethod(apiName, HttpMethodConstants.valueOf(method).getValue());
-        if (apiList.size() != 0) {
-            int apiId = apiList.get(0).getId();
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
-            String body = RegexUtils.getMsgByRegex(esFlowMap.get(requestBodyKey) + "", esConditionSetting.getRequestBodyRegex());
-            String header = RegexUtils.getMsgByRegex(esFlowMap.get(headerKey) + "", esConditionSetting.getHeaderRegex());
-            String requestId = hit.getId();
-            recordResult.setApiId(apiId);
-            recordResult.setBody(body);
-            recordResult.setHeader(header);
-            recordResult.setRequestId(requestId);
-            recordResult.setRecordId(recordId);
-            recordResultRepository.save(recordResult);
-        } else {
-            log.error("未查询到api数据 API={}", apiName);
+            List<Api> apiList = apiRepository.findByNameAndMethod(apiName, HttpMethodConstants.valueOf(method).getValue());
+            if (apiList.size() != 0) {
+                apiId = apiList.get(0).getId();
+                String body = RegexUtils.getMsgByRegex(esFlowMap.get(requestBodyKey) + "", esConditionSetting.getRequestBodyRegex());
+                String header = RegexUtils.getMsgByRegex(esFlowMap.get(headerKey) + "", esConditionSetting.getHeaderRegex());
+                String requestId = hit.getId();
+                recordResult.setApiId(apiId);
+                recordResult.setBody(body);
+                recordResult.setHeader(header);
+                recordResult.setRequestId(requestId);
+                recordResult.setRecordId(recordId);
+                recordResultRepository.save(recordResult);
+            } else {
+                log.error("未查询到api数据 API={}", apiName);
+            }
         }
 
     }
@@ -478,12 +472,6 @@ public class RecordServiceImpl implements RecordService {
         return apiList.get(0);
     }
 
-    public static void main(String[] arge) {
-        String apiKey = "cs_ui_stem?uri_pslist";
-        if (apiKey.contains("?")) {
-            String[] urlPathKeys = apiKey.split("\\?");
-        }
-    }
 
 
 }

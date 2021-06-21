@@ -70,17 +70,13 @@ public class DruidConfig {
 
             targetDataSources.put(sourceName, dataSource);
         } catch (Exception e) {
-<<<<<<< HEAD
             if(DataSourceType.SLAVE.name().equals(sourceName)) {
                 return;
             }
-            log.error("设置数据源{0},失败 e={1}",sourceName, e);
-=======
             if("slaveDataSource".equals(beanName)) {
                 return;
             }
             log.warn("设置从库数据源失败，请检查");
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
         }
     }
 

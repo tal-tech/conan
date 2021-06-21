@@ -6,14 +6,9 @@ spring:
     druid:
       # 主库数据源
       master:
-<<<<<<< HEAD
-        url: jdbc:mysql://127.0.0.1:3306/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-=======
         enabled: true
         url: jdbc:mysql://127.0.0.1:8080/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
         username: conan
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
         password: '123456'
       # 从库数据源
       slave:
@@ -51,7 +46,7 @@ spring:
   kafka:
     bootstrap-servers: 127.0.0.1:9092
     consumer:
-      group-id: conan-admin-online
+      group-id: conan-admin-test
   data:
     elasticsearch:
       #      cluster-name: elasticsearch
@@ -63,7 +58,7 @@ spring:
   jackson:
     time-zone: Asia/Shanghai    #或UTC
 system:
-  env: ONLINE
+  env: TEST
   redis:
     cacheTime: 14 # 录制redis数据的过期时间为14天  14*24*60*60 S
 

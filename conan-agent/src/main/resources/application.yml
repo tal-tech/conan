@@ -48,14 +48,9 @@ spring:
       aop-patterns: com.tal.wangxiao.conan.agent.service.*
       # 主库数据源
       master:
-<<<<<<< HEAD
-        url: jdbc:mysql://127.0.0.1:3306/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-=======
         enabled: true
         url: jdbc:mysql://127.0.0.1:8080/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
         username: conan
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
         password: '123456'
       # 从库数据源
       slave:
