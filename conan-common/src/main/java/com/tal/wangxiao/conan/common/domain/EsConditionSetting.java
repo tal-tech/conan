@@ -25,235 +25,188 @@ public class EsConditionSetting extends ConanBaseEntity
     private Long esSettingId;
 
     /** ES对应日志索引名称 */
-<<<<<<< HEAD
 
-=======
     @Excel(name = "index_name")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES对应日志索引名称")
     private String indexName;
 
     /** 模版关联域名 */
-<<<<<<< HEAD
 
-=======
     @Excel(name = "domain_id")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("模版关联域名")
     private Integer domainId;
 
     /** ES中_source内接口对应的key名称  */
-<<<<<<< HEAD
 
-=======
     @Excel(name = "api")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内接口对应的key名称 ")
     private String api;
 
     /** 接口正则表达式 */
-<<<<<<< HEAD
 
-=======
     @Excel(name = "api_regex")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("接口正则表达式")
     private String apiRegex;
 
     /** ES中_source内域名对应的key名称  */
-<<<<<<< HEAD
-
-=======
     @Excel(name = "domain")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内域名对应的key名称 ")
     private String domain;
 
     /** 域名正则表达式 */
-<<<<<<< HEAD
-
-=======
     @Excel(name = "domain_regex")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("域名正则表达式")
     private String domainRegex;
 
     /** ES中_source内请求方法对应的key名称 */
-<<<<<<< HEAD
-
-=======
     @Excel(name = "method")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内请求方法对应的key名称")
     private String method;
 
     /** 请求方法的正则表达式 */
-<<<<<<< HEAD
-
-=======
     @Excel(name = "method_regex")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("请求方法的正则表达式")
     private String methodRegex;
 
     /** ES中_source内请求体对应的key名称 */
-<<<<<<< HEAD
-
-=======
     @Excel(name = "request_body")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内请求体对应的key名称")
     private String requestBody;
 
     /** 请求体正则表达式 */
-<<<<<<< HEAD
-
-=======
     @Excel(name = "request_body_regex")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("请求体正则表达式")
     private String requestBodyRegex;
 
     /** ES中_source内请求体对应的key名称 */
-<<<<<<< HEAD
-
-=======
     @Excel(name = "header")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("ES中_source内请求体对应的key名称")
     private String header;
 
     /** Header的正则表达式 */
-<<<<<<< HEAD
-
-=======
     @Excel(name = "header_regex")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("Header的正则表达式")
     private String headerRegex;
 
     /** es_source_id */
-<<<<<<< HEAD
-=======
     @Excel(name = "es_source_id")
->>>>>>> 30ba50a602a7c0331b6e4a096cdcecce4f7dd7b2
     @ApiModelProperty("es_source_id")
     private Integer esSourceId;
 
-    public void setEsSettingId(Long esSettingId) 
+    public void setEsSettingId(Long esSettingId)
     {
         this.esSettingId = esSettingId;
     }
 
-    public Long getEsSettingId() 
+    public Long getEsSettingId()
     {
         return esSettingId;
     }
-    public void setIndexName(String indexName) 
+    public void setIndexName(String indexName)
     {
         this.indexName = indexName;
     }
 
-    public String getIndexName() 
+    public String getIndexName()
     {
         return indexName;
     }
-    public void setDomainId(Integer domainId) 
+    public void setDomainId(Integer domainId)
     {
         this.domainId = domainId;
     }
 
-    public Integer getDomainId() 
+    public Integer getDomainId()
     {
         return domainId;
     }
-    public void setApi(String api) 
+    public void setApi(String api)
     {
         this.api = api;
     }
 
-    public String getApi() 
+    public String getApi()
     {
         return api;
     }
-    public void setApiRegex(String apiRegex) 
+    public void setApiRegex(String apiRegex)
     {
         this.apiRegex = apiRegex;
     }
 
-    public String getApiRegex() 
+    public String getApiRegex()
     {
         return apiRegex;
     }
-    public void setDomain(String domain) 
+    public void setDomain(String domain)
     {
         this.domain = domain;
     }
 
-    public String getDomain() 
+    public String getDomain()
     {
         return domain;
     }
-    public void setDomainRegex(String domainRegex) 
+    public void setDomainRegex(String domainRegex)
     {
         this.domainRegex = domainRegex;
     }
 
-    public String getDomainRegex() 
+    public String getDomainRegex()
     {
         return domainRegex;
     }
-    public void setMethod(String method) 
+    public void setMethod(String method)
     {
         this.method = method;
     }
 
-    public String getMethod() 
+    public String getMethod()
     {
         return method;
     }
-    public void setMethodRegex(String methodRegex) 
+    public void setMethodRegex(String methodRegex)
     {
         this.methodRegex = methodRegex;
     }
 
-    public String getMethodRegex() 
+    public String getMethodRegex()
     {
         return methodRegex;
     }
-    public void setRequestBody(String requestBody) 
+    public void setRequestBody(String requestBody)
     {
         this.requestBody = requestBody;
     }
 
-    public String getRequestBody() 
+    public String getRequestBody()
     {
         return requestBody;
     }
-    public void setRequestBodyRegex(String requestBodyRegex) 
+    public void setRequestBodyRegex(String requestBodyRegex)
     {
         this.requestBodyRegex = requestBodyRegex;
     }
 
-    public String getRequestBodyRegex() 
+    public String getRequestBodyRegex()
     {
         return requestBodyRegex;
     }
-    public void setHeader(String header) 
+    public void setHeader(String header)
     {
         this.header = header;
     }
 
-    public String getHeader() 
+    public String getHeader()
     {
         return header;
     }
-    public void setHeaderRegex(String headerRegex) 
+    public void setHeaderRegex(String headerRegex)
     {
         this.headerRegex = headerRegex;
     }
 
-    public String getHeaderRegex() 
+    public String getHeaderRegex()
     {
         return headerRegex;
     }
