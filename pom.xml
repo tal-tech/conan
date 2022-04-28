@@ -13,7 +13,6 @@
     <artifactId>conan</artifactId>
     <version>1.0.0</version>
 
-
     <!-- conan-parent子模块配置 -->
     <modules>
         <module>conan-common</module>
