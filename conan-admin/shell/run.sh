@@ -2,4 +2,4 @@
 # author dengkun
 # time 2021-01-02
 
-nohup java -jar conan-admin.jar >/dev/null 2>&1&
+nohup java -jar conan-admin.jar --spring.profiles.active=test >/dev/null 2>&1&
