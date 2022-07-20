@@ -50,9 +50,9 @@ spring:
       # 主库数据源
       master:
         enabled: true
-        url: jdbc:mysql://127.0.0.1:3306/conandb?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai
-        username: 
-        password: 
+        url: jdbc:mysql://10.67.78.158:3306/conandb?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: 0GsdznuVX#CRTahC
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭
@@ -138,9 +138,10 @@ spring:
     enabled: false
 
   redis:
-    port: 6379 # Redis服务器连接端口
+    host: 10.67.78.158
+    port: 6800 # Redis服务器连接端口
     timeout: 50000 # 连接超时时间（毫秒）
-    password: 123456
+    password: nopass.2
     jedis:
       pool:
         max-active: 100 # 连接池最大连接数（使用负值表示没有限制）
@@ -194,6 +195,11 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+system:
+  env: LOCAL
+  redis:
+    cacheTime: 14 # 录制redis数据的过期时间为14天  14*24*60*60 S
 
 security:
   basic:

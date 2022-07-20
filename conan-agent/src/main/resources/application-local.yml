@@ -7,7 +7,7 @@ spring:
       # 主库数据源
       master:
         enabled: true
-        url: jdbc:mysql://10.67.78.158:3306/conan_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        url: jdbc:mysql://10.67.78.158:3306/conandb?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
         username: root
         password: '0GsdznuVX#CRTahC'
       # 从库数据源
