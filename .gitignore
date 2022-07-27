@@ -8,3 +8,7 @@ target/
 .classpath
 .settings/
 .DS_Store
+
+conan-ui/dist/
+*.target
+node_modules
